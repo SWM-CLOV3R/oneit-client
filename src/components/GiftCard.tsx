@@ -1,5 +1,5 @@
 import { Product } from '@/config/types'
-import Gift from '../images/giftbox.png'
+import Gift from '@/assets/giftbox.png'
 
 interface GiftCardProps {
   product: Product

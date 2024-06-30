@@ -9,6 +9,7 @@ import Naver from '@/assets/naver_blog.png'
 import Instagram from '@/assets/instagram.png'
 import KakaoShare from '@/components/common/KakaoShare';
 import { Spinner } from '@/components/ui/spinner';
+import { getGift } from '@/api/product';
 
 
 const GiftCard = React.lazy(() => import('@/components/GiftCard'))
@@ -20,7 +21,7 @@ const Results = () => {
     const { chatID } = useParams()
 
     const setCurrentQuestion = useSetAtom(depth)
-    // const getResult = useSetAtom(getGift)
+    const getResult = useSetAtom(getGift)
     const product = useAtomValue(gift)
     const isValid = useAtomValue(isValidGift)
 
@@ -35,7 +36,7 @@ const Results = () => {
         if (!chatID || chatID === "") {
             navigate('/')
         }
-        // getResult(chatID)
+        getResult(chatID)
     }, [])
     
 
