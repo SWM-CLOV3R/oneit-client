@@ -29,7 +29,7 @@ const Results = () => {
     const handleRetry = () => {
         navigate('/');
         
-        setCurrentQuestion(0)
+        setCurrentQuestion(1)
     }
 
     useEffect(() => {

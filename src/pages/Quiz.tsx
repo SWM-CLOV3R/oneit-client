@@ -1,20 +1,21 @@
-import { useAtom, useAtomValue } from 'jotai'
+import { useAtomValue, useSetAtom } from 'jotai'
 import { depth, loading, question } from '@/config/atoms'
 import { useNavigate, useParams } from 'react-router-dom';
 import { Spinner } from '@/components/ui/spinner';
 import { useState } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogHeader } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+import { finishChat, next } from '@/api/chat';
 
 // MAX DEPTH of the chat
-const MAXDEPTH = 3
+const MAXDEPTH = 4
 
 const Quiz = () => {
     const questions = useAtomValue(question)
     const isloading = useAtomValue(loading)
-    const [currentQuestion, setCurrentQuestion] = useAtom(depth)
-    // const getNextQuestion = useSetAtom(updateQuestion)
-    // const endChat = useSetAtom(finishChat)
+    const currentQuestion = useAtomValue(depth)
+    const getNextQuestion = useSetAtom(next)
+    const endChat = useSetAtom(finishChat)
 
     const navigate = useNavigate();
     const { chatID } = useParams()
@@ -27,16 +28,18 @@ const Quiz = () => {
 
     const handleAnswerClick = async (index:number) => {
         setSelected(index)
-        if (currentQuestion < MAXDEPTH -1) {
+        const depth = currentQuestion
+        console.log('Depth:', depth, 'Selected:', index);
+        
+        if (depth < MAXDEPTH) {
             try {
-                    setCurrentQuestion((prev) => prev + 1)
-                    // await getNextQuestion({question: questions.question, answer: questions.options[index]})
+                await getNextQuestion({question: questions.question, answer: questions.options[index]})
             } catch (error) {
                 setError(true)
             }
-        }else if (currentQuestion === MAXDEPTH - 1) {
+        }else if (depth === MAXDEPTH ) {
             try {
-                // await endChat({question: questions.question, answer: questions.options[index]},chatID)
+                await endChat(chatID, {question: questions.question, answer: questions.options[index]})
                 navigate(`/result/${chatID}`);
             } catch (error) {
                 setError(true)

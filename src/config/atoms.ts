@@ -9,7 +9,7 @@ const MockQuestions = {
 //Quiz
 export const question = atom(MockQuestions);
 question.debugLabel = "question";
-export const depth = atom(0);
+export const depth = atom(1);
 depth.debugLabel = "depth";
 export const answers = atom([] as Answer[]);
 answers.debugLabel = "answers";
