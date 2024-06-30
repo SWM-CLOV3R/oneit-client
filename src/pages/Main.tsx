@@ -2,16 +2,15 @@ import Gift from '@/assets/giftbox2.png'
 import { useNavigate } from 'react-router-dom';
 import { nanoid } from 'nanoid';
 import { Button } from '@/components/ui/button';
-import { ref, set } from "firebase/database";
-import {db} from '@/config/firebase';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { useAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 import { gender, occasion, priceRange, recipient } from '@/config/atoms';
 import { Spinner } from '@/components/ui/spinner';
+import { startChat } from '@/api/chat';
 
 const Main = () => {
     const navigate = useNavigate();
@@ -24,19 +23,13 @@ const Main = () => {
     const [userOccasion, setUserOccasion] = useAtom(occasion)
     const [userGender, setUserGender] = useAtom(gender)
 
+    const start = useSetAtom(startChat)
+
     const handleStart = async () => {
         setLoading(true);
         const chatID = nanoid(10);
-        try { // API call to get first question
-            await set(ref(db, `chats/${chatID}`), {
-                chatID,
-                gender: userGender,
-                recipient: userRecipient,
-                occasion: userOccasion,
-                priceRange: price
-            });
-            // const prompt = `${userGender}인 ${userRecipient}에게 ${userOccasion} 선물로 ${price[0]}원에서 ${price[1]}원 사이의 선물을 하고 싶다`
-            // await getQuestion(prompt)
+        try { 
+            await start(chatID);
             navigate(`/quiz/${chatID}`);
         } catch (error) {
             console.log(error);
