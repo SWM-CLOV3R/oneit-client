@@ -78,7 +78,7 @@ const Results = () => {
                                 {/* <p className='m-1'>오픈채팅</p> */}
                             {/* </Button> */}
                         </a>
-                        <a href='https://www.instagram.com/oneit.gif' target='_blank' rel="noreferrer">
+                        <a href='https://www.instagram.com/oneit.gift' target='_blank' rel="noreferrer">
                             <img src={Instagram} alt='instagram' className='h-[35px] mr-1'></img>
                         </a>
                         <a href='https://blog.naver.com/oneit_gift' target='_blank' rel="noreferrer">
