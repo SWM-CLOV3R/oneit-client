@@ -66,7 +66,7 @@ const Main = () => {
                 </DialogHeader>
                 <div className="flex items-center gap-2 justify-around">
                     <Select onValueChange={setUserGender} value={userGender}>
-                    <SelectTrigger className="w-[20%]">
+                    <SelectTrigger className="w-[25%]">
                         <SelectValue placeholder={"성별"} />
                     </SelectTrigger>
                     <SelectContent>
@@ -90,7 +90,7 @@ const Main = () => {
                         </SelectGroup>
                     </SelectContent>
                     </Select>
-                    <p className="text-gray-500 dark:text-gray-400">에게</p>
+                    <p className="text-gray-500 dark:text-gray-400">의</p>
                     <Select onValueChange={setUserOccasion} value={userOccasion}>
                     <SelectTrigger className="w-[25%]">
                         <SelectValue placeholder="어떤" />
@@ -105,7 +105,7 @@ const Main = () => {
                         </SelectGroup>
                     </SelectContent>
                     </Select>
-                    <p className="text-gray-500 dark:text-gray-400">선물을</p>
+                    <p className="text-gray-500 dark:text-gray-400">선물</p>
                 </div>
                 <div className="space-y-2 w-full my-2">
                     <Slider
