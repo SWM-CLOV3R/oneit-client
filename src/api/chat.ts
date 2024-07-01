@@ -2,8 +2,8 @@ import { update, ref ,set as write} from "firebase/database";
 import { db } from "@/config/firebase";
 import { atom } from "jotai";
 import { gender, loading, occasion, priceRange, recipient, answers, gift, question as nextQuestion, depth } from "@/config/atoms";
-import product from "@/data/product.json";
-import question from "@/data/question.json";
+import product from "@/data/product(2).json";
+import question from "@/data/question(2).json";
 import { Answer, Product, Question } from "@/config/types";
 
 type AnswerOptions = {
@@ -14,7 +14,7 @@ type Questions = {
     [question: string]: AnswerOptions;
 };
 const questionData: Questions = question;
-const questionList: Question[] = Object.keys(questionData).map((question: string) => {
+const questionList: Question[] = Object.keys(questionData).map((question: string, idx: number) => {
     return {
         question,
         options: Object.keys(questionData[question])

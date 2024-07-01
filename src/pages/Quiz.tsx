@@ -1,5 +1,5 @@
 import { useAtomValue, useSetAtom } from 'jotai'
-import { depth, loading, question } from '@/config/atoms'
+import { depth, loading, question, recipient } from '@/config/atoms'
 import { useNavigate, useParams } from 'react-router-dom';
 import { Spinner } from '@/components/ui/spinner';
 import { useState } from 'react';
@@ -16,14 +16,17 @@ const Quiz = () => {
     const currentQuestion = useAtomValue(depth)
     const getNextQuestion = useSetAtom(next)
     const endChat = useSetAtom(finishChat)
+    const userRecipient = useAtomValue(recipient)
 
     const navigate = useNavigate();
     const { chatID } = useParams()
     const [error, setError] = useState(false)
     const [selected, setSelected] = useState(0)
 
+    const heads = ["",`${userRecipient}의 `,`${userRecipient}이(가) `, `${userRecipient}의 `, `${userRecipient}와(과) `]
+
     // Debugging logs
-    // console.log('Questions:', questions, 'Loading:', isloading);
+    console.log('Questions:', questions, 'Loading:', isloading);
     
 
     const handleAnswerClick = async (index:number) => {
@@ -58,7 +61,7 @@ const Quiz = () => {
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-8 max-w-md w-full">
             
             <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">
-                {questions.question}
+                {heads[currentQuestion]+questions.question}
             </h2>
             <div className="grid grid-cols-1 gap-4">
                 {questions.options.map((option, index) => (
