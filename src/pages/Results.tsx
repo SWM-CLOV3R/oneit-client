@@ -56,7 +56,9 @@ const Results = () => {
                 </Suspense>
             </div>
             <div className='flex flex-col justify-evenly px-2'>
-                <Button size="sm" className='py-0 px-2 text-black w-full'>구매하러 가기</Button>
+                <a href={product.url || '/'} target='_blank' rel="noreferrer">
+                    <Button size="sm" className='py-0 px-2 text-black w-full'>구매하러 가기</Button>
+                </a>
                 <Button size="sm" onClick={()=>setShowModal(true)} className="bg-oneit-blue hover:bg-oneit-blue/90 text-black w-full mt-2">
                     더 찾아보기
                 </Button>
