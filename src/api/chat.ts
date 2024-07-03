@@ -1,4 +1,4 @@
-import { update, ref ,set as write} from "firebase/database";
+import { update, ref ,set as write, serverTimestamp} from "firebase/database";
 import { db } from "@/config/firebase";
 import { atom } from "jotai";
 import { gender, loading, occasion, priceRange, recipient, answers, gift, question as nextQuestion, depth } from "@/config/atoms";
@@ -31,7 +31,8 @@ export const startChat = atom(null,async(get,set,chatID)=>{
             gender: get(gender),
             recipient: get(recipient),
             occasion: get(occasion),
-            priceRange: get(priceRange)
+            priceRange: get(priceRange),
+            createdAt: serverTimestamp(),
         });
 
         set(nextQuestion, questionList[get(depth)] )
@@ -99,7 +100,10 @@ export const finishChat = atom(null, async (get,set,chatID, answer:Answer) => {
     try {
         await update(
             ref(db, `/chats/${chatID}`),
-            { answers: answerList}
+            { 
+                answers: answerList,
+                modifiedAt: serverTimestamp()
+            }
         );
 
         //get recommendation proudcts
