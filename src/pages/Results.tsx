@@ -13,7 +13,7 @@ import { getGift } from '@/api/product';
 import { Answer } from '@/config/types';
 
 
-const GiftCard = React.lazy(() => import('@/components/GiftCard'))
+const GiftCard = React.lazy(() => import('@/components/Cards/GiftCard'))
 const NotFound = React.lazy(() => import('./NotFound'))
 
 const Results = () => {
