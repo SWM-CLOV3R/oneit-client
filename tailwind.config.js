@@ -67,6 +67,7 @@ export default{
       fontFamily: {
         Bayon:["Bayon"],
         Yangjin:["Yangjin"],
+        Godo : ["Godo"],
         sans: ["var(--font-sans)", ...fontFamily.sans],
       },
       keyframes: {
