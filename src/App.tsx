@@ -5,6 +5,7 @@ import Header from './components/common/Header';
 import NotFound from './pages/NotFound';
 import { useQuery } from '@tanstack/react-query';
 import axios from '@/lib/axios';
+import Footer from './components/common/Footer';
 
 const Main = React.lazy(() => import('./pages/Main'));
 const Quiz = React.lazy(()=> import('./pages/Quiz'))
@@ -24,9 +25,7 @@ function App() {
       <Header/>
       <main className='max-h-[90svh] flex w-svw justify-center mb-3 mt-3'>
         <div className='flex justify-center w-[80%] '>
-        {/* <AtomsDevtools> */}
           <Suspense fallback={<Spinner size="large" />}>
-          {/* <Provider> */}
             <Router>
                 <Routes>
                     <Route path="/quiz/:chatID/:currentDepth" element={<Quiz/>} />
@@ -35,15 +34,10 @@ function App() {
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </Router>
-          {/* </Provider> */}
           </Suspense>
-        {/* </AtomsDevtools> */}
         </div>
       </main>
-      <footer className='bg-slate-100 text-xs justify-evenly flex flex-col font-light items-center min-h-[5svh]'>
-        <p>Created by Team.CLOV3R</p>
-        {/* <p>Powerd by chatGPT</p> */}
-      </footer>
+      <Footer/>
     </div>
   );
 }
