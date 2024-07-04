@@ -23,8 +23,8 @@ function App() {
   return (
     <div className="App h-svh flex flex-col justify-between">
       <Header/>
-      <main className='max-h-[90svh] flex w-svw justify-center mb-3 mt-3'>
-        <div className='flex justify-center w-[80%] '>
+      <main className='h-[85svh] flex w-svw justify-center mb-3 mt-3'>
+        <div className='flex justify-center w-[90%] h-full '>
           <Suspense fallback={<Spinner size="large" />}>
             <Router>
                 <Routes>
