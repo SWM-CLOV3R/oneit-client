@@ -21,23 +21,25 @@ function App() {
 
 
   return (
-    <div className="App h-svh flex flex-col justify-between">
-      <Header/>
-      <main className='h-[85svh] flex w-svw justify-center mb-3 mt-3'>
-        <div className='flex justify-center w-[90%] h-full '>
-          <Suspense fallback={<Spinner size="large" />}>
-            <Router>
-                <Routes>
-                    <Route path="/quiz/:chatID/:currentDepth" element={<Quiz/>} />
-                    <Route path="/result/:chatID" element={<Results/>} />
-                    <Route path="/" element={<Main/>}/>
-                    <Route path="*" element={<NotFound />} />
-                </Routes>
-            </Router>
-          </Suspense>
-        </div>
-      </main>
-      <Footer/>
+    <div className='App flex justify-center'>
+      <div className="App h-svh flex flex-col justify-between max-w-sm items-center">
+        <Header/>
+        <main className='h-[85svh] flex w-svw justify-center mb-3 mt-3 max-w-sm'>
+          <div className='flex justify-center w-[90%] h-full '>
+            <Suspense fallback={<Spinner size="large" />}>
+              <Router>
+                  <Routes>
+                      <Route path="/quiz/:chatID/:currentDepth" element={<Quiz/>} />
+                      <Route path="/result/:chatID" element={<Results/>} />
+                      <Route path="/" element={<Main/>}/>
+                      <Route path="*" element={<NotFound />} />
+                  </Routes>
+              </Router>
+            </Suspense>
+          </div>
+        </main>
+        <Footer/>
+      </div>
     </div>
   );
 }
