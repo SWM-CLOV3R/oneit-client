@@ -24,7 +24,7 @@ const Product = () => {
     }
 
     return (
-        <div className='w-full pb-20'>
+        <div className='w-full pb-5'>
             <div className="flex py-3 flex-wrap items-center justify-between">
 
                 <Button variant="ghost" size="icon" className="">
