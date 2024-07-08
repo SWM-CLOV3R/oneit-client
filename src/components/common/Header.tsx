@@ -4,15 +4,15 @@ import { MenuIcon } from "lucide-react"
 
 const Header = () => {
   return (
-    <header className="flex min-h-[5svh] w-full items-center justify-between px-4 md:px-6 shadow-md py-1">
-      <div className="">
+    <header className="fixed top-0 bg-white flex min-h-[5svh] items-center w-full justify-between px-4 md:px-6 shadow-md py-1">
+      <div className="flex">
         <a href="/" className="flex items-center justify-center">
           <span className="text-black text-3xl font-Bayon">One!t</span>
         </a>
       </div>
       <Sheet>
         <SheetTrigger asChild>
-          <Button variant="outline" size="icon" className="ml-auto">
+          <Button variant="ghost" size="icon" className="ml-auto hover:bg-transparent">
             <MenuIcon className="h-6 w-6" />
             <span className="sr-only">Toggle navigation</span>
           </Button>
