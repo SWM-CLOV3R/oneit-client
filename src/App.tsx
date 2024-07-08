@@ -10,6 +10,7 @@ import Footer from './components/common/Footer';
 const Main = React.lazy(() => import('./pages/Main'));
 const Quiz = React.lazy(()=> import('./pages/Quiz'))
 const Results = React.lazy(()=> import('./pages/Results'))
+const Product = React.lazy(()=> import('./pages/Product'))
 
 function App() {
 
@@ -21,16 +22,17 @@ function App() {
 
 
   return (
-    <div className='App flex justify-center'>
-      <div className="App h-svh flex flex-col justify-between max-w-sm items-center">
+    <div className='App flex flex-col justify-center overflow-x-hidden scrollbar-hide min-h-screen'>
+      <div className="h-svh flex flex-col justify-between max-w-sm items-center w-full">
         <Header/>
-        <main className='h-[85svh] flex w-svw justify-center mb-3 mt-3 max-w-sm'>
-          <div className='flex justify-center w-[90%] h-full '>
+        <main className='flex w-full justify-center mb-3 mt-[7vh] max-w-sm  flex-grow'>
+          <div className='flex justify-center w-[90%]'>
             <Suspense fallback={<Spinner size="large" />}>
               <Router>
                   <Routes>
                       <Route path="/quiz/:chatID/:currentDepth" element={<Quiz/>} />
                       <Route path="/result/:chatID" element={<Results/>} />
+                      <Route path='/product' element={<Product/>}/>
                       <Route path="/" element={<Main/>}/>
                       <Route path="*" element={<NotFound />} />
                   </Routes>
