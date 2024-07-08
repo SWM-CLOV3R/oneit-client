@@ -1,5 +1,4 @@
-import Gift from '@/assets/giftbox2.png'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { nanoid } from 'nanoid';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -11,6 +10,7 @@ import { useAtom, useSetAtom } from 'jotai';
 import { gender, occasion, priceRange, recipient } from '@/config/atoms';
 import { Spinner } from '@/components/ui/spinner';
 import { startChat } from '@/api/chat';
+import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 const Recommend = () => {
     const navigate = useNavigate();
@@ -44,19 +44,14 @@ const Recommend = () => {
 
     return(
         <>
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-3 max-w-md w-full">
-            <h1 className="text-3xl font-bold mb-4 text-gray-900 dark:text-gray-100">선물 추천</h1>
-            <p className="text-gray-600 dark:text-gray-400 mb-6">질문에 답하고 선물을 추천 받아 보세요!</p>
-            <div className='justify-center flex mb-5'>
-                {/* <img src={Gift} alt='gift-box' className='w-[50%]'></img> */}
-                {/* <img src="https://via.placeholder.com/150" alt='gift-box' className='w-[50%]'></img> */}
-            </div>
-            <div className='justify-end flex m-1'>
-                <Button  onClick={() => setShowModal(true)} className="text-lg text-black">
-                    시작하기
-                </Button>
-            </div>
-        </div>
+        <Card className="w-full bg-gradient-to-br from-[#d1d1d1] to-[#f0f0f0] hover:from-[#c8c8c8] hover:to-[#e7e7e7] transition-colors duration-300 rounded-lg h-[30%] flex flex-col justify-between shadow-md border-0 max-w-md">
+            <Link to="#" className="w-full h-full flex flex-col justify-between" onClick={()=>setShowModal(true)}>
+            <CardHeader className='p-3'>
+                <CardTitle>선물 추천</CardTitle>
+                <CardDescription>질문에 답하고 선물을 추천 받아 보세요!</CardDescription>
+            </CardHeader>
+            </Link>
+        </Card> 
         {showModal && (
         <Dialog open={showModal} onOpenChange={setShowModal}>
             <DialogContent className="sm:max-w-[425px]">
