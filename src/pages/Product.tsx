@@ -69,7 +69,7 @@ const Product = () => {
                 <p>Mauris vestibulum lacus vel orci consectetur semper. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
             </div>
 
-            <div className="fixed md:absolute md:left-auto bottom-0 left-0 flex justify-center gap-3 max-w-sm  h-15 w-full bg-slate-100 rounded-t-md">
+            <div className="fixed  mx-auto bottom-0 left-0 right-0 flex justify-center gap-3 max-w-sm  h-15 w-full bg-slate-100 rounded-t-md">
                 <Link to="#" className="w-[40%]">
                     <Button size="lg" className="my-2 w-full">
                         바구니에 넣기
