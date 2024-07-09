@@ -10,12 +10,16 @@ interface ShareProps {
 const Share = (props: ShareProps) => {
     const {title, text, url} = props
 
-    const onShare = () => {
-        navigator.share({
-            title,
-            text,
-            url
-        })
+    const onShare = async () => {
+        if(navigator.canShare(props)){
+            await navigator.share({
+                title,
+                text,
+                url
+            })
+        }else{
+            console.log('Web Share API not supported');
+        }
     }
 
     return (
