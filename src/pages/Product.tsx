@@ -10,7 +10,7 @@ import Share from "@/components/common/Share";
 
 const Product = () => {
     const {productID} = useParams()
-    console.log(productID);
+    // console.log(productID);
     
     const navigate = useNavigate()
     

@@ -99,7 +99,7 @@ const Curation = () => {
         const indexOfLastItem = currentPage * itemsPerPage;
         const indexOfFirstItem = indexOfLastItem - itemsPerPage;
         setCurrentItems(products.slice(indexOfFirstItem, indexOfLastItem));
-        console.log(currentItems);
+        // console.log(currentItems);
         
     }, [currentPage]);
 
