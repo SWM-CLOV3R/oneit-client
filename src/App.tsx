@@ -33,7 +33,7 @@ function App() {
                   <Routes>
                       <Route path="/quiz/:chatID/:currentDepth" element={<Quiz/>} />
                       <Route path="/result/:chatID" element={<Results/>} />
-                      <Route path='/product' element={<Product/>}/>
+                      <Route path='/product/:productID' element={<Product/>}/>
                       <Route path='/curation' element={<Curation/>}/>
                       <Route path="/" element={<Main/>}/>
                       <Route path="*" element={<NotFound />} />
