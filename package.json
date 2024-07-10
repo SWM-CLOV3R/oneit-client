@@ -22,6 +22,7 @@
     "clsx": "^2.1.1",
     "firebase": "^10.12.2",
     "jotai": "^2.8.4",
+    "lottie-web": "^5.12.2",
     "lucide-react": "^0.399.0",
     "nanoid": "^5.0.7",
     "next-themes": "^0.3.0",
