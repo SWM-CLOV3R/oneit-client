@@ -4,7 +4,7 @@ import Lottie from "lottie-web";
 type LottieContainerProps = {
     path: string;
 }
-export const LottieContainer = ({ path }: LottieContainerProps) => {
+export const LottieContainer = ({ path, ...rest }: LottieContainerProps & React.HTMLAttributes<HTMLSpanElement>) => {
     const lottieContainer = useRef<HTMLDivElement>(null);
 
     // Lottie 애니메이션 로드 및 초기화
@@ -20,7 +20,7 @@ export const LottieContainer = ({ path }: LottieContainerProps) => {
         return () => Lottie.destroy();
     })
 
-    return <div className="w-full h-full" ref={lottieContainer} />;
+    return <div className="w-full h-full" ref={lottieContainer} {...rest} />;
 };
 
 export default LottieContainer;
