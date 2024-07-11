@@ -17,27 +17,27 @@ const RecommendCard = () => {
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false)
     const [error, setError] = useState(false)
-    const [loading, setLoading] = useState(false); // New state for loading
+    const [loading, setLoading] = useState(false);
 
     const [price, setPrice] = useAtom<number[]>(priceRange)
     const [userRecipient, setUserRecipient] = useAtom(recipient)
     const [userOccasion, setUserOccasion] = useAtom(occasion)
     const [userGender, setUserGender] = useAtom(gender)
 
-    const start = useSetAtom(startChat)
+    // const start = useSetAtom(startChat)
 
     const handleStart = async () => {
-        setLoading(true);
         const chatID = nanoid(10);
-        try { 
-            await start(chatID);
-            navigate(`/quiz/${chatID}/1`);
-        } catch (error) {
-            console.log(error);
-            setError(true)
-        }finally {
-            setLoading(false); // End loading
-        }
+        navigate(`/quiz/${chatID}/1`);
+        // setLoading(true);
+        // try { 
+        //     await start(chatID);
+        // } catch (error) {
+        //     console.log(error);
+        //     setError(true)
+        // }finally {
+        //     setLoading(false); // End loading
+        // }
     }
     
     if(loading) return <Spinner/>
