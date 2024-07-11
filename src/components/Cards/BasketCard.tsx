@@ -11,7 +11,7 @@ const BasketCard = () => {
             <Link to="/basket" className="w-full h-full flex flex-col justify-between">
             <CardHeader className='p-3'>
                 <CardTitle>선물 바구니</CardTitle>
-                <CardDescription>선물을 담아 보아요!</CardDescription>
+                <CardDescription className='text-oneit-gray'>선물을 담아 보아요!</CardDescription>
             </CardHeader>
             </Link>
         </Card>
