@@ -21,7 +21,7 @@ const About = () => {
                     소중한 사람을 위한 맞춤 선물을 함께 골라보아요!
                 </p>
                 <div className="flex gap-2 mt-3">
-                    <Link to="/recommend" className="w-full">
+                    <Link to="/" className="w-full">
                         <Button className="w-full rounded-lg py-2">선물 추천 받기</Button>
                     </Link>
                     <Link to="/basket" className="w-full">
@@ -30,7 +30,7 @@ const About = () => {
                 </div>
             </CardContent>
         </Card>
-        <LottieContainer path="/src/assets/giftpop_animate.json" className="w-[70%] mt-3 mb-[-50px]" />
+        {/* <LottieContainer path="/src/assets/giftpop_animate.json" className="w-[70%] mt-3 mb-[-50px]" /> */}
     </div>
   )
 }
