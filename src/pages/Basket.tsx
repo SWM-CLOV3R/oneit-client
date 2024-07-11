@@ -13,6 +13,7 @@ const Basket = () => {
             <Card className='py-2 px-0'>
                 <CardContent className='pb-0 px-2'>
                     <p className='text-sm'>
+                        대충 기능 설명 <br/>
                         선물 고민, 혼자서는 힘드니까 <br/>
                         친구와 같이 고민하고 <br/>
                         받는 사람에게 은근 슬쩍 물어보자 
