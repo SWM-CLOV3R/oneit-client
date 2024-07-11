@@ -12,6 +12,9 @@ import { Spinner } from '@/components/ui/spinner';
 import { startChat } from '@/api/chat';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import LottieContainer from '../common/LottieContainer';
+import { Label } from '@/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
+import { Separator } from '../ui/separator';
 
 const RecommendCard = () => {
     const navigate = useNavigate();
@@ -21,7 +24,6 @@ const RecommendCard = () => {
 
     const [price, setPrice] = useAtom<number[]>(priceRange)
     const [userRecipient, setUserRecipient] = useAtom(recipient)
-    const [userOccasion, setUserOccasion] = useAtom(occasion)
     const [userGender, setUserGender] = useAtom(gender)
 
     // const start = useSetAtom(startChat)
@@ -59,54 +61,47 @@ const RecommendCard = () => {
         {showModal && (
         <Dialog open={showModal} onOpenChange={setShowModal}>
             <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
                 <DialogTitle>시작하기</DialogTitle>
-                <DialogDescription></DialogDescription>
-                </DialogHeader>
-                <div className="flex items-center gap-2 justify-around">
-                    <Select onValueChange={setUserGender} value={userGender}>
-                    <SelectTrigger className="w-[25%]">
-                        <SelectValue placeholder={"성별"} />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectGroup>
-                        <SelectItem value="남성">남성</SelectItem>
-                        <SelectItem value="여성">여성</SelectItem>
-                        </SelectGroup>
-                    </SelectContent>
-                    </Select>
-                    <Select onValueChange={setUserRecipient} value={userRecipient}>
-                    <SelectTrigger className="w-[25%]">
-                        <SelectValue placeholder="누구" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectGroup>
-                        <SelectItem value="친구">친구</SelectItem>
-                        <SelectItem value="애인">애인</SelectItem>
-                        <SelectItem value="부모님">부모님</SelectItem>
-                        <SelectItem value="동료">동료</SelectItem>
-                        <SelectItem value="지인">지인</SelectItem>
-                        </SelectGroup>
-                    </SelectContent>
-                    </Select>
-                    <p className="text-gray-500 dark:text-gray-400">의</p>
-                    <Select onValueChange={setUserOccasion} value={userOccasion}>
-                    <SelectTrigger className="w-[25%]">
-                        <SelectValue placeholder="어떤" />
-                    </SelectTrigger>
-                    <SelectContent >
-                        <SelectGroup >
-                        <SelectItem value="생일">생일</SelectItem>
-                        <SelectItem value="기념일">기념일</SelectItem>
-                        <SelectItem value="졸업">졸업</SelectItem>
-                        <SelectItem value="응원">응원</SelectItem>
-                        <SelectItem value="기타">기타</SelectItem>
-                        </SelectGroup>
-                    </SelectContent>
-                    </Select>
-                    <p className="text-gray-500 dark:text-gray-400">선물</p>
+                <p>누구에게 줄 선물인가요?</p>
+                <div className="flex items-start gap-2 ">
+                    <div className="flex flex-col">
+                    <Label htmlFor='recipient'>관계</Label>
+                    <RadioGroup id='recipient' onValueChange={setUserRecipient} value={userRecipient} className='flex mt-2' >
+                        <RadioGroupItem id='friend' value="친구"></RadioGroupItem>
+                        <Label htmlFor='friend'>친구</Label>
+                        <RadioGroupItem value="애인" id='lover'>애인</RadioGroupItem>
+                        <Label htmlFor='lover'>애인</Label>
+                        <RadioGroupItem value="지인" id='others'>지인</RadioGroupItem>
+                        <Label htmlFor='others'>지인</Label>
+                    </RadioGroup>
+                    </div>
+                    <Separator orientation='vertical'/>
+                    <div className="flex flex-col">
+                    <Label htmlFor='gender'>성별</Label>
+                    <RadioGroup onValueChange={setUserGender} value={userGender} className='flex mt-2'>
+                        <RadioGroupItem value="MALE" id="male"></RadioGroupItem>
+                        <Label htmlFor="male">남성</Label>
+                        <RadioGroupItem value="FEMALE" id="female"></RadioGroupItem>
+                        <Label htmlFor="female">여성</Label>
+                    </RadioGroup>
+                    </div>
                 </div>
-                <div className="space-y-2 w-full my-2">
+                <p>예산이 어떻게 되나요?</p>
+                <div className=" w-full border-[#FFDDD5] ">
+                    <div className='flex justify-end align-middle'>
+                        <div className="flex justify-around text-sm ">
+                            <Input value={price[0].toLocaleString()} onChange={(e)=>{
+                                const value = Number(e.target.value.replace(/,/g, ''))
+                                if (!isNaN(value)) setPrice([value<=500000?value:500000,price[1]])
+                                }} className='w-[30%]'/>
+                            <p className="content-center">원부터</p>  
+                            <Input value={price[1].toLocaleString()} onChange={(e)=>{
+                                const value = Number(e.target.value.replace(/,/g, ''))
+                                if (!isNaN(value)) setPrice([price[0],value<=500000?value:500000])
+                                }} className='w-[30%]'/>
+                            <p className="content-center">원까지</p>  
+                        </div>
+                    </div>
                     <Slider
                     id="gift-price"
                     min={0}
@@ -114,22 +109,8 @@ const RecommendCard = () => {
                     step={10000}
                     value={price}
                     onValueChange={setPrice}
-                    className="w-full"
+                    className="w-full mt-2 pt-2"
                     />
-                    <div className='flex justify-end align-middle'>
-                        <div className="flex justify-around text-sm text-gray-500 dark:text-gray-400">
-                            <Input value={price[0].toLocaleString()} onChange={(e)=>{
-                                const value = Number(e.target.value.replace(/,/g, ''))
-                                if (!isNaN(value)) setPrice([value<=500000?value:500000,price[1]])
-                                }} className='w-[30%]'/>
-                            <p className="text-gray-500 dark:text-gray-400 content-center">원부터</p>  
-                            <Input value={price[1].toLocaleString()} onChange={(e)=>{
-                                const value = Number(e.target.value.replace(/,/g, ''))
-                                if (!isNaN(value)) setPrice([price[0],value<=500000?value:500000])
-                                }} className='w-[30%]'/>
-                            <p className="text-gray-500 dark:text-gray-400 content-center">원까지</p>  
-                        </div>
-                    </div>
                 </div>
                 <div className="flex justify-end gap-2">
                     <Button variant="outline" onClick={() => setShowModal(false)}>
