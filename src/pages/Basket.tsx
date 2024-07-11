@@ -6,7 +6,7 @@ const Basket = () => {
     return (
         <div className='flex flex-col content-center mt-3 w-full'>
             <div className='flex w-full rounded-lg bg-oneit-pink px-3 py-1 my-2'>
-                <h1 className='text-xl'>선물 바구니</h1>
+                <h1 className='text-2xl'>선물 바구니</h1>
             </div>
 
             {/* decription of basket */}
