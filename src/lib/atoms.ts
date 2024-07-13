@@ -12,7 +12,9 @@ question.debugLabel = "question";
 export const answers = atom({} as {[key: string]: Answer});
 answers.debugLabel = "answers";
 
-//Main
+//Recommend
+export const name = atom("이름");
+name.debugLabel = "name";
 export const recipient = atom("친구");
 recipient.debugLabel = "recipient";
 export const occasion = atom("생일");
