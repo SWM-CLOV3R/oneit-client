@@ -5,7 +5,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Separator } from "@/components/ui/separator"
 import { Slider } from "@/components/ui/slider"
 import { Spinner } from "@/components/ui/spinner"
-import { gender, priceRange, recipient } from "@/lib/atoms"
+import { gender, name, priceRange, recipient } from "@/lib/atoms"
 import { useAtom } from "jotai"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
@@ -17,6 +17,7 @@ const Recommend = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
 
+    const [userName,setUserName] = useAtom(name)
     const [price, setPrice] = useAtom<number[]>(priceRange)
     const [userRecipient, setUserRecipient] = useAtom(recipient)
     const [userGender, setUserGender] = useAtom(gender)
@@ -49,7 +50,7 @@ const Recommend = () => {
                 <CardContent className='pb-0 px-2'>
                     <div className="flex flex-col pb-2">
                         <p className='text-xl mb-2 pb-0'>누구에게 줄 선물인가요?</p>
-                        <Input placeholder="이름 또는 별명 (없어도 괜찮아요)" className="w-full" />
+                        <Input placeholder="이름 또는 별명 (없어도 괜찮아요)" value={userName} onChange={(e)=>setUserName(e.target.value)} className="w-full" />
                         <div className="flex items-start gap-2 my-2">
                             <div className="flex flex-col w-full">
                                 {/* <Label htmlFor='gender' className="my-2">성별</Label> */}
