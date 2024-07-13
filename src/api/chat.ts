@@ -2,24 +2,8 @@ import { update, ref ,set as write, serverTimestamp} from "firebase/database";
 import { db } from "@/lib/firebase";
 import { atom } from "jotai";
 import { gender, loading, occasion, priceRange, recipient, answers, gift, question as nextQuestion } from "@/lib/atoms";
-import product from "@/data/product(2).json";
-import question from "@/data/question(2).json";
 import { Answer, Product, Question } from "@/lib/types";
 
-type AnswerOptions = {
-    [key: string]: number[];
-};
-
-type Questions = {
-    [question: string]: AnswerOptions;
-};
-const questionData: Questions = question;
-const questionList: Question[] = Object.keys(questionData).map((question: string, idx: number) => {
-    return {
-        question,
-        options: Object.keys(questionData[question])
-    };
-})
 
 
 export const startChat = atom(null,async(get,set,chatID)=>{
