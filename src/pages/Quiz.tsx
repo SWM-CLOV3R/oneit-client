@@ -6,26 +6,12 @@ import { useState } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogHeader } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { finishChat, next } from '@/api/chat';
-import question from "@/data/question(2).json";
+import question from "@/data/question.json";
 import { Question } from "@/lib/types";
 
 // MAX DEPTH of the chat
-const MAXDEPTH = 4
-
-type AnswerOptions = {
-    [key: string]: number[];
-};
-
-type Questions = {
-    [question: string]: AnswerOptions;
-};
-const questionData: Questions = question;
-const questionList: Question[] = Object.keys(questionData).map((question: string, idx: number) => {
-    return {
-        question,
-        options: Object.keys(questionData[question])
-    };
-})
+const MAXDEPTH = 8;
+const questionList: Question[] = question
 
 const Quiz = () => {
 
