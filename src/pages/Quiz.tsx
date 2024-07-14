@@ -1,33 +1,31 @@
 import { useAtomValue, useSetAtom } from 'jotai'
-import { loading, recipient } from '@/lib/atoms'
+import { loading, name, question, recipient } from '@/lib/atoms'
 import { useNavigate, useParams } from 'react-router-dom';
 import { Spinner } from '@/components/ui/spinner';
 import { useState } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogHeader } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { finishChat, next } from '@/api/chat';
-import question from "@/data/question.json";
 import { Question } from "@/lib/types";
 
 // MAX DEPTH of the chat
 const MAXDEPTH = 8;
-const questionList: Question[] = question
 
 const Quiz = () => {
-
     const isloading = useAtomValue(loading)
     const getNextQuestion = useSetAtom(next)
     const endChat = useSetAtom(finishChat)
+    const questionList = useAtomValue(question)
     const userRecipient = useAtomValue(recipient)
+    const userName = useAtomValue(name)
     
     const navigate = useNavigate();
     const params = useParams()
     const chatID = params.chatID
     const currentDepth = Number(params.currentDepth)
+
     const [error, setError] = useState(false)
     const [selected, setSelected] = useState(0)
-
-    const heads = ["",`${userRecipient}의 `,`${userRecipient}이(가) `, `${userRecipient}의 `, `${userRecipient}와(과) `]
 
     // Debugging logs
     // console.log('Questions:', questionList[currentDepth], 'Loading:', isloading);
@@ -66,16 +64,26 @@ const Quiz = () => {
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-8 max-w-md w-full">
             
             <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">
-                {heads[currentDepth]+questionList[currentDepth].question}
+                {questionList[currentDepth].question.replace(/000/g, userName===""?userRecipient:userName).split('\n').map((line, index,array) => (
+                    <span key={index}>
+                        {line}
+                        {index < array.length - 1 && <br />}
+                    </span>
+                ))}
             </h2>
             <div className="grid grid-cols-1 gap-4">
                 {questionList[currentDepth].options.map((option, index) => (
                 <Button
                     key={index}
                     onClick={() => handleAnswerClick(index)}
-                    className=" text-black font-bold py-2 px-4 rounded"
+                    className=" py-2 px-4 rounded whitespace-pre-wrap flex flex-col items-center justify-center"
                 >
-                    {option}
+                    {option.split('\n').map((line, index,array) => (
+                        <span key={index}>
+                        {line}
+                        {index < array.length - 1 && <br />}
+                        </span>
+                    ))}
                 </Button>
                 ))}
             </div>

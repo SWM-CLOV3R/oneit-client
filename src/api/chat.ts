@@ -1,7 +1,7 @@
 import { update, ref ,set as write, serverTimestamp} from "firebase/database";
 import { db } from "@/lib/firebase";
 import { atom } from "jotai";
-import { gender, loading, occasion, priceRange, recipient, answers, gift, question as nextQuestion } from "@/lib/atoms";
+import { gender, loading, occasion, priceRange, recipient, answers, gift, question as nextQuestion, name } from "@/lib/atoms";
 import { Answer, Product, Question } from "@/lib/types";
 
 
@@ -12,6 +12,7 @@ export const startChat = atom(null,async(get,set,chatID)=>{
         
         await write(ref(db, `chats/${chatID}`), {
             chatID,
+            name: get(name),
             gender: get(gender),
             recipient: get(recipient),
             occasion: get(occasion),
