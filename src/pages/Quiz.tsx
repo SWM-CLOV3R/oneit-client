@@ -7,6 +7,7 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogHeader } f
 import { Button } from '@/components/ui/button';
 import { finishChat, next } from '@/api/chat';
 import { Question } from "@/lib/types";
+import { Card } from '@/components/ui/card';
 
 // MAX DEPTH of the chat
 const MAXDEPTH = 8;
@@ -61,32 +62,33 @@ const Quiz = () => {
 
     return (
         <>
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-8 max-w-md w-full">
-            
-            <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">
-                {questionList[currentDepth].question.replace(/000/g, userName===""?userRecipient:userName).split('\n').map((line, index,array) => (
-                    <span key={index}>
-                        {line}
-                        {index < array.length - 1 && <br />}
-                    </span>
-                ))}
-            </h2>
-            <div className="grid grid-cols-1 gap-4">
-                {questionList[currentDepth].options.map((option, index) => (
-                <Button
-                    key={index}
-                    onClick={() => handleAnswerClick(index)}
-                    className=" py-2 px-4 rounded whitespace-pre-wrap flex flex-col items-center justify-center"
-                >
-                    {option.split('\n').map((line, index,array) => (
+        <div className="flex flex-col content-center w-full gap-2 justify-center">
+            <Card className='flex flex-col px-4 py-5'>
+                <h2 className="text-xl text-center font-bold mb-4 text-gray-900 dark:text-gray-100">
+                    {questionList[currentDepth].question.replace(/000/g, userName===""?userRecipient:userName).split('\n').map((line, index,array) => (
                         <span key={index}>
-                        {line}
-                        {index < array.length - 1 && <br />}
+                            {line}
+                            {index < array.length - 1 && <br />}
                         </span>
                     ))}
-                </Button>
-                ))}
-            </div>
+                </h2>
+                <div className="grid grid-cols-1 gap-4">
+                    {questionList[currentDepth].options.map((option, index) => (
+                    <Button
+                        key={index}
+                        onClick={() => handleAnswerClick(index)}
+                        className=" py-2 px-4 rounded whitespace-pre-wrap flex flex-col items-center justify-center"
+                    >
+                        {option.split('\n').map((line, index,array) => (
+                            <span key={index}>
+                            {line}
+                            {index < array.length - 1 && <br />}
+                            </span>
+                        ))}
+                    </Button>
+                    ))}
+                </div>
+            </Card>
         </div>
         {error && (
             <Dialog open={error} onOpenChange={setError}>
