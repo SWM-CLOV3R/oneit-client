@@ -36,16 +36,16 @@ const Quiz = () => {
         setSelected(index)
         console.log('Depth:', currentDepth, 'Selected:', index);
         
-        if (currentDepth < MAXDEPTH) {
+        if (currentDepth < MAXDEPTH -1) {
             try {
-                await getNextQuestion({question: questionList[currentDepth].question, answer: questionList[currentDepth].options[index]}, currentDepth)
+                await getNextQuestion(index, currentDepth)
                 navigate(`/quiz/${chatID}/${currentDepth+1}`);
             } catch (error) {
                 setError(true)
             }
-        }else if (currentDepth === MAXDEPTH ) {
+        }else if (currentDepth === MAXDEPTH -1) {
             try {
-                await endChat(chatID, {question: questionList[currentDepth].question, answer: questionList[currentDepth].options[index]})
+                await endChat(chatID, index, currentDepth)
                 navigate(`/result/${chatID}`);
             } catch (error) {
                 setError(true)

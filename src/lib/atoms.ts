@@ -5,7 +5,7 @@ import questionList from "@/data/question.json";
 //Quiz
 export const question = atom(questionList);
 question.debugLabel = "question";
-export const answers = atom({} as {[key: string]: Answer});
+export const answers = atom({} as {[key: string]: string});
 answers.debugLabel = "answers";
 
 //Recommend
