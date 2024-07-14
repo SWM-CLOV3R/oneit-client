@@ -1,5 +1,5 @@
 import { useAtomValue, useSetAtom } from 'jotai'
-import { answers, gift, isValidGift } from '@/lib/atoms'
+import { answers, gift, isValidGift, name, recipient } from '@/lib/atoms'
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import React, { Suspense, useEffect, useState } from 'react';
@@ -7,10 +7,11 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import Kakao from '@/assets/kakao.png'
 import Naver from '@/assets/naver_blog.png'
 import Instagram from '@/assets/instagram.png'
-import KakaoShare from '@/components/common/KakaoShare';
 import { Spinner } from '@/components/ui/spinner';
 import { getGift } from '@/api/product';
 import { Card } from '@/components/ui/card';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import Share from '@/components/common/Share';
 
 
 const GiftCard = React.lazy(() => import('@/components/Cards/GiftCard'))
@@ -25,6 +26,9 @@ const Results = () => {
     const product = useAtomValue(gift)
     const isValid = useAtomValue(isValidGift)
     const removeAnswers = useSetAtom(answers)
+
+    const userName = useAtomValue(name)
+    const userRecipient = useAtomValue(recipient)
 
 
     const handleRetry = () => {
@@ -49,18 +53,27 @@ const Results = () => {
             <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100 flex justify-between px-4">
                 {/* <strong className='font-Bayon text-3xl'>One!t</strong>  */}
                 추천 선물
-                {isValid&&<KakaoShare url = {`https://www.oneit.gift/result/${chatID}`} product={product}/>}
+                <Share  url={`https://oneit.gift/result/${chatID}`} title={`ONE!T - ${userName===""?"":userName+"위한 "}선물 추천`} text="WANNA GIFT IT, ONE!T" />
                 {/* <Share2Icon/> */}
             </h2>
-            <div className=''>
+            <div className='w-full'>
                 <Suspense fallback={<Spinner/>}>
-                    {isValid?<GiftCard product={product}/>:<NotFound/>}
+                    {isValid?(
+                    <Carousel>
+                        <CarouselContent>
+                            {product.map((item, index) => (
+                                <CarouselItem key={index}>
+                                    <GiftCard product={item}/>
+                                </CarouselItem>
+                            ))}
+                        </CarouselContent>
+                        <CarouselPrevious />
+                        <CarouselNext />
+                    </Carousel>
+                ): <NotFound/>}
                 </Suspense>
             </div>
             {isValid&&<div className='flex flex-col justify-evenly px-2'>
-                <a href={product.productUrl || '/'} target='_blank' rel="noreferrer">
-                    <Button size="sm" className='py-0 px-2 text-black w-full'>구매하러 가기</Button>
-                </a>
                 <Button size="sm" onClick={()=>setShowModal(true)} className="bg-oneit-blue hover:bg-oneit-blue/90 text-black w-full mt-2">
                     더 찾아보기
                 </Button>
