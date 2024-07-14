@@ -10,7 +10,7 @@ import Instagram from '@/assets/instagram.png'
 import KakaoShare from '@/components/common/KakaoShare';
 import { Spinner } from '@/components/ui/spinner';
 import { getGift } from '@/api/product';
-import { Answer } from '@/lib/types';
+import { Card } from '@/components/ui/card';
 
 
 const GiftCard = React.lazy(() => import('@/components/Cards/GiftCard'))
@@ -29,12 +29,12 @@ const Results = () => {
 
     const handleRetry = () => {
         removeAnswers({} as {[key: string]: string})
-        navigate('/');
+        navigate('/recommend');
     }
 
     useEffect(() => {
         if (!chatID || chatID === "") {
-            navigate('/')
+            navigate('/recommend')
         }
         getResult(chatID)
 
@@ -44,7 +44,8 @@ const Results = () => {
 
     return (
         <>
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md pb-3 max-w-md w-full">
+        <div className="flex flex-col content-center w-full gap-2 justify-center">
+        <Card className="flex rounded-lg shadow-md max-w-md w-full flex-col justify-center h-fit py-5">
             <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100 flex justify-between px-4">
                 {/* <strong className='font-Bayon text-3xl'>One!t</strong>  */}
                 추천 선물
@@ -65,6 +66,7 @@ const Results = () => {
                 </Button>
             </div>}
             
+        </Card>
         </div>
         {showModal && (
         <Dialog open={showModal} onOpenChange={setShowModal}>
@@ -94,7 +96,7 @@ const Results = () => {
                     뒤로가기
                     </Button>
                     <Button type="submit" onClick={() => {setShowModal(false); handleRetry()}}>
-                    메인으로
+                    추천받기
                     </Button>
                 </div>
             </DialogContent>
