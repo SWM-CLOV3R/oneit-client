@@ -49,6 +49,8 @@ const recommend = async (payload : Payload) => {
     return new Promise<Product[]>((resolve, reject) => {
         axios.post('/v1/product/result',payload)
         .then((res)=>{
+            console.log(res.data);
+            
             if(!res.data.isSuccess) throw new Error("Failed to get recommend list")
             console.log(res.data);
             
@@ -87,7 +89,7 @@ export const finishChat = atom(null, async (get,set,chatID: string,option: numbe
 
         const recommendList = await recommend(payload)
 
-        set(gift, recommendList[0])
+        set(gift, recommendList)
 
         await update(
             ref(db, `/chats/${chatID}`),
