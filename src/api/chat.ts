@@ -70,6 +70,7 @@ export const finishChat = atom(null, async (get,set,chatID: string,option: numbe
     set(answers, prev => {prev[currentDepth] = newTag; return prev})
     set(loading, true)
     
+    
     try {
         await update(
             ref(db, `/chats/${chatID}`),
@@ -86,6 +87,9 @@ export const finishChat = atom(null, async (get,set,chatID: string,option: numbe
             maxPrice: get(priceRange)[1]>get(priceRange)[0]?get(priceRange)[1]:get(priceRange)[0],
             keywords: get(answers)
         }
+
+        console.log("Payload", payload);
+        
 
         const recommendList = await recommend(payload)
 
