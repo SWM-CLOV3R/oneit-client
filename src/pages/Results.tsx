@@ -28,7 +28,7 @@ const Results = () => {
 
 
     const handleRetry = () => {
-        removeAnswers({} as {[key: string]: Answer})
+        removeAnswers({} as {[key: string]: string})
         navigate('/');
     }
 
@@ -57,7 +57,7 @@ const Results = () => {
                 </Suspense>
             </div>
             {isValid&&<div className='flex flex-col justify-evenly px-2'>
-                <a href={product.url || '/'} target='_blank' rel="noreferrer">
+                <a href={product.productUrl || '/'} target='_blank' rel="noreferrer">
                     <Button size="sm" className='py-0 px-2 text-black w-full'>구매하러 가기</Button>
                 </a>
                 <Button size="sm" onClick={()=>setShowModal(true)} className="bg-oneit-blue hover:bg-oneit-blue/90 text-black w-full mt-2">

@@ -49,6 +49,7 @@ const recommend = async (payload : Payload) => {
     return new Promise<Product[]>((resolve, reject) => {
         axios.post('/v1/product/result',payload)
         .then((res)=>{
+            if(!res.data.isSuccess) throw new Error("Failed to get recommend list")
             console.log(res.data);
             
             resolve(res.data.result)
