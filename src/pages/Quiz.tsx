@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { finishChat, next } from '@/api/chat';
 import { Question } from "@/lib/types";
 import { Card } from '@/components/ui/card';
+import {parse} from 'cox-postposition'
 
 // MAX DEPTH of the chat
 const MAXDEPTH = 8;
@@ -67,7 +68,7 @@ const Quiz = () => {
                 <h2 className="text-xl text-center font-bold mb-4 text-gray-900 dark:text-gray-100">
                     {questionList[currentDepth].question.replace(/000/g, userName===""?userRecipient:userName).split('\n').map((line, index,array) => (
                         <span key={index}>
-                            {line}
+                            {parse(line)}
                             {index < array.length - 1 && <br />}
                         </span>
                     ))}
@@ -77,7 +78,8 @@ const Quiz = () => {
                     <Button
                         key={index}
                         onClick={() => handleAnswerClick(index)}
-                        className=" py-2 px-4 rounded whitespace-pre-wrap flex flex-col items-center justify-center"
+                        className=" py-4 px-4 rounded whitespace-pre-wrap flex flex-col items-center justify-center"
+                        size="lg"
                     >
                         {option.split('\n').map((line, index,array) => (
                             <span key={index}>
