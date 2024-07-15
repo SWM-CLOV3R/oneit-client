@@ -61,7 +61,7 @@ const Results = () => {
             <div className='w-full'>
                 <Suspense fallback={<Spinner/>}>
                     {isValid?(
-                    <Carousel>
+                    <Carousel className='w-full' opts={{loop:true}} autoplay={true} autoplayInterval={2500}>
                         <CarouselContent>
                             {product.map((item, index) => (
                                 <CarouselItem key={index}>
