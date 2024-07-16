@@ -95,7 +95,7 @@ const Results = () => {
                 <div className='flex flex-col'>
                     <p className='m-1 text-lg'>ONE!T의 SNS 채널에서 확인하세요!</p>
                     <div className='flex justify-start'>
-                        <a href='https://open.kakao.com/o/g9Pganwg' target='_blank' rel="noreferrer">
+                        <a href='http://pf.kakao.com/_kbUxgG' target='_blank' rel="noreferrer">
                             {/* <Button className='bg-[#FEE500] text-[#191919] hover:bg-[#FEE500] hover:text-[#191919]'> */}
                                 <img src={Kakao} alt='kakao-channel' className='h-[35px] mr-1'></img>
                                 {/* <p className='m-1'>오픈채팅</p> */}
