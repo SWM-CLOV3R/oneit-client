@@ -30,9 +30,9 @@ const Basket = () => {
                 <p className=''>
                     Team CLOV3R가 열심히 개발 중이에요 <br/>
                     
-                    <a className='inline-block' href='http://pf.kakao.com/_kbUxgG'>
+                    <a className='inline-block' href='http://pf.kakao.com/_kbUxgG/friend'>
                         {/* <Button className=' bg-kakao-yellow hover:bg-kakao-yellow/90 px-2 mx-1' size="sm" variant="ghost"> */}
-                        <Button className=' bg-oneit-pink hover:bg-oneit-pink/90 px-2 mx-1' size="sm" variant="ghost">
+                        <Button className=' bg-kakao-yellow hover:bg-kakao-yellow/90 px-2 mx-1' size="sm" variant="ghost">
                         {/* <strong className='font-Bayon mr-1'>ONE!T</strong>  */}
                         ONE!T 카카오톡 공식 채널
                         </Button>
