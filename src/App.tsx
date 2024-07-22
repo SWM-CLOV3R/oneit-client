@@ -15,6 +15,8 @@ const Curation = React.lazy(()=> import('./pages/Curation'))
 const Basket = React.lazy(()=> import('./pages/Basket'))
 const About = React.lazy(()=> import('./pages/About'))
 const Recommend = React.lazy(()=> import('./pages/Recommend'))
+const Login = React.lazy(()=> import('./pages/Login'))
+const Auth = React.lazy(()=> import('./pages/Auth'))
 
 function App() {
 
@@ -41,6 +43,8 @@ function App() {
                       <Route path='/curation' element={<Curation/>}/> */}
                       <Route path='/basket' element={<Basket/>}/>
                       <Route path='/about' element={<About/>}/>
+                      <Route path='/login' element={<Login/>}/>
+                      <Route path='/oauth' element={<Auth/>}/>
                       <Route path="/" element={<Main/>}/>
                       <Route path="*" element={<NotFound />} />
                   </Routes>
