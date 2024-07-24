@@ -4,6 +4,7 @@ import axios from 'axios'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+
 const Auth = () => {
     const navigate = useNavigate()
 
@@ -27,14 +28,21 @@ const Auth = () => {
         getToken()
         .then(async (res)=>{
             console.log(res);
-            const {accessToken, refreshToken} = await login(JSON.stringify(res.data.access_token))
-            localStorage.setItem("token", accessToken)
-            // todo: save refresh token into cookie
-
+            login(JSON.stringify(res.data.access_token))
+            .then(()=>{
+                //go back to the page before login page
+                // navigate(-1)
+                console.log("login success");
+                
+            })
+            .catch((err)=>{
+                console.log(err);
+                // navigate("/login?success=false")
+            })
         })
         .catch((err)=>{
             console.log(err);
-            navigate("/auth/refresh")
+            // navigate("/login?success=false")
         })
     }, [])
     
