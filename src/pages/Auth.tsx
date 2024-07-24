@@ -1,3 +1,4 @@
+import { login } from '@/api/auth'
 import { Spinner } from '@/components/ui/spinner'
 import axios from 'axios'
 import { useEffect } from 'react'
@@ -24,14 +25,16 @@ const Auth = () => {
     }
     useEffect(() => {
         getToken()
-        .then((res)=>{
+        .then(async (res)=>{
             console.log(res);
-            localStorage.setItem("token", JSON.stringify(res.data.access_token));
-            navigate("/");
+            const {accessToken, refreshToken} = await login(JSON.stringify(res.data.access_token))
+            localStorage.setItem("token", accessToken)
+            // todo: save refresh token into cookie
+
         })
         .catch((err)=>{
             console.log(err);
-            
+            navigate("/auth/refresh")
         })
     }, [])
     
