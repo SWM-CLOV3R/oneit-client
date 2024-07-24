@@ -1,4 +1,7 @@
 import axios from 'axios'
+import { Cookies } from "react-cookie";
+
+const cookies = new Cookies();
 const baseURL = import.meta.env.PROD ? import.meta.env.VITE_API_URL : '/api';
 
 const userAPI = axios.create({
@@ -10,19 +13,21 @@ interface LoginResponse {
     refreshToken: string;
 }
 
-export const login = async (token: string): Promise<LoginResponse> => {
-    return axios.post("/v1/kakao/login", {
+export const login = async (token: string) => {
+    axios.post("/v1/kakao/login", {
         kakaoAccessToken: token
     }).then((res) => {
         if (res.status == 200 && res.data.isSuccess) {
-            return Promise.resolve(res.data);
+            const {accessToken, refreshToken} = res.data as LoginResponse
+            localStorage.setItem("token", accessToken)
+            cookies.set("refreshToken", refreshToken, {path: "/", httpOnly: true})
         }
         else {
-            return Promise.reject("Failed to login");
+            throw new Error("Failed to login")
         }
     }).catch((err) => {
         console.log(err);
-        return Promise.reject(err);
+        throw new Error("Failed to login")
     });
 }
 

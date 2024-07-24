@@ -3,8 +3,6 @@ import { BrowserRouter as Router, Route , Routes} from 'react-router-dom';
 import { Spinner } from '@/components/ui/spinner';
 import Header from './components/common/Header';
 import NotFound from './pages/NotFound';
-import { useQuery } from '@tanstack/react-query';
-import axios from '@/lib/axios';
 import Footer from './components/common/Footer';
 
 const Main = React.lazy(() => import('./pages/Main'));
@@ -19,12 +17,6 @@ const Login = React.lazy(()=> import('./pages/Login'))
 const Auth = React.lazy(()=> import('./pages/Auth'))
 
 function App() {
-
-  // const fetchTodo = async () => {
-  //   return (await axios.get('/todos/1')).data
-  // }
-  // const {data} = useQuery({queryKey:['todo'],queryFn:fetchTodo})
-  // console.log(data)
 
 
   return (
