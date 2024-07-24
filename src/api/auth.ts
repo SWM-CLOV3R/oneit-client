@@ -13,22 +13,25 @@ interface LoginResponse {
     refreshToken: string;
 }
 
+
 export const login = async (token: string) => {
-    axios.post("/v1/kakao/login", {
-        kakaoAccessToken: token
-    }).then((res) => {
+    try {
+        const res = await axios.post("/v1/kakao/login", {
+            kakaoAccessToken: token
+        });
+
         if (res.status == 200 && res.data.isSuccess) {
-            const {accessToken, refreshToken} = res.data as LoginResponse
-            localStorage.setItem("token", accessToken)
-            cookies.set("refreshToken", refreshToken, {path: "/", httpOnly: true})
+            const { accessToken, refreshToken } = res.data as LoginResponse;
+            localStorage.setItem("token", accessToken);
+            cookies.set("refreshToken", refreshToken, { path: "/", httpOnly: true });
+            return Promise.resolve();
+        } else {
+            throw new Error("Failed to login");
         }
-        else {
-            throw new Error("Failed to login")
-        }
-    }).catch((err) => {
+    } catch (err) {
         console.log(err);
-        throw new Error("Failed to login")
-    });
+        return Promise.reject(err);
+    }
 }
 
 export const logout = async () => {

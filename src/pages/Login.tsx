@@ -9,7 +9,7 @@ const Login = () => {
   useEffect(() => {
     if(!showToast){
       const success = new URL(window.location.href).searchParams.get("success");
-      console.log(showToast,success);
+      // console.log(showToast,success);
       
       if(success==="false"){
         setShowToast(true)

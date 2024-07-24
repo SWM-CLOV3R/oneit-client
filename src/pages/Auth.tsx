@@ -28,7 +28,8 @@ const Auth = () => {
         getToken()
         .then(async (res)=>{
             console.log(res);
-            login(JSON.stringify(res.data.access_token))
+            const kakaoToken = res.data.access_token
+            login(kakaoToken)
             .then(()=>{
                 //go back to the page before login page
                 // navigate(-1)
@@ -37,12 +38,12 @@ const Auth = () => {
             })
             .catch((err)=>{
                 console.log(err);
-                // navigate("/login?success=false")
+                navigate("/login?success=false")
             })
         })
         .catch((err)=>{
             console.log(err);
-            // navigate("/login?success=false")
+            navigate("/login?success=false")
         })
     }, [])
     
