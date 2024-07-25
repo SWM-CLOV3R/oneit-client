@@ -1,12 +1,14 @@
-import { login } from '@/api/auth'
+import { login, updateAuthAtom } from '@/api/auth'
 import { Spinner } from '@/components/ui/spinner'
 import axios from 'axios'
+import { useSetAtom } from 'jotai'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 
 const Auth = () => {
     const navigate = useNavigate()
+    const useUpdateAuth = useSetAtom(updateAuthAtom);
 
     const getToken = async () => {
         const token = new URL(window.location.href).searchParams.get("code");
@@ -32,9 +34,9 @@ const Auth = () => {
             login(kakaoToken)
             .then(()=>{
                 //go back to the page before login page
-                // navigate(-1)
+                useUpdateAuth()
                 console.log("login success");
-                
+                navigate("/")
             })
             .catch((err)=>{
                 console.log(err);

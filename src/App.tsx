@@ -4,6 +4,7 @@ import { Spinner } from '@/components/ui/spinner';
 import Header from './components/common/Header';
 import NotFound from './pages/NotFound';
 import Footer from './components/common/Footer';
+import AuthRouter from './components/common/AuthRouter';
 
 const Main = React.lazy(() => import('./pages/Main'));
 const Quiz = React.lazy(()=> import('./pages/Quiz'))
@@ -35,8 +36,8 @@ function App() {
                       <Route path='/curation' element={<Curation/>}/> */}
                       <Route path='/basket' element={<Basket/>}/>
                       <Route path='/about' element={<About/>}/>
-                      <Route path='/login' element={<Login/>}/>
-                      <Route path='/oauth' element={<Auth/>}/>
+                      <Route path='/login' element={<AuthRouter option={false} redirectTo='/' ><Login/></AuthRouter>}/>
+                      <Route path='/oauth' element={<AuthRouter option={false} redirectTo='/' ><Auth/></AuthRouter>}/>
                       <Route path="/" element={<Main/>}/>
                       <Route path="*" element={<NotFound />} />
                   </Routes>
