@@ -23,7 +23,7 @@ export default ({children, option, redirectTo}: AuthProps) => {
         if(option === true){
             return <Navigate to={redirectTo} replace/>
         }
-    }else if(user ! == null){ // logged in user
+    }else if(user){ // logged in user
         // console.log("logged in user");
         
         if(option === false){
