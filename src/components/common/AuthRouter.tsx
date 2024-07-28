@@ -12,8 +12,7 @@ interface AuthProps {
     //false  logged in user can't go inside
 }
 
-
-export default ({children, option, redirectTo}: AuthProps) => {
+const AuthRouter = ({children, option, redirectTo}: AuthProps) => {
     const user = useAtomValue(authAtom);
     // console.log(user,option,redirectTo);
 
@@ -37,3 +36,5 @@ export default ({children, option, redirectTo}: AuthProps) => {
         </>        
     )
 }
+
+export default AuthRouter
