@@ -9,6 +9,7 @@ import { ChevronLeft, Heart, Star } from "lucide-react";
 import Share from "@/components/common/Share";
 import { Spinner } from "@/components/ui/spinner";
 import NotFound from "./NotFound";
+import { Separator } from "@/components/ui/separator";
 
 const Product = () => {
     const {productID} = useParams()
@@ -36,14 +37,6 @@ const Product = () => {
     
     if(isLoading) return <Spinner/>
     if(isError) return <NotFound/>
-
-    // const product : P = {
-    //     "title": " \"당+ 체력 보충\" 꿀빠는시간 스틱꿀 버라이어티팩 21개입(3종 x 7스틱)  ",
-    //     "url": "https://gift.kakao.com/product/2915615",
-    //     "price": 25400,
-    //     "image": "https://img1.kakaocdn.net/thumb/C320x320@2x.fwebp.q82/?fname=https%3A%2F%2Fst.kakaocdn.net%2Fproduct%2Fgift%2Fproduct%2F20230906115514_7c56265604bd4a45bd6f90c06a0fdd11.png",
-    //     "id": 1
-    // }
 
     const handleGoBack = () => {
         navigate(-1)
@@ -75,21 +68,26 @@ const Product = () => {
                 />
             </div>
             <div className="py-2 bg-white dark:bg-gray-950">
-                <h3 className="text-xl font-bold md:text-xl">{data?.name}</h3>
-
-                <div className="flex items-center justify-end mt-2">
+                <p className="text-oneit-gray text-sm mb-2 overflow-hidden whitespace-nowrap  overflow-ellipsis">{data?.categoryDisplayName}</p>
+                <a href={data?.productUrl} target="_blank" rel="noreferrer">
+                    <h3 className="text-xl font-bold md:text-xl">{data?.name}</h3>
+                </a>
+                <div className="flex items-center justify-between mt-2">
+                    <p>{data?.brandName}</p>
                     <h4 className="text-base font-semibold md:text-lg text-onei">{data?.originalPrice.toLocaleString()}원</h4>
                 </div>
             </div>
-            {/* <div className="border-[0.3px] my-1"></div> */}
-            <div className="flex w-full p-1">
-                {data?.keywords.map((keyword) => {
-                    return <p className="text-oneit-pink inline-block mr-1">{`#${keyword}`}</p>
-                })}
-                {/* <p className="text-oneit-pink">#실용적인 #태그 #태그</p> */}
-            </div>
-            <div className="flex">
-                <p>요즘 스트레스를 많이 받는 친구에게 추천</p>
+            <Separator/>
+            <div className="flex flex-col">
+                <div className="flex w-full p-1 overflow-hidden whitespace-nowrap  overflow-ellipsis">
+                    {data?.keywords.map((keyword) => {
+                        return <p className="text-oneit-pink text-sm inline-block mr-1">{`#${keyword}`}</p>
+                    })}
+                    {/* <p className="text-oneit-pink">#실용적인 #태그 #태그</p> */}
+                </div>
+                <div className="flex">
+                    <p>요즘 스트레스를 많이 받는 친구에게 추천</p>
+                </div>
             </div>
             {/* <div className="border-[0.3px] my-1"></div>
             <div>
@@ -99,7 +97,7 @@ const Product = () => {
                 <p>Mauris vestibulum lacus vel orci consectetur semper. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
             </div> */}
 
-            <div className="fixed  mx-auto bottom-0 inset-x-0 flex justify-center gap-3 max-w-sm  h-15 w-full bg-slate-100 rounded-t-md">
+            <div className="fixed  mx-auto bottom-0 inset-x-0 flex justify-center gap-3 max-w-sm  h-15 w-full bg-white rounded-t-md">
                 <Link to="#" className="w-[40%]">
                     <Button size="lg" className="my-2 w-full bg-oneit-blue hover:bg-oneit-blue/90">
                         바구니에 넣기
@@ -107,7 +105,7 @@ const Product = () => {
                 </Link>
                 <a href={data?.productUrl} target='_blank' rel="noreferrer" className="w-[40%]">
                     <Button size="lg" className="my-2 w-full" >
-                        {data?.mallName} 바로가기
+                        {data?.mallName}
                     </Button>
                 </a>
             </div>
