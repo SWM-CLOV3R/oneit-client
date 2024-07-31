@@ -56,6 +56,7 @@ const Product = () => {
                 <Button variant="ghost" size="icon" className="" onClick={handleGoBack}>
                     <ChevronLeft className=""/>
                 </Button>
+                {/* <p>{data?.brandName}</p> */}
                 <div className="flex">
                     <Button variant="ghost" size="icon">
                         <Heart/>
@@ -80,30 +81,33 @@ const Product = () => {
                     <h4 className="text-base font-semibold md:text-lg text-onei">{data?.originalPrice.toLocaleString()}원</h4>
                 </div>
             </div>
-            <div className="border-[0.3px] my-1"></div>
-            <div className="flex flex-col w-full p-1">
-                <p className="text-oneit-pink">#실용적인 #태그 #태그</p>
+            {/* <div className="border-[0.3px] my-1"></div> */}
+            <div className="flex w-full p-1">
+                {data?.keywords.map((keyword) => {
+                    return <p className="text-oneit-pink inline-block mr-1">{`#${keyword}`}</p>
+                })}
+                {/* <p className="text-oneit-pink">#실용적인 #태그 #태그</p> */}
             </div>
             <div className="flex">
                 <p>요즘 스트레스를 많이 받는 친구에게 추천</p>
             </div>
-            <div className="border-[0.3px] my-1"></div>
+            {/* <div className="border-[0.3px] my-1"></div>
             <div>
                 <p>상품 설명</p>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec porta ante vehicula, gravida nunc at, ullamcorper ligula. Nullam fermentum nec lectus eget consectetur.</p>
                 <p>Mauris vestibulum lacus vel orci consectetur semper. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
                 <p>Mauris vestibulum lacus vel orci consectetur semper. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-            </div>
+            </div> */}
 
             <div className="fixed  mx-auto bottom-0 inset-x-0 flex justify-center gap-3 max-w-sm  h-15 w-full bg-slate-100 rounded-t-md">
                 <Link to="#" className="w-[40%]">
-                    <Button size="lg" className="my-2 w-full">
+                    <Button size="lg" className="my-2 w-full bg-oneit-blue hover:bg-oneit-blue/90">
                         바구니에 넣기
                     </Button>
                 </Link>
                 <a href={data?.productUrl} target='_blank' rel="noreferrer" className="w-[40%]">
                     <Button size="lg" className="my-2 w-full" >
-                        구매하러 가기
+                        {data?.mallName} 바로가기
                     </Button>
                 </a>
             </div>
