@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import KakaoShare from "@/components/common/KakaoShare";
 import { ChevronLeft, Heart, Star } from "lucide-react";
 import Share from "@/components/common/Share";
+import { Spinner } from "@/components/ui/spinner";
+import NotFound from "./NotFound";
 
 const Product = () => {
     const {productID} = useParams()
@@ -15,19 +17,33 @@ const Product = () => {
     const navigate = useNavigate()
     
     
-    // const fetchProduct = async () :Promise<P> => {
-    //     return (await axios.get(`/product/${id}`)).data
-    // }
-    // const {data, isError, isLoading} = useQuery({queryKey:['product'],queryFn:fetchProduct})
-    // console.log(data)
-
-    const product : P = {
-        "title": " \"당+ 체력 보충\" 꿀빠는시간 스틱꿀 버라이어티팩 21개입(3종 x 7스틱)  ",
-        "url": "https://gift.kakao.com/product/2915615",
-        "price": 25400,
-        "image": "https://img1.kakaocdn.net/thumb/C320x320@2x.fwebp.q82/?fname=https%3A%2F%2Fst.kakaocdn.net%2Fproduct%2Fgift%2Fproduct%2F20230906115514_7c56265604bd4a45bd6f90c06a0fdd11.png",
-        "id": 1
+    const fetchProduct = async () :Promise<P> => {
+        return axios.get(`/v1/products/${productID}`)
+        .then(res=>{
+            if(res.status === 200 && res.data.isSuccess){
+                console.log(res.data.result);
+                return Promise.resolve(res.data.result)
+            }else{
+                throw new Error(res.data.message)
+            }
+        })
+        .catch(err=>{
+            console.error(err)
+            return Promise.reject(err)
+        })
     }
+    const {data, isError, isLoading} = useQuery({queryKey:['product'],queryFn:fetchProduct})
+    
+    if(isLoading) return <Spinner/>
+    if(isError) return <NotFound/>
+
+    // const product : P = {
+    //     "title": " \"당+ 체력 보충\" 꿀빠는시간 스틱꿀 버라이어티팩 21개입(3종 x 7스틱)  ",
+    //     "url": "https://gift.kakao.com/product/2915615",
+    //     "price": 25400,
+    //     "image": "https://img1.kakaocdn.net/thumb/C320x320@2x.fwebp.q82/?fname=https%3A%2F%2Fst.kakaocdn.net%2Fproduct%2Fgift%2Fproduct%2F20230906115514_7c56265604bd4a45bd6f90c06a0fdd11.png",
+    //     "id": 1
+    // }
 
     const handleGoBack = () => {
         navigate(-1)
@@ -44,13 +60,13 @@ const Product = () => {
                     <Button variant="ghost" size="icon">
                         <Heart/>
                     </Button>
-                    <Share title="One!t" text={product.title} url={`https://oneit.gift/${product.id}`} />
+                    <Share title="ONE!T" text={data?.name||"ONE!T"} url={`https://oneit.gift/${data?.productIdx}`} />
                 </div>
             </div>
             
             <div className='flex justify-center w-full'>
                 <img
-                    src={product.image || Gift}
+                    src={data?.thumbnailUrl || Gift}
                     alt="recommended product"
                     // width={200}
                     // height={200}
@@ -58,10 +74,10 @@ const Product = () => {
                 />
             </div>
             <div className="py-2 bg-white dark:bg-gray-950">
-                <h3 className="text-xl font-bold md:text-xl">{product.title}</h3>
+                <h3 className="text-xl font-bold md:text-xl">{data?.name}</h3>
 
                 <div className="flex items-center justify-end mt-2">
-                    <h4 className="text-base font-semibold md:text-lg text-onei">{product.price.toLocaleString()}원</h4>
+                    <h4 className="text-base font-semibold md:text-lg text-onei">{data?.originalPrice.toLocaleString()}원</h4>
                 </div>
             </div>
             <div className="border-[0.3px] my-1"></div>
@@ -85,7 +101,7 @@ const Product = () => {
                         바구니에 넣기
                     </Button>
                 </Link>
-                <a href={product.url} target='_blank' rel="noreferrer" className="w-[40%]">
+                <a href={data?.productUrl} target='_blank' rel="noreferrer" className="w-[40%]">
                     <Button size="lg" className="my-2 w-full" >
                         구매하러 가기
                     </Button>
