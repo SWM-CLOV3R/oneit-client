@@ -36,7 +36,7 @@ const Curation = () => {
         setCurrentItems(data?.slice(indexOfFirstItem, indexOfLastItem)||[] as Product[]);
         // console.log(currentItems);
         
-    }, [currentPage]);
+    }, [currentPage,data]);
     
     const totalPages = Math.ceil((data?.length||0) / itemsPerPage);
     
@@ -78,8 +78,8 @@ const Curation = () => {
                     return <ProductCard key={product.productIdx+currentPage} product={product}/>
                 })}
             </div>
-            <Pagination className="max-w-full">
-                <PaginationContent>
+            <Pagination className="max-w-full px-2">
+                <PaginationContent className="gap-0">
                 <PaginationItem>
                     <PaginationPrevious
                         href="#"
