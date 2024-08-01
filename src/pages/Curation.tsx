@@ -16,7 +16,7 @@ const Curation = () => {
         return axios.get(`/v1/products`)
             .then(res => {
                 if (res.status === 200 && res.data.isSuccess) {
-                    console.log(res.data.result);
+                    // console.log(res.data.result);
                     return Promise.resolve(res.data.result)
                 } else {
                     throw new Error(res.data.message)
@@ -29,9 +29,7 @@ const Curation = () => {
     }
     const { data, isError, isLoading } = useQuery({ queryKey: ['productList'], queryFn: fetchProductList })
 
-    if(isLoading) return <Spinner/>
-    if(isError) return <NotFound/>
-
+    
     useEffect(() => {
         const indexOfLastItem = currentPage * itemsPerPage;
         const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -39,13 +37,38 @@ const Curation = () => {
         // console.log(currentItems);
         
     }, [currentPage]);
-
+    
     const totalPages = Math.ceil((data?.length||0) / itemsPerPage);
-
+    
     const handlePageChange = (pageNumber : number) => {
         setCurrentPage(pageNumber)
         window.scrollTo(0, 0)
     }
+    
+    const renderPaginationItems = () => {
+        const pages = [];
+        for (let i = 1; i <= totalPages; i++) {
+            if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                pages.push(
+                    <PaginationItem key={i}>
+                        <PaginationLink href="#" isActive={i === currentPage} onClick={() => handlePageChange(i)}>
+                            {i}
+                        </PaginationLink>
+                    </PaginationItem>
+                );
+            } else if (i === currentPage - 2 || i === currentPage + 2) {
+                pages.push(
+                    <PaginationItem key={i}>
+                        <PaginationEllipsis />
+                    </PaginationItem>
+                );
+            }
+        }
+        return pages;
+    };
+
+    if(isLoading) return <Spinner/>
+    if(isError) return <NotFound/>
 
     return (
         <div className="w-full mt-4 flex flex-col content-center justify-center align-middle items-center max-h-[200vsh]">
@@ -55,7 +78,7 @@ const Curation = () => {
                     return <ProductCard key={product.productIdx+currentPage} product={product}/>
                 })}
             </div>
-            <Pagination>
+            <Pagination className="max-w-full">
                 <PaginationContent>
                 <PaginationItem>
                     <PaginationPrevious
@@ -66,13 +89,7 @@ const Curation = () => {
                         onClick={() => handlePageChange(currentPage - 1)}
                     />
                 </PaginationItem>
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                    <PaginationItem key={page}>
-                        <PaginationLink href="#" isActive={page === currentPage} onClick={() => handlePageChange(page)}>
-                        {page}
-                        </PaginationLink>
-                    </PaginationItem>
-                ))}
+                {renderPaginationItems()}
                 <PaginationItem>
                     <PaginationNext
                         href="#"
