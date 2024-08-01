@@ -71,7 +71,7 @@ const Curation = () => {
     if(isError) return <NotFound/>
 
     return (
-        <div className="w-full mt-4 flex flex-col content-center justify-center align-middle items-center max-h-[200vsh]">
+        <div className="w-full mt-4 flex flex-col content-center justify-center align-middle items-center overflow-y-auto scrollbar-hide">
             <h2 className="text-xl font-bold"> Curation </h2>
             <div className="container py-5 px-2 grid grid-cols-2 gap-2">
                 {currentItems.map((product) => {
