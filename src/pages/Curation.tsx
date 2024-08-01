@@ -7,6 +7,8 @@ import { useQuery } from "@tanstack/react-query";
 import { Spinner } from "@/components/ui/spinner";
 import NotFound from "./NotFound";
 import { useProductListInfinite } from "@/api/product";
+import { Button } from "@/components/ui/button";
+import { ArrowUp } from "lucide-react";
 
 
 const Curation = () => {
@@ -53,6 +55,9 @@ const Curation = () => {
         };
     }, [data, hasNextPage, fetchNextPage]);
 
+    const scrollToTop = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
 
     if (isLoading) return <Spinner />
     if (isError) return <NotFound />
@@ -69,6 +74,12 @@ const Curation = () => {
                 
             </div>
             {hasNextPage && <div ref={nextFetchTargetRef} className="col-span-2"></div>}
+            <Button    
+                className="fixed bottom-4 right-4 px-3 py-6 rounded-full shadow-lg"
+                onClick={scrollToTop}
+            >
+                <ArrowUp/>
+            </Button>
         </div>
     );
 };
