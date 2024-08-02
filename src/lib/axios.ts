@@ -3,21 +3,21 @@ import axios from 'axios';
 const baseURL = import.meta.env.PROD ? import.meta.env.VITE_API_URL : '/api';
 
 const instance = axios.create({
-    baseURL,
-})
+	baseURL,
+});
 
 instance.interceptors.request.use(
-    (config) => {
-        const token = localStorage.getItem("token");
-        if(config.headers && token){
-            config.headers.Authorization = `Bearer ${token}`
-        }
-        return config
-    }, 
-    (error) => {
-        return Promise.reject(error)
-    }
-)
+	(config) => {
+		const token = localStorage.getItem('token');
+		if (config.headers && token) {
+			config.headers.Authorization = `Bearer ${token}`;
+		}
+		return config;
+	},
+	(error) => {
+		return Promise.reject(error);
+	},
+);
 // axios.interceptors.response.use(
 //     (res) => {
 //         return res;
