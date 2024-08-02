@@ -1,15 +1,8 @@
 import { User } from '@/lib/types';
 import axios from '@/lib/axios';
-import { atom, useAtomValue, useSetAtom } from 'jotai';
-import { atomWithDefault } from 'jotai/utils'
-import { Cookies } from "react-cookie";
+import { atom  } from 'jotai';
+import { atomWithDefault } from 'jotai/utils';
 
-const cookies = new Cookies();
-
-// interface LoginResponse {
-//     accessToken: string;
-//     refreshToken: string;
-// }
 
 const getMe = async () => {
     //get user info
@@ -73,8 +66,6 @@ export const updateAuthAtom = atom(null, async (get, set) => {
 
 
 
-
-
 export const login = async (token: string) => {
     try {
         const res = await axios.post("/v1/kakao/login", {
@@ -125,32 +116,3 @@ export const logout = async () => {
 //     })
 
 // };
-
-
-
-// axios.interceptors.response.use(
-//     (res) => {
-//         return res;
-//     },
-//     async (error) => {
-//         const { config, response } = error;
-//         //  401에러가 아니거나 재요청이거나 refresh 요청인 경우 에러 발생
-//         if (response.status !== 401 || config.sent || config.url === '/auth/refresh') {
-//             return Promise.reject(error);
-//         }
-
-//         // 아닌 경우 토큰 갱신
-//         config.sent = true; // 무한 재요청 방지
-//         getRefreshToken()
-//         .then((accessToken)=>{
-//             localStorage.setItem("token", accessToken)
-//             config.headers.Authorization = `Bearer ${accessToken}`
-//             return axios(config)
-//         }).catch((err)=>{
-//             console.log(err);
-//             logout()
-//         })
-
-//         return axios(config); // 재요청
-//     },
-// );

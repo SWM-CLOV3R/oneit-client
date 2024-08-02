@@ -5,16 +5,13 @@ import { useEffect, useRef, useState } from "react";
 import axios from '@/lib/axios';
 import { useQuery } from "@tanstack/react-query";
 import { Spinner } from "@/components/ui/spinner";
-import NotFound from "./NotFound";
-import { useProductListInfinite } from "@/api/product";
+import NotFound from "../NotFound";
+import { useProductListInfinite } from "@/hooks/useProductListInfinite";
 import { Button } from "@/components/ui/button";
 import { ArrowUp } from "lucide-react";
 
 
 const Curation = () => {
-    const [currentPage, setCurrentPage] = useState(1)
-    const [currentItems, setCurrentItems] = useState<Product[]>([]);
-    const itemsPerPage = 6;
     const { data, isLoading, isError, fetchNextPage, hasNextPage } = useProductListInfinite()
     const nextFetchTargetRef = useRef<HTMLDivElement | null>(null); // ref 객체 생성
     // console.log(fetchNextPage,hasNextPage);

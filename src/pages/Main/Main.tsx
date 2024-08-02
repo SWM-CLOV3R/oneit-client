@@ -1,5 +1,5 @@
-import Basket from "@/components/Cards/BasketCard"
-import Recommend from "@/components/Cards/RecommendCard"
+import Basket from "./components/BasketCard"
+import Recommend from "./components/RecommendCard"
 
 const Main = () => {
 
@@ -7,8 +7,8 @@ const Main = () => {
 
     return(
         <div className="flex flex-col overflow-hidden justify-center gap-5 p-1 w-full items-center">
-            <Recommend/>
             <Basket/>
+            <Recommend/>
         </div>
     )
 }

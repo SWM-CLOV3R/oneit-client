@@ -6,14 +6,14 @@ import NotFound from './pages/NotFound';
 import Footer from './components/common/Footer';
 import AuthRouter from './components/common/AuthRouter';
 
-const Main = React.lazy(() => import('./pages/Main'));
-const Quiz = React.lazy(()=> import('./pages/Quiz'))
-const Results = React.lazy(()=> import('./pages/Results'))
-const Product = React.lazy(()=> import('./pages/Product'))
-const Curation = React.lazy(()=> import('./pages/Curation'))
-const Basket = React.lazy(()=> import('./pages/Basket'))
+const Main = React.lazy(() => import('./pages/Main/Main'));
+const Quiz = React.lazy(()=> import('./pages/Recommend/Quiz'))
+const Results = React.lazy(()=> import('./pages/Recommend/Results'))
+const Product = React.lazy(()=> import('./pages/Product/Product'))
+const Curation = React.lazy(()=> import('./pages/Product/Curation'))
+const Basket = React.lazy(()=> import('./pages/Basket/Basket'))
 const About = React.lazy(()=> import('./pages/About'))
-const Recommend = React.lazy(()=> import('./pages/Recommend'))
+const Recommend = React.lazy(()=> import('./pages/Recommend/Recommend'))
 const Login = React.lazy(()=> import('./pages/Login'))
 const Auth = React.lazy(()=> import('./pages/Auth'))
 
