@@ -1,4 +1,4 @@
-import ProductCard from "@/components/Cards/ProductCard";
+import ProductCard from "./components/ProductCard";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { Product } from "@/lib/types";
 import { useEffect, useRef, useState } from "react";

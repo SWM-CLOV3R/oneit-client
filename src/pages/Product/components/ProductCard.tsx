@@ -9,7 +9,7 @@ const ProductCard = (props: ProductCardProps) => {
     const {product} = props
     return (
     <div className="rounded-lg overflow-hidden shadow-sm ">
-        <Link to={`/product/${product.productIdx}`} className="block">
+        <Link to={`/product/${product.idx}`} className="block">
             <img
                 src={product.thumbnailUrl || "https://via.placeholder.com/400"}
                 alt={product.name}
