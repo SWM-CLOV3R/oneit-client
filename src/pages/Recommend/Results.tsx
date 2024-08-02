@@ -15,8 +15,8 @@ import Share from '@/components/common/Share';
 import KakaoShare from '@/components/common/KakaoShare';
 
 
-const GiftCard = React.lazy(() => import('@/components/Cards/GiftCard'))
-const NotFound = React.lazy(() => import('./NotFound'))
+const GiftCard = React.lazy(() => import('./components/GiftCard'))
+const NotFound = React.lazy(() => import('../NotFound'))
 
 const Results = () => {
     const [showModal, setShowModal] = useState(false)

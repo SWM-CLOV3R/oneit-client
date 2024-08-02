@@ -8,7 +8,7 @@ import KakaoShare from "@/components/common/KakaoShare";
 import { ChevronLeft, Heart, Star, StarIcon } from "lucide-react";
 import Share from "@/components/common/Share";
 import { Spinner } from "@/components/ui/spinner";
-import NotFound from "./NotFound";
+import NotFound from "../NotFound";
 import { Separator } from "@/components/ui/separator";
 
 const Product = () => {
