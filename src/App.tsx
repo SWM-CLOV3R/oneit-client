@@ -5,6 +5,7 @@ import Header from './components/common/Header';
 import NotFound from './pages/NotFound';
 import Footer from './components/common/Footer';
 import AuthRouter from './components/common/AuthRouter';
+import Navbar from '@/components/common/Navbar';
 
 const Main = React.lazy(() => import('./pages/Main/Main'));
 const Quiz = React.lazy(() => import('./pages/Recommend/Quiz'));
@@ -93,7 +94,7 @@ function App() {
                         </Suspense>
                     </div>
                 </main>
-                <Footer />
+                <Navbar />
             </div>
         </div>
     );
