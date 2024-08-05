@@ -7,4 +7,6 @@ export const basketDescription = atom('');
 basketDescription.debugLabel = 'basketDescription';
 export const basketDeadline = atom<null | Date>(null);
 basketDeadline.debugLabel = 'basketDeadline';
-export const thumbnail = atom('https://via.placeholder.com/200?text=Thumbnail');
+export const thumbnail = atom<null | File>(null);
+thumbnail.debugLabel = 'thumbnail';
+export const imageUrl = atom('');
