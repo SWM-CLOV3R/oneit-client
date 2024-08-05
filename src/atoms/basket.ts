@@ -5,5 +5,5 @@ export const basketName = atom('');
 basketName.debugLabel = 'basketName';
 export const basketDescription = atom('');
 basketDescription.debugLabel = 'basketDescription';
-export const basketDeadline = atom(new Date());
+export const basketDeadline = atom<null | Date>(null);
 basketDeadline.debugLabel = 'basketDeadline';
