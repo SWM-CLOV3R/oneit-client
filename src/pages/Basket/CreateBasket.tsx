@@ -1,6 +1,6 @@
 import {Input} from '@/components/ui/input';
 import {Label} from '@/components/ui/label';
-import {useAtom} from 'jotai';
+import {useAtom, useSetAtom} from 'jotai';
 import {ChangeEvent, useRef, useState} from 'react';
 import {
     basketName,
@@ -8,6 +8,7 @@ import {
     basketDeadline,
     thumbnail,
     imageUrl,
+    accessStatus,
 } from '@/atoms/basket';
 import {Button} from '@/components/ui/button';
 import {Calendar} from '@/components/ui/calendar';
@@ -25,6 +26,8 @@ import {z} from 'zod';
 import {Textarea} from '@/components/ui/textarea';
 import {Avatar, AvatarFallback, AvatarImage} from '@/components/ui/avatar';
 import {User2Icon} from 'lucide-react';
+import {createBasket} from '@/api/basket';
+import {RadioGroup, RadioGroupItem} from '@/components/ui/radio-group';
 
 interface TitleInputProps {
     setCurrentStep: (step: string) => void;
@@ -35,18 +38,22 @@ const TitleInput = ({setCurrentStep}: TitleInputProps) => {
     const [description, setDescription] = useAtom(basketDescription);
     const [imageURL, setImageURL] = useAtom(imageUrl);
     const [image, setImage] = useAtom(thumbnail);
+    const [access, setAccess] = useAtom(accessStatus);
+
     const formSchema = z.object({
         title: z.string().min(2, {
             message: '바구니 이름은 2자 이상이어야합니다.',
         }),
         description: z.string().optional(),
         image: z.instanceof(File).optional(),
+        access: z.enum(['PUBLIC', 'PRIVATE']),
     });
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             title,
             description,
+            access,
         },
     });
 
@@ -61,6 +68,7 @@ const TitleInput = ({setCurrentStep}: TitleInputProps) => {
         setDescription(values.description || '');
         values.description;
         setCurrentStep('deadline');
+        setAccess(values.access);
         setImage(values.image || null);
     };
 
@@ -101,6 +109,36 @@ const TitleInput = ({setCurrentStep}: TitleInputProps) => {
                             <User2Icon className="w-16 h-16" />
                         </AvatarFallback>
                     </Avatar>
+                    <FormField
+                        control={form.control}
+                        name="access"
+                        render={({field}) => (
+                            <FormItem>
+                                <FormLabel>바구니 공개 여부</FormLabel>
+                                <FormMessage />
+                                <RadioGroup
+                                    className="flex gap-2"
+                                    onChange={field.onChange}
+                                    defaultValue={field.value}
+                                >
+                                    <div>
+                                        <Label htmlFor="public">공개</Label>
+                                        <RadioGroupItem
+                                            id="public"
+                                            value="PUBLIC"
+                                        />
+                                    </div>
+                                    <div>
+                                        <Label htmlFor="private">비공개</Label>
+                                        <RadioGroupItem
+                                            id="private"
+                                            value="PRIVATE"
+                                        />
+                                    </div>
+                                </RadioGroup>
+                            </FormItem>
+                        )}
+                    />
                     <FormField
                         control={form.control}
                         name="image"
@@ -164,6 +202,7 @@ interface DeadlineInputProps {
 
 const DeadlineInput = ({setCurrentStep}: DeadlineInputProps) => {
     const [deadline, setDeadline] = useAtom(basketDeadline);
+    const makeBasket = useSetAtom(createBasket);
     const formSchema = z.object({
         deadline: z.date({
             required_error: '날짜를 선택해주세요.',
@@ -176,9 +215,10 @@ const DeadlineInput = ({setCurrentStep}: DeadlineInputProps) => {
         // },
     });
 
-    const onSubmit = (values: z.infer<typeof formSchema>) => {
+    const onSubmit = async (values: z.infer<typeof formSchema>) => {
         console.log(values);
         setDeadline(values.deadline);
+        await makeBasket();
     };
 
     return (
