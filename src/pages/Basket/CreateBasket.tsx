@@ -7,6 +7,7 @@ import {
     basketDescription,
     basketDeadline,
     thumbnail,
+    imageUrl,
 } from '@/atoms/basket';
 import {Button} from '@/components/ui/button';
 import {Calendar} from '@/components/ui/calendar';
@@ -32,13 +33,14 @@ interface TitleInputProps {
 const TitleInput = ({setCurrentStep}: TitleInputProps) => {
     const [title, setTitle] = useAtom(basketName);
     const [description, setDescription] = useAtom(basketDescription);
-    const [imageURL, setImageURL] = useAtom(thumbnail);
+    const [imageURL, setImageURL] = useAtom(imageUrl);
+    const [image, setImage] = useAtom(thumbnail);
     const formSchema = z.object({
         title: z.string().min(2, {
             message: '바구니 이름은 2자 이상이어야합니다.',
         }),
-        description: z.string(),
-        image: z.instanceof(FileList).optional(),
+        description: z.string().optional(),
+        image: z.instanceof(File).optional(),
     });
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -53,10 +55,13 @@ const TitleInput = ({setCurrentStep}: TitleInputProps) => {
 
     const onSubmit = (values: z.infer<typeof formSchema>) => {
         console.log(values);
+        console.log(imageURL);
+
         setTitle(values.title);
-        setDescription(values.description);
+        setDescription(values.description || '');
         values.description;
         setCurrentStep('deadline');
+        setImage(values.image || null);
     };
 
     const handleAvatarClick = () => {
@@ -112,7 +117,11 @@ const TitleInput = ({setCurrentStep}: TitleInputProps) => {
                                                 );
 
                                             setImageURL(displayUrl);
-                                            fileRef.onChange(event);
+                                            console.log(event);
+                                            const file = event.target.files![0];
+                                            console.log(file);
+
+                                            field.onChange(file);
                                         }}
                                         type="file"
                                         accept="image/*"
