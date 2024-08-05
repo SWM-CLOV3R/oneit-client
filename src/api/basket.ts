@@ -19,7 +19,7 @@ export const createBasket = atom(null, async (get, set) => {
     let payload = new FormData();
     payload.append('request', JSON.stringify(data));
     payload.append('image', get(thumbnail) as File);
-    axios
+    return axios
         .post('/v1/giftbox', payload, {
             headers: {
                 'Content-Type': 'multipart/form-data',
@@ -28,8 +28,12 @@ export const createBasket = atom(null, async (get, set) => {
         })
         .then((res) => {
             console.log(res);
+            if (res.status === 200 && res.data.isSuccess) {
+                return Promise.resolve(res.data.result);
+            }
         })
         .catch((err) => {
             console.log(err);
+            return Promise.reject(err);
         });
 });

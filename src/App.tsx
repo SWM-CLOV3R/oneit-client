@@ -58,6 +58,10 @@ function App() {
                                         path="/basket/create"
                                         element={<CreateBasket />}
                                     />
+                                    <Route
+                                        path="/basket/:basketID"
+                                        element={<Basket />}
+                                    />
                                     <Route path="/about" element={<About />} />
                                     <Route
                                         path="/login"
