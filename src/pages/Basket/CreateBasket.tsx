@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/form';
 import {useForm} from 'react-hook-form';
 import {z} from 'zod';
+import {Textarea} from '@/components/ui/textarea';
 
 interface TitleInputProps {
     setCurrentStep: (step: string) => void;
@@ -41,7 +42,7 @@ const TitleInput = ({setCurrentStep}: TitleInputProps) => {
     const onSubmit = (values: z.infer<typeof formSchema>) => {
         console.log(values);
         setTitle(values.title);
-        setDescription;
+        setDescription(values.description);
         values.description;
         setCurrentStep('deadline');
     };
@@ -78,8 +79,9 @@ const TitleInput = ({setCurrentStep}: TitleInputProps) => {
                             </FormLabel>
                             <FormMessage />
                             <FormControl>
-                                <Input
-                                    {...field}
+                                <Textarea
+                                    value={field.value}
+                                    onChange={field.onChange}
                                     placeholder="선물의 목적이나 바구니에 담을 선물을 설명해주세요"
                                 />
                             </FormControl>
@@ -130,7 +132,6 @@ const DeadlineInput = ({setCurrentStep}: DeadlineInputProps) => {
                             <FormLabel>
                                 언제까지 선물을 골라야 하나요?
                             </FormLabel>
-                            <FormMessage />
                             <FormControl>
                                 <Calendar
                                     mode="single"
@@ -138,6 +139,7 @@ const DeadlineInput = ({setCurrentStep}: DeadlineInputProps) => {
                                     onSelect={field.onChange}
                                 />
                             </FormControl>
+                            <FormMessage />
                         </FormItem>
                     )}
                 ></FormField>
