@@ -14,10 +14,10 @@ const BasketCard = ({basket}: {basket: Basket}) => {
                     className="relative z-[-10] w-full object-cover hover:opacity-80 transition-opacity"
                 />
                 <div className="p-4">
-                    <h3 className="max-w-full  text-sm font-semibold mb-2 overflow-hidden whitespace-nowrap  overflow-ellipsis">
+                    <h3 className="max-w-full  text-lg font-semibold mb-2 overflow-hidden whitespace-nowrap  overflow-ellipsis">
                         {basket.name}
                     </h3>
-                    <span>{basket.description}</span>
+                    <span className="text-sm">{basket.description}</span>
                     <div className="flex items-center justify-end">
                         <span className="text-sm text-gray-500">
                             <CalendarCheck className="inline-block mr-1" />

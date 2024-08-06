@@ -47,3 +47,13 @@ export const fetchBasketInfo = async (basketID: string) => {
         }
     });
 };
+
+export const fetchBasketList = async () => {
+    return axios.get('/v1/giftbox').then((res) => {
+        if (res.status === 200 && res.data.isSuccess) {
+            return Promise.resolve(res.data.result);
+        } else {
+            throw new Error(res.data.message);
+        }
+    });
+};
