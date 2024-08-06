@@ -1,4 +1,4 @@
-import {fetchBasketInfo} from '@/api/basket';
+import {editBasket, fetchBasketInfo} from '@/api/basket';
 import {Button} from '@/components/ui/button';
 import {
     Dialog,
@@ -35,17 +35,8 @@ import {Popover, PopoverContent, PopoverTrigger} from '@/components/ui/popover';
 import {Calendar} from '@/components/ui/calendar';
 import {cn} from '@/lib/utils';
 import {format} from 'date-fns';
-import {useAtom} from 'jotai';
-import {
-    accessStatus,
-    basketDeadline,
-    basketDescription,
-    basketName,
-    imageUrl,
-    thumbnail,
-} from '@/atoms/basket';
 import {Spinner} from '@/components/ui/spinner';
-import {Separator} from '@/components/ui/separator';
+import {Basket} from '@/lib/types';
 
 const EditBasket = () => {
     const {basketID} = useParams();
@@ -56,12 +47,14 @@ const EditBasket = () => {
         queryFn: () => fetchBasketInfo(basketID || ''),
     });
 
-    const [title, setTitle] = useAtom(basketName);
-    const [description, setDescription] = useAtom(basketDescription);
-    const [imageURL, setImageURL] = useAtom(imageUrl);
-    const [image, setImage] = useAtom(thumbnail);
-    const [access, setAccess] = useAtom(accessStatus);
-    const [deadline, setDeadline] = useAtom(basketDeadline);
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [access, setAccess] = useState<'PUBLIC' | 'PRIVATE' | undefined>(
+        'PUBLIC',
+    );
+    const [deadline, setDeadline] = useState<Date>(new Date());
+    const [imageURL, setImageURL] = useState('https://via.placeholder.com/200');
+    const [image, setImage] = useState<File | null>(null);
 
     const formSchema = z.object({
         title: z
@@ -74,9 +67,11 @@ const EditBasket = () => {
             }),
         description: z.string().optional(),
         image: z.instanceof(File).optional(),
-        access: z.enum(['PUBLIC', 'PRIVATE']),
+        access: z.enum(['PUBLIC', 'PRIVATE'], {
+            required_error: '공개 여부를 선택해주세요',
+        }),
         deadline: z.date({
-            required_error: '날짜를 선택해주세요.',
+            required_error: '마감일을 선택해주세요',
         }),
     });
     const form = useForm<z.infer<typeof formSchema>>({
@@ -85,6 +80,7 @@ const EditBasket = () => {
             title,
             description,
             access,
+            deadline: new Date(),
         },
         mode: 'all',
     });
@@ -99,22 +95,23 @@ const EditBasket = () => {
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         console.log(values);
-        console.log(imageURL);
 
         setTitle(values.title);
         setDescription(values.description || '');
-        values.description;
         setAccess(values.access);
         setImage(values.image || null);
-        console.log(values);
         setDeadline(values.deadline);
+        const basket: Basket = {
+            name: values.title,
+            description: values.description || '',
+            accessStatus: values.access || 'PUBLIC',
+            deadline: values.deadline,
+            idx: 0,
+        };
+
         try {
-            // const id: number = await makeBasket();
-            // if (id) {
-            //     navigate(`/basket/${id}`);
-            // } else {
-            //     throw new Error('바구니 생성에 실패했습니다.');
-            // }
+            await editBasket(basketID || '', basket, values.image || null);
+            navigate(`/basket/${basketID}`);
         } catch (e) {
             console.log(e);
             setError(true);
@@ -130,17 +127,16 @@ const EditBasket = () => {
     useEffect(() => {
         if (data) {
             console.log(data);
-
             setTitle(data.name || '');
             setDescription(data.description || '');
-            setAccess(data.access || 'PUBLIC');
-            setDeadline(data.deadline || null);
+            setAccess(data.accessStatus || 'PUBLIC');
+            setDeadline(new Date(data.deadline) || null);
             setImageURL(data.imageUrl || 'https://via.placeholder.com/200');
             reset({
                 title: data.name || '',
                 description: data.description || '',
-                access: data.access || 'PUBLIC',
-                deadline: data.deadline || null,
+                access: data.accessStatus || 'PUBLIC',
+                deadline: new Date(data.deadline) || new Date(),
             });
         }
     }, [data, reset]);
@@ -178,131 +174,26 @@ const EditBasket = () => {
                         onSubmit={form.handleSubmit(onSubmit)}
                         className="flex flex-col gap-2"
                     >
-                        <>
-                            <div className="flex flex-col gap-2">
-                                <div className="flex justify-start">
-                                    <FormField
-                                        control={form.control}
-                                        name="title"
-                                        render={({field}) => (
-                                            <FormItem className="flex">
-                                                <FormLabel className="flex">
-                                                    이름
-                                                </FormLabel>
-                                                <FormMessage />
-                                                <FormControl>
-                                                    <Input
-                                                        {...field}
-                                                        placeholder="ex) 00의 생일 선물 바구니"
-                                                    />
-                                                </FormControl>
-                                            </FormItem>
-                                        )}
-                                    />
-                                    <FormField
-                                        control={form.control}
-                                        name="image"
-                                        render={({field}) => (
-                                            <FormItem>
-                                                <FormControl>
-                                                    <Input
-                                                        {...fileRef}
-                                                        ref={fileInputRef}
-                                                        onChange={(event) => {
-                                                            const displayUrl: string =
-                                                                URL.createObjectURL(
-                                                                    event.target
-                                                                        .files![0],
-                                                                );
-
-                                                            setImageURL(
-                                                                displayUrl,
-                                                            );
-                                                            console.log(event);
-                                                            const file =
-                                                                event.target
-                                                                    .files![0];
-                                                            console.log(file);
-
-                                                            field.onChange(
-                                                                file,
-                                                            );
-                                                        }}
-                                                        type="file"
-                                                        accept="image/*"
-                                                        style={{
-                                                            display: 'none',
-                                                        }}
-                                                    />
-                                                </FormControl>
-                                            </FormItem>
-                                        )}
-                                    />
-                                    <FormField
-                                        control={form.control}
-                                        name="access"
-                                        render={({field}) => (
-                                            <FormItem>
-                                                <FormMessage />
-                                                <ToggleGroup
-                                                    type="single"
-                                                    className="flex gap-2"
-                                                    onChange={field.onChange}
-                                                    defaultValue={field.value}
-                                                >
-                                                    <ToggleGroupItem
-                                                        value="PUBLIC"
-                                                        size="sm"
-                                                    >
-                                                        <LockKeyholeOpen />
-                                                    </ToggleGroupItem>
-                                                    <ToggleGroupItem
-                                                        value="PRIVATE"
-                                                        size="sm"
-                                                    >
-                                                        <LockKeyhole />
-                                                    </ToggleGroupItem>
-                                                </ToggleGroup>
-                                            </FormItem>
-                                        )}
-                                    />
-                                </div>
+                        <div className="flex flex-col gap-2">
+                            <div className="flex justify-start">
                                 <FormField
                                     control={form.control}
-                                    name="deadline"
+                                    name="title"
                                     render={({field}) => (
-                                        <Popover>
-                                            <PopoverTrigger asChild>
-                                                <Button
-                                                    variant={'outline'}
-                                                    className={cn(
-                                                        'w-[280px] justify-start text-left font-normal',
-                                                        !deadline &&
-                                                            'text-muted-foreground',
-                                                    )}
-                                                >
-                                                    <CalendarIcon className="mr-2 h-4 w-4" />
-                                                    {deadline ? (
-                                                        format(deadline, 'PPP')
-                                                    ) : (
-                                                        <span>
-                                                            마감일을 골라주세요
-                                                        </span>
-                                                    )}
-                                                </Button>
-                                            </PopoverTrigger>
-                                            <PopoverContent className="w-auto p-0">
-                                                <Calendar
-                                                    mode="single"
-                                                    selected={field.value}
-                                                    onSelect={field.onChange}
-                                                    initialFocus
+                                        <FormItem className="flex">
+                                            <FormLabel className="flex">
+                                                이름
+                                            </FormLabel>
+                                            <FormMessage />
+                                            <FormControl>
+                                                <Input
+                                                    {...field}
+                                                    placeholder="ex) 00의 생일 선물 바구니"
                                                 />
-                                            </PopoverContent>
-                                        </Popover>
+                                            </FormControl>
+                                        </FormItem>
                                     )}
                                 />
-
                                 <FormField
                                     control={form.control}
                                     name="image"
@@ -338,30 +229,139 @@ const EditBasket = () => {
                                         </FormItem>
                                     )}
                                 />
+                                <FormField
+                                    control={form.control}
+                                    name="access"
+                                    render={({field}) => (
+                                        <FormItem>
+                                            <FormMessage />
+                                            <ToggleGroup
+                                                type="single"
+                                                className="flex gap-2"
+                                                onValueChange={(value) => {
+                                                    if (
+                                                        value === 'PUBLIC' ||
+                                                        value === 'PRIVATE'
+                                                    ) {
+                                                        field.onChange(value);
+                                                    } else {
+                                                        field.onChange;
+                                                        field.value;
+                                                    }
+                                                }}
+                                                value={field.value}
+                                            >
+                                                <ToggleGroupItem
+                                                    value="PUBLIC"
+                                                    size="sm"
+                                                >
+                                                    <LockKeyholeOpen />
+                                                </ToggleGroupItem>
+                                                <ToggleGroupItem
+                                                    value="PRIVATE"
+                                                    size="sm"
+                                                >
+                                                    <LockKeyhole />
+                                                </ToggleGroupItem>
+                                            </ToggleGroup>
+                                        </FormItem>
+                                    )}
+                                />
                             </div>
                             <FormField
                                 control={form.control}
-                                name="description"
+                                name="deadline"
+                                render={({field}) => (
+                                    <Popover>
+                                        <PopoverTrigger asChild>
+                                            <Button
+                                                variant={'outline'}
+                                                className={cn(
+                                                    'w-[280px] justify-start text-left font-normal',
+                                                    !field.value &&
+                                                        'text-muted-foreground',
+                                                )}
+                                            >
+                                                {/* <FormMessage /> */}
+                                                <CalendarIcon className="mr-2 h-4 w-4" />
+                                                {field.value ? (
+                                                    format(field.value, 'PPP')
+                                                ) : (
+                                                    <span>
+                                                        마감일을 골라주세요
+                                                    </span>
+                                                )}
+                                            </Button>
+                                        </PopoverTrigger>
+                                        <PopoverContent className="w-auto p-0">
+                                            <Calendar
+                                                mode="single"
+                                                selected={field.value}
+                                                onSelect={field.onChange}
+                                                initialFocus
+                                            />
+                                        </PopoverContent>
+                                    </Popover>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="image"
                                 render={({field}) => (
                                     <FormItem>
-                                        <FormLabel>
-                                            바구니 설명 <span>(선택)</span>
-                                        </FormLabel>
-                                        <FormMessage />
                                         <FormControl>
-                                            <Textarea
-                                                value={field.value}
-                                                onChange={field.onChange}
-                                                placeholder="선물의 목적이나 바구니에 담을 선물을 설명해주세요"
+                                            <Input
+                                                {...fileRef}
+                                                ref={fileInputRef}
+                                                onChange={(event) => {
+                                                    const displayUrl: string =
+                                                        URL.createObjectURL(
+                                                            event.target
+                                                                .files![0],
+                                                        );
+
+                                                    setImageURL(displayUrl);
+                                                    console.log(event);
+                                                    const file =
+                                                        event.target.files![0];
+                                                    console.log(file);
+
+                                                    field.onChange(file);
+                                                }}
+                                                type="file"
+                                                accept="image/*"
+                                                style={{
+                                                    display: 'none',
+                                                }}
                                             />
                                         </FormControl>
                                     </FormItem>
                                 )}
                             />
-                            <div className="flex justify-end">
-                                <Button type="submit">수정하기</Button>
-                            </div>
-                        </>
+                        </div>
+                        <FormField
+                            control={form.control}
+                            name="description"
+                            render={({field}) => (
+                                <FormItem>
+                                    <FormLabel>
+                                        바구니 설명 <span>(선택)</span>
+                                    </FormLabel>
+                                    <FormMessage />
+                                    <FormControl>
+                                        <Textarea
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                            placeholder="선물의 목적이나 바구니에 담을 선물을 설명해주세요"
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+                        <div className="flex justify-end">
+                            <Button type="submit">수정하기</Button>
+                        </div>
                     </form>
                 </Form>
             </div>

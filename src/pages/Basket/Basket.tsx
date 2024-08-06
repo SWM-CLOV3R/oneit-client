@@ -85,7 +85,7 @@ const Basket = () => {
                                 url={`https://oneit.gift/basket/${data?.idx}`}
                             />
                         ) : (
-                            <Button variant="ghost" size="icon">
+                            <Button variant="ghost" size="icon" disabled>
                                 <LockKeyhole />
                             </Button>
                         )}
