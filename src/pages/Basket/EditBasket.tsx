@@ -174,13 +174,13 @@ const EditBasket = () => {
                         onSubmit={form.handleSubmit(onSubmit)}
                         className="flex flex-col gap-2"
                     >
-                        <div className="flex flex-col gap-2">
-                            <div className="flex justify-start">
+                        <div className="flex flex-col gap-2 mt-2">
+                            <div className="flex justify-between">
                                 <FormField
                                     control={form.control}
                                     name="title"
                                     render={({field}) => (
-                                        <FormItem className="flex">
+                                        <FormItem className="flex flex-col">
                                             <FormLabel className="flex">
                                                 이름
                                             </FormLabel>
