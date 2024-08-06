@@ -7,11 +7,21 @@ import {Button} from '@/components/ui/button';
 import {
     CalendarCheck,
     ChevronLeft,
+    Edit,
     Heart,
     LockKeyhole,
     Settings,
+    Trash,
 } from 'lucide-react';
 import Share from '@/components/common/Share';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 const Basket = () => {
     const {basketID} = useParams();
@@ -25,6 +35,7 @@ const Basket = () => {
     const handleGoBack = () => {
         navigate(-1);
     };
+    const handleDelete = () => {};
 
     if (isLoading) return <Spinner />;
     if (isError) return <NotFound />;
@@ -56,9 +67,30 @@ const Basket = () => {
                             <LockKeyhole />
                         </Button>
                     )}
-                    <Button variant="ghost" size="icon">
-                        <Settings />
-                    </Button>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="icon">
+                                <Settings />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent
+                            className="w-30"
+                            side="bottom"
+                            align="end"
+                        >
+                            <DropdownMenuLabel>바구니 설정</DropdownMenuLabel>
+                            <DropdownMenuGroup>
+                                <DropdownMenuItem>
+                                    <Edit />
+                                    <span>수정하기</span>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onSelect={handleDelete}>
+                                    <Trash />
+                                    <span>삭제하기</span>
+                                </DropdownMenuItem>
+                            </DropdownMenuGroup>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                 </div>
             </div>
 
