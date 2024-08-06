@@ -20,7 +20,7 @@ const Basket = () => {
         queryKey: ['basket', basketID],
         queryFn: () => fetchBasketInfo(basketID || ''),
     });
-    console.log(data.deadline.toString().split('T')[0]);
+    console.log(data);
 
     const handleGoBack = () => {
         navigate(-1);
