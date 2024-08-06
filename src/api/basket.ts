@@ -6,6 +6,7 @@ import {
     thumbnail,
 } from '@/atoms/basket';
 import axios from '@/lib/axios';
+import {Basket} from '@/lib/types';
 import {atom} from 'jotai';
 
 export const createBasket = atom(null, async (get, set) => {
@@ -72,4 +73,36 @@ export const deleteBasket = async (basketID: string) => {
             throw new Error(res.data.message);
         }
     });
+};
+
+export const editBasket = async (
+    basketID: string,
+    basket: Basket,
+    thumbnail: File | null,
+) => {
+    const data = {
+        name: basket.name,
+        description: basket.description,
+        deadline: basket.deadline,
+        createdUserIdx: 108,
+        accessStatus: basket.accessStatus,
+    };
+
+    let payload = new FormData();
+    payload.append('request', JSON.stringify(data));
+    payload.append('image', thumbnail as File);
+    return axios
+        .put(`/v1/giftbox/${basketID}`, basket, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+            transformRequest: [() => payload],
+        })
+        .then((res) => {
+            if (res.status === 200 && res.data.isSuccess) {
+                return Promise.resolve(res.data.result);
+            } else {
+                throw new Error(res.data.message);
+            }
+        });
 };
