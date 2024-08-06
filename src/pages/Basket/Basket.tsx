@@ -39,7 +39,7 @@ const Basket = () => {
         queryKey: ['basket', basketID],
         queryFn: () => fetchBasketInfo(basketID || ''),
     });
-    console.log(data);
+    // console.log(data);
 
     const handleGoBack = () => {
         navigate(-1);
@@ -52,6 +52,10 @@ const Basket = () => {
             console.error(error);
             setError(true);
         }
+    };
+
+    const handleEdit = () => {
+        navigate(`/basket/edit/${basketID}`);
     };
 
     if (isLoading) return <Spinner />;
@@ -100,7 +104,7 @@ const Basket = () => {
                                     바구니 설정
                                 </DropdownMenuLabel>
                                 <DropdownMenuGroup>
-                                    <DropdownMenuItem>
+                                    <DropdownMenuItem onSelect={handleEdit}>
                                         <Edit />
                                         <span>수정하기</span>
                                     </DropdownMenuItem>
