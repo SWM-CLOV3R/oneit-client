@@ -1,4 +1,5 @@
 import {
+    accessStatus,
     basketDeadline,
     basketDescription,
     basketName,
@@ -13,12 +14,17 @@ export const createBasket = atom(null, async (get, set) => {
         description: get(basketDescription),
         deadline: get(basketDeadline),
         createdUserIdx: 108,
-        accessStatus: 'PUBLIC',
+        accessStatus: get(accessStatus),
     };
 
     let payload = new FormData();
     payload.append('request', JSON.stringify(data));
     payload.append('image', get(thumbnail) as File);
+    set(basketName, '');
+    set(basketDescription, '');
+    set(basketDeadline, null);
+    set(thumbnail, null);
+    set(accessStatus, 'PUBLIC');
     return axios
         .post('/v1/giftbox', payload, {
             headers: {
