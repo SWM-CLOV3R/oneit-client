@@ -18,6 +18,7 @@ accessStatus.debugLabel = 'accessStatus';
 //select product
 export const selectedProduct = atom<Product[]>([] as Product[]);
 selectedProduct.debugLabel = 'selectedProduct';
+export const selctedProductCount = atom((get) => get(selectedProduct).length);
 export const selectProduct = atom(null, (get, set, product: Product) => {
     const selected = get(selectedProduct);
     if (selected.find((p) => p.idx === product.idx)) {
@@ -28,4 +29,7 @@ export const selectProduct = atom(null, (get, set, product: Product) => {
     } else {
         set(selectedProduct, [...selected, product]);
     }
+});
+export const emptySelected = atom(null, (get, set) => {
+    set(selectedProduct, []);
 });
