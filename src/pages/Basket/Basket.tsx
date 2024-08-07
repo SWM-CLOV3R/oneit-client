@@ -30,6 +30,7 @@ import {
     DialogTitle,
 } from '@/components/ui/dialog';
 import {useState} from 'react';
+import {Separator} from '@/components/ui/separator';
 
 const Basket = () => {
     const {basketID} = useParams();
@@ -143,6 +144,10 @@ const Basket = () => {
                         </span>
                     </div>
                 </div>
+
+                <Separator my-2 />
+
+                <div className="flex"></div>
             </div>
             {error && (
                 <Dialog open={error} onOpenChange={setError}>
