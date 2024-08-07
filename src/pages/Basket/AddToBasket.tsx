@@ -4,7 +4,7 @@ import {Spinner} from '@/components/ui/spinner';
 import NotFound from '../NotFound';
 import {useProductListInfinite} from '@/hooks/useProductListInfinite';
 import {Button} from '@/components/ui/button';
-import {ArrowUp, CircleX, PlusCircle} from 'lucide-react';
+import {ArrowUp, ChevronLeft, CircleX, PlusCircle} from 'lucide-react';
 import AddProductCard from './components/AddProductCard';
 import {emptySelected, selctedProductCount} from '@/atoms/basket';
 import {useAtomValue, useSetAtom} from 'jotai';
@@ -14,6 +14,7 @@ import {
     DrawerHeader,
     DrawerTrigger,
 } from '@/components/ui/drawer';
+import {useNavigate, useParams} from 'react-router-dom';
 
 const AddToBasket = () => {
     const {data, isLoading, isError, fetchNextPage, hasNextPage} =
@@ -22,14 +23,8 @@ const AddToBasket = () => {
     // console.log(fetchNextPage,hasNextPage);
     const selectedCount = useAtomValue(selctedProductCount);
     const emptyAll = useSetAtom(emptySelected);
-    // console.log(selectedCount);
-    const drawerTriggerRef = useRef<HTMLButtonElement>(null);
-
-    useEffect(() => {
-        if (selectedCount > 0) {
-            drawerTriggerRef.current?.click();
-        }
-    }, [selectedCount]);
+    const {basketID} = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
         // console.log('useEffect');
@@ -73,12 +68,26 @@ const AddToBasket = () => {
         window.scrollTo({top: 0, behavior: 'smooth'});
     };
 
+    const handleGoBack = () => {
+        navigate('/basket/' + basketID);
+    };
+
     if (isLoading) return <Spinner />;
     if (isError) return <NotFound />;
 
     return (
         <div className="w-full mt-4 flex flex-col content-center justify-center align-middle items-center overflow-y-auto scrollbar-hide">
-            <h2 className="text-xl font-bold"> 선물 추가하기 </h2>
+            <div className="flex py-3 flex-wrap items-center justify-start">
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    className=""
+                    onClick={handleGoBack}
+                >
+                    <ChevronLeft className="" />
+                </Button>
+                <h1 className="text-lg font-bold">상품 추가하기 </h1>
+            </div>
             <div className="container py-5 px-2 grid grid-cols-2 gap-2">
                 {data?.pages.map((page, pageIndex) =>
                     page.map((product: Product, productIndex: number) => (

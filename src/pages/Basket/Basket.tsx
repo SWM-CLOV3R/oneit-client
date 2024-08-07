@@ -147,7 +147,15 @@ const Basket = () => {
 
                 <Separator my-2 />
 
-                <div className="flex"></div>
+                <div className="flex justify-center mt-2">
+                    <Button
+                        onClick={(e) => {
+                            navigate(`/basket/add/${basketID}`);
+                        }}
+                    >
+                        상품 추가
+                    </Button>
+                </div>
             </div>
             {error && (
                 <Dialog open={error} onOpenChange={setError}>
