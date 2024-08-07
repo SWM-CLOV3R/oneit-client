@@ -4,14 +4,32 @@ import {Spinner} from '@/components/ui/spinner';
 import NotFound from '../NotFound';
 import {useProductListInfinite} from '@/hooks/useProductListInfinite';
 import {Button} from '@/components/ui/button';
-import {ArrowUp} from 'lucide-react';
+import {ArrowUp, CircleX, PlusCircle} from 'lucide-react';
 import AddProductCard from './components/AddProductCard';
+import {emptySelected, selctedProductCount} from '@/atoms/basket';
+import {useAtomValue, useSetAtom} from 'jotai';
+import {
+    Drawer,
+    DrawerContent,
+    DrawerHeader,
+    DrawerTrigger,
+} from '@/components/ui/drawer';
 
 const AddToBasket = () => {
     const {data, isLoading, isError, fetchNextPage, hasNextPage} =
         useProductListInfinite();
     const nextFetchTargetRef = useRef<HTMLDivElement | null>(null); // ref 객체 생성
     // console.log(fetchNextPage,hasNextPage);
+    const selectedCount = useAtomValue(selctedProductCount);
+    const emptyAll = useSetAtom(emptySelected);
+    // console.log(selectedCount);
+    const drawerTriggerRef = useRef<HTMLButtonElement>(null);
+
+    useEffect(() => {
+        if (selectedCount > 0) {
+            drawerTriggerRef.current?.click();
+        }
+    }, [selectedCount]);
 
     useEffect(() => {
         // console.log('useEffect');
@@ -80,6 +98,23 @@ const AddToBasket = () => {
             >
                 <ArrowUp />
             </Button>
+            {selectedCount > 0 && (
+                <nav className="fixed bottom-16  w-full bg-white shadow-md flex justify-center max-w-sm gap-2 rounded-lg">
+                    <Button
+                        variant="ghost"
+                        className="w-full flex flex-col items-center gap-1 text-muted-foreground hover:text-foreground"
+                    >
+                        <span className="text-xs">추가하기</span>
+                    </Button>
+                    <Button
+                        variant="ghost"
+                        onClick={emptyAll}
+                        className="w-full flex flex-col items-center gap-1 text-muted-foreground hover:text-foreground"
+                    >
+                        <span className="text-xs">선택 해제</span>
+                    </Button>
+                </nav>
+            )}
         </div>
     );
 };
