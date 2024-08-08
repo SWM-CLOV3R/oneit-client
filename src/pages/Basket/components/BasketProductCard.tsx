@@ -1,16 +1,18 @@
 import {AspectRatio} from '@/components/ui/aspect-ratio';
 import {Product} from '@/lib/types';
-import {Link} from 'react-router-dom';
 
 interface ProductCardProps {
     product: Product;
 }
 
-const ProductCard = (props: ProductCardProps) => {
+const BasketProductCard = (props: ProductCardProps) => {
     const {product} = props;
     return (
-        <div className="rounded-lg overflow-hidden shadow-sm ">
-            <Link to={`/product/${product.idx}`} className="block">
+        <div
+            key={product.idx}
+            className="rounded-lg overflow-hidden shadow-sm "
+        >
+            <a href={`/product/${product.idx}`} className="block">
                 <div className="w-full items-center">
                     <AspectRatio ratio={1 / 1} className="justify-center flex">
                         <img
@@ -33,9 +35,9 @@ const ProductCard = (props: ProductCardProps) => {
                         </span>
                     </div>
                 </div>
-            </Link>
+            </a>
         </div>
     );
 };
 
-export default ProductCard;
+export default BasketProductCard;
