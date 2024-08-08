@@ -10,7 +10,9 @@ import {emptySelected, selctedProductCount} from '@/atoms/basket';
 import {useAtomValue, useSetAtom} from 'jotai';
 import {
     Drawer,
+    DrawerClose,
     DrawerContent,
+    DrawerFooter,
     DrawerHeader,
     DrawerTrigger,
 } from '@/components/ui/drawer';
@@ -20,15 +22,12 @@ const AddToBasket = () => {
     const {data, isLoading, isError, fetchNextPage, hasNextPage} =
         useProductListInfinite();
     const nextFetchTargetRef = useRef<HTMLDivElement | null>(null); // ref 객체 생성
-    // console.log(fetchNextPage,hasNextPage);
     const selectedCount = useAtomValue(selctedProductCount);
     const emptyAll = useSetAtom(emptySelected);
     const {basketID} = useParams();
     const navigate = useNavigate();
 
     useEffect(() => {
-        // console.log('useEffect');
-
         const options = {
             root: null,
             rootMargin: '30px',
