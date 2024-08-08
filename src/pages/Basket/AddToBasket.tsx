@@ -18,6 +18,7 @@ import {
 } from '@/components/ui/drawer';
 import {useNavigate, useParams} from 'react-router-dom';
 import {addToBasket} from '@/api/basket';
+import {toast} from 'sonner';
 
 const AddToBasket = () => {
     const {data, isLoading, isError, fetchNextPage, hasNextPage} =
@@ -75,6 +76,7 @@ const AddToBasket = () => {
 
     const handleAdd = () => {
         putIntoBasket(basketID || '');
+        toast.success('상품이 추가되었습니다.');
     };
 
     if (isLoading) return <Spinner />;
