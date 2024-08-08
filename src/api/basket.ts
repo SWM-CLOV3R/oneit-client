@@ -136,3 +136,22 @@ export const fetchBasketProducts = async (basketIdx: string) => {
             return Promise.reject(err);
         });
 };
+
+export const deleteBasketProduct = async (
+    basketIdx: string,
+    productIdx: number,
+) => {
+    const payload = [Number(productIdx)];
+    return axios
+        .delete(`v1/giftbox/${basketIdx}/products`, {
+            data: payload,
+        })
+        .then((res) => {
+            if (res.status === 200 && res.data.isSuccess) {
+                return Promise.resolve(res.data.result);
+            }
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
+};

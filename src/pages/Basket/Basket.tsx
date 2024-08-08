@@ -176,6 +176,7 @@ const Basket = () => {
                         <BasketProductCard
                             key={product.idx}
                             product={product}
+                            basketID={basketID || ''}
                         />
                     ))}
                     <div
