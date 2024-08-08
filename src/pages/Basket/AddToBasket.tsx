@@ -17,6 +17,7 @@ import {
     DrawerTrigger,
 } from '@/components/ui/drawer';
 import {useNavigate, useParams} from 'react-router-dom';
+import {addToBasket} from '@/api/basket';
 
 const AddToBasket = () => {
     const {data, isLoading, isError, fetchNextPage, hasNextPage} =
@@ -24,6 +25,7 @@ const AddToBasket = () => {
     const nextFetchTargetRef = useRef<HTMLDivElement | null>(null); // ref 객체 생성
     const selectedCount = useAtomValue(selctedProductCount);
     const emptyAll = useSetAtom(emptySelected);
+    const putIntoBasket = useSetAtom(addToBasket);
     const {basketID} = useParams();
     const navigate = useNavigate();
 
@@ -71,6 +73,10 @@ const AddToBasket = () => {
         navigate('/basket/' + basketID);
     };
 
+    const handleAdd = () => {
+        putIntoBasket(basketID || '');
+    };
+
     if (isLoading) return <Spinner />;
     if (isError) return <NotFound />;
 
@@ -111,6 +117,7 @@ const AddToBasket = () => {
                     <Button
                         variant="ghost"
                         className="w-full flex flex-col items-center gap-1 text-muted-foreground hover:text-foreground"
+                        onClick={handleAdd}
                     >
                         <span className="text-xs">추가하기</span>
                     </Button>
