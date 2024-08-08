@@ -5,6 +5,7 @@ import {useNavigate, useParams} from 'react-router-dom';
 import NotFound from '../NotFound';
 import {Button} from '@/components/ui/button';
 import {
+    ArrowUp,
     CalendarCheck,
     ChevronLeft,
     Edit,
@@ -66,6 +67,10 @@ const Basket = () => {
 
     const handleEdit = () => {
         navigate(`/basket/edit/${basketID}`);
+    };
+
+    const scrollToTop = () => {
+        window.scrollTo({top: 0, behavior: 'smooth'});
     };
 
     if (basketInfoAPI.isLoading) return <Spinner />;
@@ -225,6 +230,12 @@ const Basket = () => {
                     </DialogContent>
                 </Dialog>
             )}
+            <Button
+                className="fixed bottom-16 right-0 px-3 py-6 rounded-full shadow-lg m-1"
+                onClick={scrollToTop}
+            >
+                <ArrowUp />
+            </Button>
         </>
     );
 };
