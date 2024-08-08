@@ -29,6 +29,8 @@ import {Basket} from '@/lib/types';
 import {useSetAtom} from 'jotai';
 import {emptySelected, selectProduct} from '@/atoms/basket';
 import {toast} from 'sonner';
+import {ScrollArea} from '@/components/ui/scroll-area';
+import {cn} from '@/lib/utils';
 
 const Product = () => {
     const {productID} = useParams();
@@ -169,15 +171,22 @@ const Product = () => {
                                 {/* My basket List */}
                                 {basketAPI.isLoading ? (
                                     <Spinner />
-                                ) : (
-                                    <div className="flex items-center justify-between w-full">
+                                ) : basketAPI.data.lenght !== 0 ? (
+                                    <ScrollArea
+                                        className={cn(
+                                            'flex items-center justify-between w-full',
+                                            basketAPI.data?.length > 3
+                                                ? 'h-28'
+                                                : 'max-h-fit',
+                                        )}
+                                    >
                                         {basketAPI.data?.map(
                                             (basket: Basket) => {
                                                 return (
                                                     <DrawerClose asChild>
                                                         <Button
                                                             variant="ghost"
-                                                            className="flex w-full items-center justify-between rounded-lg border-oneit-blue border-2 p-1"
+                                                            className="flex w-full items-center justify-between rounded-lg border-oneit-blue border-2 p-1 mt-1"
                                                             onClick={() =>
                                                                 handleAddToBasket(
                                                                     basket.idx.toString(),
@@ -202,7 +211,16 @@ const Product = () => {
                                                 );
                                             },
                                         )}
-                                    </div>
+                                    </ScrollArea>
+                                ) : (
+                                    <a href="/basket/add" className="w-full">
+                                        <Button
+                                            variant="ghost"
+                                            className="w-full"
+                                        >
+                                            새로운 선물 바구니 만들기
+                                        </Button>
+                                    </a>
                                 )}
                             </div>
                             <DrawerFooter className="flex">
