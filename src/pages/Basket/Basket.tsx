@@ -178,14 +178,11 @@ const Basket = () => {
                             product={product}
                         />
                     ))}
-                    <div className="rounded-lg overflow-hidden shadow-sm flex items-center justify-center">
-                        <Button
-                            onClick={(e) => {
-                                navigate(`/basket/add/${basketID}`);
-                            }}
-                        >
-                            상품 추가
-                        </Button>
+                    <div
+                        className="rounded-lg overflow-hidden shadow-sm flex items-center justify-center hover:bg-primary-foreground"
+                        onClick={(e) => navigate(`/basket/add/${basketID}`)}
+                    >
+                        상품 추가
                     </div>
                 </div>
             </div>

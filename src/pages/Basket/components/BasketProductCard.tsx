@@ -1,5 +1,7 @@
 import {AspectRatio} from '@/components/ui/aspect-ratio';
+import {Button} from '@/components/ui/button';
 import {Product} from '@/lib/types';
+import {MinusSquare} from 'lucide-react';
 
 interface ProductCardProps {
     product: Product;
@@ -10,23 +12,36 @@ const BasketProductCard = (props: ProductCardProps) => {
     return (
         <div
             key={product.idx}
-            className="rounded-lg overflow-hidden shadow-sm "
+            className="rounded-lg overflow-hidden shadow-sm flex flex-col"
         >
-            <a href={`/product/${product.idx}`} className="block">
-                <div className="w-full items-center">
+            <div className="relative group">
+                <a href={`/product/${product.idx}`} className="block">
                     <AspectRatio ratio={1 / 1} className="justify-center flex">
-                        <img
-                            src={
-                                product.thumbnailUrl ||
-                                'https://via.placeholder.com/400'
-                            }
-                            alt={product.name}
-                            className="relative z-[-10] h-full object-cover hover:opacity-80 transition-opacity"
-                        />
+                        <div className="relative w-full h-full flex justify-center">
+                            <img
+                                src={
+                                    product.thumbnailUrl ||
+                                    'https://via.placeholder.com/400'
+                                }
+                                alt={product.name}
+                                className="relative z-[-10] h-full object-cover hover:opacity-80 transition-opacity"
+                            />
+                            <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity"></div>
+                        </div>
                     </AspectRatio>
+                </a>
+                <div className="absolute top-0 right-0  transition-colors w-full justify-end flex">
+                    <Button variant={null} size="icon">
+                        <MinusSquare
+                            stroke="#ffa0a0"
+                            className="group-hover:stroke-red-500 bg-white rounded-sm"
+                        />
+                    </Button>
                 </div>
+            </div>
+            <a href={`/product/${product.idx}`} className="block">
                 <div className="p-4">
-                    <h3 className="max-w-full  text-sm font-semibold mb-2 overflow-hidden whitespace-nowrap  overflow-ellipsis">
+                    <h3 className="max-w-full text-sm font-semibold mb-2 overflow-hidden whitespace-nowrap overflow-ellipsis">
                         {product.name}
                     </h3>
                     <div className="flex items-center justify-end">
