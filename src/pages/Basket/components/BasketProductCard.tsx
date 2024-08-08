@@ -1,3 +1,4 @@
+import {deleteBasketProduct} from '@/api/basket';
 import {AspectRatio} from '@/components/ui/aspect-ratio';
 import {Button} from '@/components/ui/button';
 import {Product} from '@/lib/types';
@@ -5,10 +6,17 @@ import {MinusSquare} from 'lucide-react';
 
 interface ProductCardProps {
     product: Product;
+    basketID: string;
 }
 
 const BasketProductCard = (props: ProductCardProps) => {
-    const {product} = props;
+    const {product, basketID} = props;
+
+    const handleDelete = async () => {
+        await deleteBasketProduct(basketID || '', product.idx);
+        //refresh page
+        window.location.reload();
+    };
     return (
         <div
             key={product.idx}
@@ -31,7 +39,7 @@ const BasketProductCard = (props: ProductCardProps) => {
                     </AspectRatio>
                 </a>
                 <div className="absolute top-0 right-0  transition-colors w-full justify-end flex">
-                    <Button variant={null} size="icon">
+                    <Button variant={null} size="icon" onClick={handleDelete}>
                         <MinusSquare
                             stroke="#ffa0a0"
                             className="group-hover:stroke-red-500 bg-white rounded-sm"
