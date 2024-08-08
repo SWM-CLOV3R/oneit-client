@@ -28,6 +28,7 @@ import {addToBasket, fetchBasketList} from '@/api/basket';
 import {Basket} from '@/lib/types';
 import {useSetAtom} from 'jotai';
 import {emptySelected, selectProduct} from '@/atoms/basket';
+import {toast} from 'sonner';
 
 const Product = () => {
     const {productID} = useParams();
@@ -58,6 +59,7 @@ const Product = () => {
             emptyAll();
             onSelect(productAPI.data);
             putIntoBasket(basketID || '');
+            toast.success('상품이 추가되었습니다.');
         }
     };
 
