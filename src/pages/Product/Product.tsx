@@ -4,12 +4,19 @@ import {useQuery} from '@tanstack/react-query';
 import Gift from '@/assets/giftbox.png';
 import {Button} from '@/components/ui/button';
 import KakaoShare from '@/components/common/KakaoShare';
-import {ChevronLeft, Heart, Star, StarIcon} from 'lucide-react';
+import {ChevronLeft, Heart, MoveRight, Star, StarIcon} from 'lucide-react';
 import Share from '@/components/common/Share';
 import {Spinner} from '@/components/ui/spinner';
 import NotFound from '../NotFound';
 import {Separator} from '@/components/ui/separator';
 import {fetchProduct} from '@/api/product';
+import {
+    Drawer,
+    DrawerClose,
+    DrawerContent,
+    DrawerFooter,
+    DrawerTrigger,
+} from '@/components/ui/drawer';
 
 const Product = () => {
     const {productID} = useParams();
@@ -115,15 +122,27 @@ const Product = () => {
                 <p>Mauris vestibulum lacus vel orci consectetur semper. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
             </div> */}
 
-            <div className="fixed  mx-auto bottom-0 inset-x-0 flex justify-center gap-3 max-w-sm  h-15 w-full bg-white rounded-t-md">
-                <Link to="#" className="w-[40%]">
-                    <Button
-                        size="lg"
-                        className="my-2 w-full bg-oneit-blue hover:bg-oneit-blue/90"
-                    >
-                        바구니에 넣기
-                    </Button>
-                </Link>
+            <div className="fixed  mx-auto bottom-16 inset-x-0 flex justify-center gap-3 max-w-sm  h-15 w-full bg-white rounded-t-md">
+                <Drawer>
+                    <DrawerTrigger asChild>
+                        <Button className="w-full bg-oneit-blue hover:bg-oneit-blue/90 my-2">
+                            추가하기
+                        </Button>
+                    </DrawerTrigger>
+                    <DrawerContent>
+                        <div className="mx-auto w-full max-w-sm">
+                            <div className="p-4 pb-0">
+                                {/* My basket List */}
+                            </div>
+                            <DrawerFooter className="flex">
+                                <Button>확인</Button>
+                                <DrawerClose asChild>
+                                    <Button variant="outline">취소</Button>
+                                </DrawerClose>
+                            </DrawerFooter>
+                        </div>
+                    </DrawerContent>
+                </Drawer>
                 <a
                     href={data?.productUrl}
                     target="_blank"
@@ -132,6 +151,7 @@ const Product = () => {
                 >
                     <Button size="lg" className="my-2 w-full">
                         {data?.mallName}
+                        <MoveRight className="pl-2" />
                     </Button>
                 </a>
             </div>
