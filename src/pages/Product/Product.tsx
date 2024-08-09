@@ -69,7 +69,7 @@ const Product = () => {
     if (productAPI.isError) return <NotFound />;
 
     return (
-        <div className="w-full pb-12">
+        <div className="w-full pb-20">
             <div className="flex py-3 flex-wrap items-center justify-between">
                 <Button
                     variant="ghost"
@@ -158,7 +158,7 @@ const Product = () => {
                 <p>Mauris vestibulum lacus vel orci consectetur semper. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
             </div> */}
 
-            <div className="fixed  mx-auto bottom-16 inset-x-0 flex justify-center gap-3 max-w-sm  h-15 w-full bg-white rounded-t-md mb-[-5px]">
+            <div className="fixed  mx-auto bottom-12 inset-x-0 flex justify-center gap-3 max-w-sm  h-15 w-full bg-white rounded-t-md p-1 mb-3 items-center">
                 <Drawer>
                     <DrawerTrigger asChild>
                         <Button className="w-full bg-oneit-blue hover:bg-oneit-blue/90 my-2">
@@ -167,7 +167,7 @@ const Product = () => {
                     </DrawerTrigger>
                     <DrawerContent>
                         <div className="mx-auto w-full max-w-sm">
-                            <div className="p-4 pb-0">
+                            <div className="p-2 pb-0">
                                 {/* My basket List */}
                                 {basketAPI.isLoading ? (
                                     <Spinner />
@@ -235,11 +235,10 @@ const Product = () => {
                     href={productAPI.data?.productUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="w-[40%]"
                 >
-                    <Button size="lg" className="my-2 w-full">
+                    <Button className="my-2 w-full">
                         {productAPI.data?.mallName}
-                        <MoveRight className="pl-2" />
+                        <MoveRight className="pl-2 inline" />
                     </Button>
                 </a>
             </div>
