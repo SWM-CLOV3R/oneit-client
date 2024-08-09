@@ -8,14 +8,6 @@ import {ArrowUp, ChevronLeft, CircleX, PlusCircle} from 'lucide-react';
 import AddProductCard from './components/AddProductCard';
 import {emptySelected, selctedProductCount} from '@/atoms/basket';
 import {useAtomValue, useSetAtom} from 'jotai';
-import {
-    Drawer,
-    DrawerClose,
-    DrawerContent,
-    DrawerFooter,
-    DrawerHeader,
-    DrawerTrigger,
-} from '@/components/ui/drawer';
 import {useNavigate, useParams} from 'react-router-dom';
 import {addToBasket} from '@/api/basket';
 import {toast} from 'sonner';
