@@ -13,6 +13,7 @@ import {AspectRatio} from '@/components/ui/aspect-ratio';
 import {Button} from '@/components/ui/button';
 import {Product} from '@/lib/types';
 import {Heart, MinusSquare} from 'lucide-react';
+import {useState} from 'react';
 
 interface ProductCardProps {
     product: Product;
@@ -21,6 +22,7 @@ interface ProductCardProps {
 
 const BasketProductCard = (props: ProductCardProps) => {
     const {product, basketID} = props;
+    const [isOpen, setIsOpen] = useState(false);
 
     const handleDelete = async () => {
         await deleteBasketProduct(basketID || '', product.idx);
@@ -48,26 +50,28 @@ const BasketProductCard = (props: ProductCardProps) => {
                         </div>
                     </AspectRatio>
                 </a>
-                <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                        <div className="absolute top-0 right-0  transition-colors w-full justify-between flex">
-                            <Button variant={null} size="icon">
-                                <MinusSquare
-                                    stroke="#ffa0a0"
-                                    className="group-hover:stroke-red-500 bg-white rounded-sm"
-                                />
-                            </Button>
-                            <Button
-                                variant={null}
-                                className="flex flex-col p-1 m-1 bg-white rounded-sm"
-                            >
-                                <Heart className="text-oneit-pink group-hover:text-red-500" />
-                                <span className="text-xs text-gray-500 text-center">
-                                    25
-                                </span>
-                            </Button>
-                        </div>
-                    </AlertDialogTrigger>
+                <div className="absolute top-0 right-0  transition-colors w-full justify-between flex">
+                    <Button
+                        variant={null}
+                        size="icon"
+                        onClick={(e) => setIsOpen(true)}
+                    >
+                        <MinusSquare
+                            stroke="#ffa0a0"
+                            className="group-hover:stroke-red-500 bg-white rounded-sm"
+                        />
+                    </Button>
+                    <Button
+                        variant={null}
+                        className="flex flex-col p-1 m-1 bg-white rounded-sm"
+                    >
+                        <Heart className="text-oneit-pink group-hover:text-red-500" />
+                        <span className="text-xs text-gray-500 text-center">
+                            25
+                        </span>
+                    </Button>
+                </div>
+                <AlertDialog open={isOpen}>
                     <AlertDialogContent>
                         <AlertDialogHeader>
                             <AlertDialogTitle>
@@ -75,7 +79,11 @@ const BasketProductCard = (props: ProductCardProps) => {
                             </AlertDialogTitle>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
-                            <AlertDialogCancel>취소</AlertDialogCancel>
+                            <AlertDialogCancel
+                                onClick={(e) => setIsOpen(false)}
+                            >
+                                취소
+                            </AlertDialogCancel>
                             <AlertDialogAction onClick={handleDelete}>
                                 삭제하기
                             </AlertDialogAction>
