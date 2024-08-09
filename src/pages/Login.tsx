@@ -7,17 +7,14 @@ const kakaoURL = `https://kauth.kakao.com/oauth/authorize?response_type=code&cli
 const Login = () => {
     const [showToast, setShowToast] = useState(false);
     useEffect(() => {
-        if (!showToast) {
-            const success = new URL(window.location.href).searchParams.get(
-                'success',
-            );
-            // console.log(showToast,success);
+        const success = new URL(window.location.href).searchParams.get(
+            'success',
+        );
+        // console.log(showToast,success);
 
-            if (success === 'false') {
-                setShowToast(true);
-            }
-        } else {
-            toast('로그인 실패');
+        if (success === 'false') {
+            // setShowToast(true);
+            toast.error('로그인 실패');
         }
     }, [showToast]);
 
@@ -31,7 +28,7 @@ const Login = () => {
                     </a>
                 </div>
             </div>
-            {showToast && <Toaster />}
+            {/* {showToast && <Toaster />} */}
         </>
     );
 };
