@@ -1,4 +1,14 @@
 import {deleteBasketProduct} from '@/api/basket';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import {AspectRatio} from '@/components/ui/aspect-ratio';
 import {Button} from '@/components/ui/button';
 import {Product} from '@/lib/types';
@@ -38,14 +48,31 @@ const BasketProductCard = (props: ProductCardProps) => {
                         </div>
                     </AspectRatio>
                 </a>
-                <div className="absolute top-0 right-0  transition-colors w-full justify-end flex">
-                    <Button variant={null} size="icon" onClick={handleDelete}>
-                        <MinusSquare
-                            stroke="#ffa0a0"
-                            className="group-hover:stroke-red-500 bg-white rounded-sm"
-                        />
-                    </Button>
-                </div>
+                <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                        <div className="absolute top-0 right-0  transition-colors w-full justify-end flex">
+                            <Button variant={null} size="icon">
+                                <MinusSquare
+                                    stroke="#ffa0a0"
+                                    className="group-hover:stroke-red-500 bg-white rounded-sm"
+                                />
+                            </Button>
+                        </div>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                        <AlertDialogHeader>
+                            <AlertDialogTitle>
+                                바구니에서 해당 상품을 삭제할까요?
+                            </AlertDialogTitle>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                            <AlertDialogCancel>취소</AlertDialogCancel>
+                            <AlertDialogAction onClick={handleDelete}>
+                                삭제하기
+                            </AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
             </div>
             <a href={`/product/${product.idx}`} className="block">
                 <div className="p-4">
