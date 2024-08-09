@@ -95,9 +95,12 @@ const Basket = () => {
                         </Button>
                         {basketInfoAPI.data?.accessStatus === 'PUBLIC' ? (
                             <Share
-                                title="ONE!T"
-                                text={basketInfoAPI.data?.name || 'ONE!T'}
-                                url={`https://oneit.gift/basket/${basketInfoAPI.data?.idx}`}
+                                title="ONE!T - 선물 바구니"
+                                text={
+                                    `${basketInfoAPI.data?.name} - ${basketInfoAPI.data?.description}` ||
+                                    'ONE!T'
+                                }
+                                url={`https://oneit.gift/basket/share/${basketInfoAPI.data?.idx}`}
                             />
                         ) : (
                             <Button variant="ghost" size="icon" disabled>

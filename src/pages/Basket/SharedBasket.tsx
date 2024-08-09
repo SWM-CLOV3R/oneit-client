@@ -79,16 +79,7 @@ const SharedBasket = () => {
     return (
         <>
             <div className="w-full pb-5">
-                <div className="flex py-3 flex-wrap items-center justify-between">
-                    <Button
-                        variant="ghost"
-                        size="icon"
-                        className=""
-                        onClick={handleGoBack}
-                    >
-                        <ChevronLeft className="" />
-                    </Button>
-                    {/* <p>{data?.brandName}</p> */}
+                <div className="flex py-3 flex-wrap items-center justify-end">
                     <div className="flex">
                         <Button variant="ghost" size="icon">
                             <Heart />
