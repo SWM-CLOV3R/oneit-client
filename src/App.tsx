@@ -69,7 +69,7 @@ function App() {
                                         path="/basket/:basketID"
                                         element={
                                             <AuthRouter
-                                                option={false}
+                                                option={true}
                                                 redirectTo="/login"
                                             >
                                                 <Basket />
@@ -80,7 +80,7 @@ function App() {
                                         path="/basket/edit/:basketID"
                                         element={
                                             <AuthRouter
-                                                option={false}
+                                                option={true}
                                                 redirectTo="/login"
                                             >
                                                 <EditBasket />
