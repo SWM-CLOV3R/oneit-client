@@ -80,6 +80,8 @@ export const deleteBasket = async (basketID: string) => {
     return axios.delete(`/v1/giftbox/${basketID}`).then((res) => {
         if (res.status === 200 && res.data.isSuccess) {
             return Promise.resolve(res.data.result);
+        } else if (res.status === 200 && !res.data.isSuccess) {
+            return Promise.reject(res.data.code);
         } else {
             throw new Error(res.data.message);
         }
@@ -111,6 +113,8 @@ export const editBasket = async (
         .then((res) => {
             if (res.status === 200 && res.data.isSuccess) {
                 return Promise.resolve(res.data.result);
+            } else if (res.status === 200 && !res.data.isSuccess) {
+                return Promise.reject(res.data.code);
             } else {
                 throw new Error(res.data.message);
             }
