@@ -68,7 +68,14 @@ const AddToBasket = () => {
 
     const handleAdd = () => {
         putIntoBasket(basketID || '');
-        toast.success('상품이 추가되었습니다.');
+        toast.success('상품이 추가되었습니다.', {
+            action: {
+                label: '확인하기',
+                onClick: () => {
+                    navigate('/basket/' + basketID);
+                },
+            },
+        });
     };
 
     if (isLoading) return <Spinner />;
