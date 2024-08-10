@@ -31,19 +31,23 @@ const getAuth = async (): Promise<User | null> => {
         access: localStorage.getItem('token'),
         // refresh: cookies.get('refreshToken'),
     };
-    console.log(token);
+    console.log('token', token);
 
     if (token.access) {
-        try {
-            const userInfo = await getMe();
-            return userInfo;
-        } catch (err) {
-            console.log(err);
-            if (err?.toString() == '2104') {
-                localStorage.removeItem('token');
-            }
-            return null;
-        }
+        getMe()
+            .then((res) => res)
+            .catch((err) => {
+                console.log(err);
+                if (err?.toString() == '2104') {
+                    localStorage.removeItem('token');
+                } else if (
+                    err?.response?.status == 401 &&
+                    err?.response?.data?.code == 2104
+                ) {
+                    localStorage.removeItem('token');
+                }
+                return null;
+            });
     }
 
     // if (token.refresh) {

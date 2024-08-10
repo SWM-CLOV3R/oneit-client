@@ -45,6 +45,7 @@ const Product = () => {
     const basketAPI = useQuery({
         queryKey: ['basket'],
         queryFn: () => fetchBasketList(),
+        enabled: loggedIn,
     });
 
     const navigate = useNavigate();
