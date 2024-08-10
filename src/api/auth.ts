@@ -34,7 +34,7 @@ const getAuth = async (): Promise<User | null> => {
     console.log('token', token);
 
     if (token.access) {
-        getMe()
+        return getMe()
             .then((res) => res)
             .catch((err) => {
                 console.log(err);
@@ -68,6 +68,8 @@ export const authAtom = atomWithDefault(getAuth);
 authAtom.debugLabel = 'authAtom';
 
 export const updateAuthAtom = atom(null, async (get, set) => {
+    console.log('updating auth');
+
     set(authAtom, getAuth());
 });
 
