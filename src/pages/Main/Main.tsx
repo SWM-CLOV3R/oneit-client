@@ -19,11 +19,13 @@ import {authAtom} from '@/api/auth';
 
 const Main = () => {
     const user = useAtomValue(authAtom);
+    console.log('User:', user);
 
     const CurationList = () => {
         const {data, isLoading, isError} = useQuery({
             queryKey: ['basket'],
             queryFn: () => fetchBasketList(),
+            enabled: user !== null,
         });
         if (isLoading) return <Spinner />;
         if (isError) {

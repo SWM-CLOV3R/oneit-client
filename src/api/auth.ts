@@ -13,6 +13,8 @@ const getMe = async () => {
 
             if (res.status == 200 && res.data.isSuccess) {
                 return Promise.resolve(res.data.result);
+            } else if (res.status == 200 && !res.data.isSuccess) {
+                return Promise.reject(res.data.code);
             } else {
                 throw new Error('Failed to get user info');
             }
@@ -37,6 +39,9 @@ const getAuth = async (): Promise<User | null> => {
             return userInfo;
         } catch (err) {
             console.log(err);
+            if (err?.toString() == '2104') {
+                localStorage.removeItem('token');
+            }
             return null;
         }
     }
