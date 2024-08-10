@@ -27,10 +27,12 @@ import {
 import {addToBasket, fetchBasketList} from '@/api/basket';
 import {Basket} from '@/lib/types';
 import {useAtomValue, useSetAtom} from 'jotai';
+import {useAtomValue, useSetAtom} from 'jotai';
 import {emptySelected, selectProduct} from '@/atoms/basket';
 import {toast} from 'sonner';
 import {ScrollArea} from '@/components/ui/scroll-area';
 import {cn} from '@/lib/utils';
+import {isLoginAtom} from '@/api/auth';
 import {isLoginAtom} from '@/api/auth';
 
 const Product = () => {
@@ -38,6 +40,7 @@ const Product = () => {
     const putIntoBasket = useSetAtom(addToBasket);
     const emptyAll = useSetAtom(emptySelected);
     const onSelect = useSetAtom(selectProduct);
+    const loggedIn = useAtomValue(isLoginAtom);
     const loggedIn = useAtomValue(isLoginAtom);
 
     // console.log(productID);
@@ -72,6 +75,7 @@ const Product = () => {
     if (productAPI.isError) return <NotFound />;
 
     return (
+        <div className={cn('w-full', loggedIn ? 'pb-20' : 'pb-16')}>
         <div className={cn('w-full', loggedIn ? 'pb-20' : 'pb-16')}>
             <div className="flex py-3 flex-wrap items-center justify-between">
                 <Button
