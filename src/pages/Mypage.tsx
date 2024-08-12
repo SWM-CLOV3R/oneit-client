@@ -1,5 +1,9 @@
-import {logout} from '@/api/auth';
+import {authAtom, logout} from '@/api/auth';
+import {Avatar, AvatarFallback, AvatarImage} from '@/components/ui/avatar';
 import {Button} from '@/components/ui/button';
+import {Card, CardContent} from '@/components/ui/card';
+import {useAtomValue} from 'jotai';
+import {User2Icon, UserIcon} from 'lucide-react';
 import {useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 const {Kakao} = window;
@@ -18,6 +22,7 @@ interface FriendPickerResponse {
 
 const Mypage = () => {
     const navigate = useNavigate();
+    const user = useAtomValue(authAtom);
     const handleLogout = async () => {
         await logout();
     };
@@ -75,11 +80,29 @@ const Mypage = () => {
     };
 
     return (
-        <div>
-            Mypage
+        <div className="py-3 w-full">
+            <div className="flex w-full">
+                <div className="flex w-full align-middle justify-between items-center border-[0.5px] rounded-md p-2">
+                    <div className="flex items-center">
+                        <Avatar className="w-16 border-2 h-16">
+                            <AvatarImage
+                                src={user?.profileImgFromKakao}
+                                className="object-cover"
+                            />
+                            <AvatarFallback className="bg-secondary">
+                                <User2Icon className="w-16 h-16" />
+                            </AvatarFallback>
+                        </Avatar>
+                        <div className="flex">
+                            <UserIcon className="inline" />
+                            <span>{user?.nickname}</span>
+                        </div>
+                    </div>
+                    <Button onClick={handleLogout}>Logout</Button>
+                </div>
+            </div>
             <div>
-                <Button onClick={handleLogout}>Logout</Button>
-                <Button onClick={friendPicker}>친구 고르기</Button>
+                {/* <Button onClick={friendPicker}>친구 고르기</Button> */}
             </div>
         </div>
     );

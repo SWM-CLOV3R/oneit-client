@@ -12,6 +12,7 @@ import {
     Heart,
     LockKeyhole,
     PlusSquare,
+    Send,
     Settings,
     Trash,
 } from 'lucide-react';
@@ -230,7 +231,7 @@ const Basket = () => {
                                             <DropdownMenuItem
                                                 onSelect={handleSend}
                                             >
-                                                <Edit />
+                                                <Send />
                                                 <span>보내기</span>
                                             </DropdownMenuItem>
                                             <DropdownMenuItem
