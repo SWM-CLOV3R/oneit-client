@@ -75,7 +75,7 @@ const Basket = () => {
     if (basketInfoAPI.error?.toString() === '4005') {
         return <NotFound />;
     }
-    console.log(basketProductAPI.error);
+    // console.log(basketProductAPI.error);
 
     const handleGoBack = () => {
         navigate(-1);
@@ -119,9 +119,9 @@ const Basket = () => {
                     </Button>
                     {/* <p>{data?.brandName}</p> */}
                     <div className="flex">
-                        <Button variant="ghost" size="icon">
+                        {/* <Button variant="ghost" size="icon">
                             <Heart />
-                        </Button>
+                        </Button> */}
                         {basketInfoAPI.data?.accessStatus === 'PUBLIC' ? (
                             <Share
                                 title="ONE!T - 선물 바구니"
