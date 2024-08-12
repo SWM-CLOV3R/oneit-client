@@ -4,7 +4,7 @@ import {useAtom, useSetAtom} from 'jotai';
 import {useEffect, useState} from 'react';
 import {toast, Toaster} from 'sonner';
 
-const kakaoURL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${import.meta.env.VITE_KAKAO_REST_API_KEY}&redirect_uri=${import.meta.env.VITE_KAKAO_LOGIN_REDIRECT_URI}&scope=friends`;
+const kakaoURL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${import.meta.env.VITE_KAKAO_REST_API_KEY}&redirect_uri=${import.meta.env.VITE_KAKAO_LOGIN_REDIRECT_URI}&scope=friends,talk_message`;
 
 const Login = () => {
     const setRedirctURI = useSetAtom(redirectURI);
