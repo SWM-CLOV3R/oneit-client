@@ -5,6 +5,8 @@ import {useAtomValue, useSetAtom} from 'jotai';
 import {useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 
+const {Kakao} = window;
+
 const Auth = () => {
     const navigate = useNavigate();
     const useUpdateAuth = useSetAtom(updateAuthAtom);
@@ -28,11 +30,18 @@ const Auth = () => {
         );
         return res;
     };
+
     useEffect(() => {
+        if (!Kakao.isInitialized()) {
+            Kakao.init(import.meta.env.VITE_KAKAO_API_KEY);
+        }
         getToken()
             .then(async (res) => {
                 console.log(res);
                 const kakaoToken = res.data.access_token;
+                console.log(Kakao);
+                Kakao.Auth.setAccessToken(kakaoToken);
+
                 login(kakaoToken)
                     .then(() => {
                         //go back to the page before login page

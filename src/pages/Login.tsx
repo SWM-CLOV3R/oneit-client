@@ -18,7 +18,10 @@ const Login = () => {
             // setRedirctURI(redirect);
         } else {
             //get uri of the page before login page
-            const uri = document.referrer;
+            const referrer = document.referrer;
+            const uri = referrer ? new URL(referrer).pathname : '/';
+            console.log(uri);
+
             // setRedirctURI(uri || '/');
             localStorage.setItem('redirect', uri || '/');
         }
