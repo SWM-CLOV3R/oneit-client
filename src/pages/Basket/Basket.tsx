@@ -14,6 +14,7 @@ import {
     ArrowUp,
     CalendarCheck,
     ChevronLeft,
+    Crown,
     Edit,
     Heart,
     LockKeyhole,
@@ -49,6 +50,9 @@ import {authAtom} from '@/api/auth';
 import {useAtomValue} from 'jotai';
 import Logo from '@/assets/oneit.png';
 import ParticipantAvatar from './components/ParticipantAvatar';
+import {Popover, PopoverContent, PopoverTrigger} from '@/components/ui/popover';
+import {Avatar, AvatarImage} from '@/components/ui/avatar';
+import {cn} from '@/lib/utils';
 const {Kakao} = window;
 
 interface SelectedUser {
@@ -337,25 +341,76 @@ const Basket = () => {
                                 {basketInfoAPI.data?.description}
                             </p>
                         </div>
-                        <div className="flex -space-x-3">
-                            {basketParticipantsAPI.data
-                                ?.slice(0, 5)
-                                .map(
-                                    (participant: Participant, idx: number) => (
-                                        <ParticipantAvatar
-                                            key={idx}
-                                            nickname={
-                                                participant.nickname ||
-                                                '익명의 참여자'
-                                            }
-                                            profileImage={
-                                                participant.profileImage ||
-                                                'https://via.placeholder.com/one!t'
-                                            }
-                                        />
-                                    ),
-                                )}
-                        </div>
+                        <Popover>
+                            <PopoverTrigger asChild>
+                                <div className="flex -space-x-3">
+                                    {basketParticipantsAPI.data
+                                        ?.slice(0, 5)
+                                        .map(
+                                            (
+                                                participant: Participant,
+                                                idx: number,
+                                            ) => (
+                                                <ParticipantAvatar
+                                                    key={idx}
+                                                    nickname={
+                                                        participant.nickname ||
+                                                        '익명의 참여자'
+                                                    }
+                                                    profileImage={
+                                                        participant.profileImage ||
+                                                        'https://via.placeholder.com/one!t'
+                                                    }
+                                                    userRole={
+                                                        participant.userRole
+                                                    }
+                                                />
+                                            ),
+                                        )}
+                                </div>
+                            </PopoverTrigger>
+                            <PopoverContent
+                                className="w-fit flex justify-center"
+                                align="end"
+                            >
+                                <div className="grid gap-2">
+                                    <h3>참여자 목록</h3>
+                                    {basketParticipantsAPI.data?.map(
+                                        (
+                                            participant: Participant,
+                                            idx: number,
+                                        ) => (
+                                            <div
+                                                className="flex w-full items-center"
+                                                key={idx}
+                                            >
+                                                <Avatar
+                                                    className={cn(
+                                                        participant.userRole ==
+                                                            'MANAGER' &&
+                                                            'border-2 border-oneit-pink',
+                                                    )}
+                                                >
+                                                    <AvatarImage
+                                                        src={
+                                                            participant.profileImage
+                                                        }
+                                                    />
+                                                </Avatar>
+                                                <span className="ml-2">
+                                                    {participant.nickname ||
+                                                        '익명의 참여자'}
+                                                    {participant.userRole ===
+                                                        'MANAGER' && (
+                                                        <Crown className="inline-block ml-1 text-oneit-pink" />
+                                                    )}
+                                                </span>
+                                            </div>
+                                        ),
+                                    )}
+                                </div>
+                            </PopoverContent>
+                        </Popover>
                     </div>
                     <div className="flex items-center justify-end">
                         <span className="text-sm text-gray-500">
