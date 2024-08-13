@@ -179,7 +179,7 @@ const Basket = () => {
         basketInvite(basketID || '').then((res) => {
             const invitationIdx = res.invitationIdx;
 
-            const url = `${import.meta.env.VITE_CURRENT_DOMAIN}/basket/invite/${invitationIdx}`;
+            const url = `${import.meta.env.VITE_CURRENT_DOMAIN}/basket/${basketID}/invite/${invitationIdx}`;
             if (!Kakao.isInitialized()) {
                 Kakao.init(import.meta.env.VITE_KAKAO_API_KEY);
             }
