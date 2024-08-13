@@ -9,6 +9,7 @@ import Navbar from '@/components/common/Navbar';
 import AddToBasket from './pages/Basket/AddToBasket';
 import {Toaster} from './components/ui/sonner';
 import {useParams} from 'react-router-dom';
+import FakeLogin from './pages/FakeLogin';
 
 // Custom component to handle dynamic redirect
 const AuthRouterWithRedirect = ({
@@ -170,6 +171,10 @@ function App() {
                                                 <Mypage />
                                             </AuthRouter>
                                         }
+                                    />
+                                    <Route
+                                        path="fakeLogin"
+                                        element={<FakeLogin />}
                                     />
                                     <Route path="/" element={<Main />} />
                                     <Route path="*" element={<NotFound />} />
