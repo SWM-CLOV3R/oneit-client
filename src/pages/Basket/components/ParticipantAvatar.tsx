@@ -5,6 +5,7 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
+import {cn} from '@/lib/utils';
 import React from 'react';
 
 interface Participant {
@@ -20,7 +21,12 @@ const ParticipantAvatar = (props: Participant) => {
                 <a>
                     <Tooltip>
                         <TooltipTrigger>
-                            <Avatar>
+                            <Avatar
+                                className={cn(
+                                    props.userRole == 'MANAGER' &&
+                                        'border-2 border-oneit-pink',
+                                )}
+                            >
                                 <AvatarImage src={props.profileImage} />
                             </Avatar>
                         </TooltipTrigger>
