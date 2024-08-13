@@ -3,6 +3,7 @@ import {
     deleteBasket,
     fetchBasketInfo,
     fetchBasketProducts,
+    fetcthBasketParticipants,
 } from '@/api/basket';
 import {Spinner} from '@/components/ui/spinner';
 import {useQuery} from '@tanstack/react-query';
@@ -47,6 +48,7 @@ import {toast} from 'sonner';
 import {authAtom} from '@/api/auth';
 import {useAtomValue} from 'jotai';
 import Logo from '@/assets/oneit.png';
+import ParticipantAvatar from './components/ParticipantAvatar';
 const {Kakao} = window;
 
 interface SelectedUser {
@@ -59,6 +61,12 @@ interface SelectedUser {
 interface FriendPickerResponse {
     selectedTotalCount: number;
     users: SelectedUser[];
+}
+
+interface Participant {
+    nickname: string;
+    profileImage: string;
+    userRole?: string;
 }
 
 const Basket = () => {
@@ -74,6 +82,11 @@ const Basket = () => {
     const basketProductAPI = useQuery({
         queryKey: ['basket', basketID, 'products'],
         queryFn: () => fetchBasketProducts(basketID || ''),
+        enabled: basketInfoAPI.isSuccess && !basketInfoAPI.isError,
+    });
+    const basketParticipantsAPI = useQuery({
+        queryKey: ['basket', basketID, 'participants'],
+        queryFn: () => fetcthBasketParticipants(basketID || ''),
         enabled: basketInfoAPI.isSuccess && !basketInfoAPI.isError,
     });
     // console.log(data);
@@ -315,12 +328,35 @@ const Basket = () => {
                     />
                 </div>
                 <div className="py-2 bg-white dark:bg-gray-950">
-                    <h3 className="text-xl font-bold md:text-xl">
-                        {basketInfoAPI.data?.name}
-                    </h3>
-                    <p className="text-oneit-gray text-sm mb-2 overflow-hidden whitespace-nowrap  overflow-ellipsis">
-                        {basketInfoAPI.data?.description}
-                    </p>
+                    <div className="flex w-full">
+                        <div className="flex flex-col w-full">
+                            <h3 className="text-xl font-bold md:text-xl">
+                                {basketInfoAPI.data?.name}
+                            </h3>
+                            <p className="text-oneit-gray text-sm mb-2 overflow-hidden whitespace-nowrap  overflow-ellipsis">
+                                {basketInfoAPI.data?.description}
+                            </p>
+                        </div>
+                        <div className="flex -space-x-3">
+                            {basketParticipantsAPI.data
+                                ?.slice(0, 5)
+                                .map(
+                                    (participant: Participant, idx: number) => (
+                                        <ParticipantAvatar
+                                            key={idx}
+                                            nickname={
+                                                participant.nickname ||
+                                                '익명의 참여자'
+                                            }
+                                            profileImage={
+                                                participant.profileImage ||
+                                                'https://via.placeholder.com/one!t'
+                                            }
+                                        />
+                                    ),
+                                )}
+                        </div>
+                    </div>
                     <div className="flex items-center justify-end">
                         <span className="text-sm text-gray-500">
                             <CalendarCheck className="inline-block mr-1" />
