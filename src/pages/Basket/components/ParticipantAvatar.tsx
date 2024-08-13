@@ -5,14 +5,9 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
+import {Participant} from '@/lib/types';
 import {cn} from '@/lib/utils';
 import React from 'react';
-
-interface Participant {
-    nickname: string;
-    profileImage: string;
-    userRole?: string;
-}
 
 const ParticipantAvatar = (props: Participant) => {
     return (

@@ -1,9 +1,13 @@
-import {confirmInvitation, fetchBasketInfo} from '@/api/basket';
+import {
+    confirmInvitation,
+    fetchBasketInfo,
+    fetcthBasketParticipants,
+} from '@/api/basket';
 import {Spinner} from '@/components/ui/spinner';
 import {useQuery} from '@tanstack/react-query';
 import {useNavigate, useParams} from 'react-router-dom';
 import BasketCard from './components/BasketCard';
-import {CalendarCheck} from 'lucide-react';
+import {CalendarCheck, Crown} from 'lucide-react';
 import {AspectRatio} from '@/components/ui/aspect-ratio';
 import {useAtomValue} from 'jotai';
 import {isLoginAtom} from '@/api/auth';
@@ -17,6 +21,11 @@ import {
     DialogHeader,
     DialogTitle,
 } from '@/components/ui/dialog';
+import {Popover, PopoverContent, PopoverTrigger} from '@/components/ui/popover';
+import {Participant} from '@/lib/types';
+import ParticipantAvatar from './components/ParticipantAvatar';
+import {Avatar, AvatarImage} from '@/components/ui/avatar';
+import {cn} from '@/lib/utils';
 
 const BasketInvitation = () => {
     const {basketID, inviteID} = useParams();
@@ -27,6 +36,13 @@ const BasketInvitation = () => {
         queryKey: ['basket', basketID],
         queryFn: () => fetchBasketInfo(basketID || ''),
     });
+
+    const basketParticipantsAPI = useQuery({
+        queryKey: ['basket', basketID, 'participants'],
+        queryFn: () => fetcthBasketParticipants(basketID || ''),
+        enabled: basketInfoAPI.isSuccess && !basketInfoAPI.isError,
+    });
+    console.log(basketParticipantsAPI.data);
 
     const handleLogin = () => {
         console.log(window.location.pathname);
@@ -68,23 +84,97 @@ const BasketInvitation = () => {
                             <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity"></div>
                         </div>
                     </AspectRatio>
-                    <div className="p-4 border-t-[0.5px]">
-                        <div className="flex justify-between items-center">
-                            <h3 className="text-xl font-semibold overflow-hidden whitespace-nowrap overflow-ellipsis">
-                                {basketInfoAPI.data.name}
-                            </h3>
-                            <span className="text-sm text-oneit-gray  flex items-center">
-                                <CalendarCheck className="inline mr-1" />
+                    <div className="py-2 bg-white ">
+                        <div className="flex w-full">
+                            <div className="flex flex-col w-full">
+                                <h3 className="text-xl font-bold md:text-xl">
+                                    {basketInfoAPI.data?.name}
+                                </h3>
+                                <p className="text-oneit-gray text-sm mb-2 overflow-hidden whitespace-nowrap  overflow-ellipsis">
+                                    {basketInfoAPI.data?.description}
+                                </p>
+                            </div>
+                            <Popover>
+                                <PopoverTrigger asChild>
+                                    <div className="flex -space-x-3">
+                                        {basketParticipantsAPI.data
+                                            ?.slice(0, 5)
+                                            .map(
+                                                (
+                                                    participant: Participant,
+                                                    idx: number,
+                                                ) => (
+                                                    <ParticipantAvatar
+                                                        key={idx}
+                                                        nickname={
+                                                            participant.nickname ||
+                                                            '익명의 참여자'
+                                                        }
+                                                        profileImage={
+                                                            participant.profileImage ||
+                                                            'https://via.placeholder.com/one!t'
+                                                        }
+                                                        userRole={
+                                                            participant.userRole
+                                                        }
+                                                    />
+                                                ),
+                                            )}
+                                    </div>
+                                </PopoverTrigger>
+                                <PopoverContent
+                                    className="w-fit flex justify-center"
+                                    align="end"
+                                >
+                                    <div className="grid gap-2">
+                                        <h3>참여자 목록</h3>
+                                        {basketParticipantsAPI.data?.map(
+                                            (
+                                                participant: Participant,
+                                                idx: number,
+                                            ) => (
+                                                <div
+                                                    className="flex w-full items-center"
+                                                    key={idx}
+                                                >
+                                                    <Avatar
+                                                        className={cn(
+                                                            participant.userRole ==
+                                                                'MANAGER' &&
+                                                                'border-2 border-oneit-pink',
+                                                        )}
+                                                    >
+                                                        <AvatarImage
+                                                            src={
+                                                                participant.profileImage
+                                                            }
+                                                        />
+                                                    </Avatar>
+                                                    <span className="ml-2">
+                                                        {participant.nickname ||
+                                                            '익명의 참여자'}
+                                                        {participant.userRole ===
+                                                            'MANAGER' && (
+                                                            <Crown className="inline-block ml-1 text-oneit-pink" />
+                                                        )}
+                                                    </span>
+                                                </div>
+                                            ),
+                                        )}
+                                    </div>
+                                </PopoverContent>
+                            </Popover>
+                        </div>
+                        <div className="flex items-center justify-end">
+                            <span className="text-sm text-gray-500">
+                                <CalendarCheck className="inline-block mr-1" />
                                 {
-                                    basketInfoAPI.data.deadline
+                                    basketInfoAPI.data?.deadline
                                         .toString()
                                         .split('T')[0]
                                 }
                             </span>
                         </div>
-                        <span className="text-sm">
-                            {basketInfoAPI.data.description}
-                        </span>
                     </div>
                 </div>
 
