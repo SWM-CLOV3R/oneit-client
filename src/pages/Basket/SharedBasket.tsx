@@ -1,4 +1,9 @@
-import {deleteBasket, fetchBasketInfo, fetchBasketProducts} from '@/api/basket';
+import {
+    deleteBasket,
+    fetchBasketInfo,
+    fetchBasketProducts,
+    fetcthBasketParticipants,
+} from '@/api/basket';
 import {Spinner} from '@/components/ui/spinner';
 import {useQuery} from '@tanstack/react-query';
 import {useNavigate, useParams} from 'react-router-dom';
@@ -8,6 +13,7 @@ import {
     ArrowUp,
     CalendarCheck,
     ChevronLeft,
+    Crown,
     Edit,
     Heart,
     LockKeyhole,
@@ -34,8 +40,13 @@ import {
 import {useState} from 'react';
 import {Separator} from '@/components/ui/separator';
 import {ScrollArea} from '@/components/ui/scroll-area';
-import {Product} from '@/lib/types';
+import {Participant, Product} from '@/lib/types';
 import BasketProductCard from './components/BasketProductCard';
+import {Popover, PopoverContent, PopoverTrigger} from '@/components/ui/popover';
+import ParticipantAvatar from './components/ParticipantAvatar';
+import {Avatar, AvatarImage} from '@/components/ui/avatar';
+import {cn} from '@/lib/utils';
+import {AspectRatio} from '@/components/ui/aspect-ratio';
 
 const SharedBasket = () => {
     const {basketID} = useParams();
@@ -51,6 +62,11 @@ const SharedBasket = () => {
         queryFn: () => fetchBasketProducts(basketID || ''),
     });
     // console.log(data);
+    const basketParticipantsAPI = useQuery({
+        queryKey: ['basket', basketID, 'participants'],
+        queryFn: () => fetcthBasketParticipants(basketID || ''),
+        enabled: basketInfoAPI.isSuccess && !basketInfoAPI.isError,
+    });
 
     const handleGoBack = () => {
         navigate(-1);
@@ -87,25 +103,100 @@ const SharedBasket = () => {
                     </div>
                 </div>
 
-                <div className="flex justify-center w-full">
-                    <img
-                        src={
-                            basketInfoAPI.data?.imageUrl ||
-                            'https://via.placeholder.com/200'
-                        }
-                        alt="recommended product"
-                        // width={200}
-                        // height={200}
-                        className="object-cover group-hover:opacity-50 transition-opacity"
-                    />
-                </div>
+                <AspectRatio ratio={1 / 1} className="justify-center flex">
+                    <div className="relative w-full h-full flex justify-center">
+                        <img
+                            src={
+                                basketInfoAPI.data.imageUrl ||
+                                'https://www.oneit.gift/oneit.png'
+                            }
+                            alt={basketInfoAPI.data.name}
+                            className="relative z-[-10] h-full object-cover hover:opacity-80 transition-opacity"
+                        />
+                        <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity"></div>
+                    </div>
+                </AspectRatio>
                 <div className="py-2 bg-white dark:bg-gray-950">
-                    <h3 className="text-xl font-bold md:text-xl">
-                        {basketInfoAPI.data?.name}
-                    </h3>
-                    <p className="text-oneit-gray text-sm mb-2 overflow-hidden whitespace-nowrap  overflow-ellipsis">
-                        {basketInfoAPI.data?.description}
-                    </p>
+                    <div className="flex w-full">
+                        <div className="flex flex-col w-full">
+                            <h3 className="text-xl font-bold md:text-xl">
+                                {basketInfoAPI.data?.name}
+                            </h3>
+                            <p className="text-oneit-gray text-sm mb-2 overflow-hidden whitespace-nowrap  overflow-ellipsis">
+                                {basketInfoAPI.data?.description}
+                            </p>
+                        </div>
+                        <Popover>
+                            <PopoverTrigger asChild>
+                                <div className="flex -space-x-3">
+                                    {basketParticipantsAPI.data
+                                        ?.slice(0, 5)
+                                        .map(
+                                            (
+                                                participant: Participant,
+                                                idx: number,
+                                            ) => (
+                                                <ParticipantAvatar
+                                                    key={idx}
+                                                    nickname={
+                                                        participant.nickname ||
+                                                        '익명의 참여자'
+                                                    }
+                                                    profileImage={
+                                                        participant.profileImage ||
+                                                        'https://via.placeholder.com/one!t'
+                                                    }
+                                                    userRole={
+                                                        participant.userRole
+                                                    }
+                                                />
+                                            ),
+                                        )}
+                                </div>
+                            </PopoverTrigger>
+                            <PopoverContent
+                                className="w-fit flex justify-center"
+                                align="end"
+                            >
+                                <div className="grid gap-2">
+                                    <h3>참여자 목록</h3>
+                                    {basketParticipantsAPI.data?.map(
+                                        (
+                                            participant: Participant,
+                                            idx: number,
+                                        ) => (
+                                            <div
+                                                className="flex w-full items-center"
+                                                key={idx}
+                                            >
+                                                <Avatar
+                                                    className={cn(
+                                                        participant.userRole ==
+                                                            'MANAGER' &&
+                                                            'border-2 border-oneit-pink',
+                                                    )}
+                                                >
+                                                    <AvatarImage
+                                                        src={
+                                                            participant.profileImage
+                                                        }
+                                                    />
+                                                </Avatar>
+                                                <span className="ml-2">
+                                                    {participant.nickname ||
+                                                        '익명의 참여자'}
+                                                    {participant.userRole ===
+                                                        'MANAGER' && (
+                                                        <Crown className="inline-block ml-1 text-oneit-pink" />
+                                                    )}
+                                                </span>
+                                            </div>
+                                        ),
+                                    )}
+                                </div>
+                            </PopoverContent>
+                        </Popover>
+                    </div>
                     <div className="flex items-center justify-end">
                         <span className="text-sm text-gray-500">
                             <CalendarCheck className="inline-block mr-1" />

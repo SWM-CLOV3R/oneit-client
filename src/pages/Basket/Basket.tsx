@@ -43,7 +43,7 @@ import {
 import {useState} from 'react';
 import {Separator} from '@/components/ui/separator';
 import {ScrollArea} from '@/components/ui/scroll-area';
-import {Product} from '@/lib/types';
+import {Participant, Product} from '@/lib/types';
 import BasketProductCard from './components/BasketProductCard';
 import {toast} from 'sonner';
 import {authAtom} from '@/api/auth';
@@ -53,6 +53,7 @@ import ParticipantAvatar from './components/ParticipantAvatar';
 import {Popover, PopoverContent, PopoverTrigger} from '@/components/ui/popover';
 import {Avatar, AvatarImage} from '@/components/ui/avatar';
 import {cn} from '@/lib/utils';
+import {AspectRatio} from '@/components/ui/aspect-ratio';
 const {Kakao} = window;
 
 interface SelectedUser {
@@ -65,12 +66,6 @@ interface SelectedUser {
 interface FriendPickerResponse {
     selectedTotalCount: number;
     users: SelectedUser[];
-}
-
-interface Participant {
-    nickname: string;
-    profileImage: string;
-    userRole?: string;
 }
 
 const Basket = () => {
@@ -322,15 +317,19 @@ const Basket = () => {
                     </div>
                 </div>
 
-                <div className="flex justify-center w-full">
-                    <img
-                        src={basketInfoAPI.data?.imageUrl || Logo}
-                        alt="recommended product"
-                        // width={200}
-                        // height={200}
-                        className="object-cover group-hover:opacity-50 transition-opacity"
-                    />
-                </div>
+                <AspectRatio ratio={1 / 1} className="justify-center flex">
+                    <div className="relative w-full h-full flex justify-center">
+                        <img
+                            src={
+                                basketInfoAPI.data.imageUrl ||
+                                'https://www.oneit.gift/oneit.png'
+                            }
+                            alt={basketInfoAPI.data.name}
+                            className="relative z-[-10] h-full object-cover hover:opacity-80 transition-opacity"
+                        />
+                        <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity"></div>
+                    </div>
+                </AspectRatio>
                 <div className="py-2 bg-white dark:bg-gray-950">
                     <div className="flex w-full">
                         <div className="flex flex-col w-full">

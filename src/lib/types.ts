@@ -58,3 +58,9 @@ export type Basket = {
     accessStatus: string;
     imageUrl?: string;
 };
+
+export interface Participant {
+    nickname: string;
+    profileImage: string;
+    userRole?: string;
+}
