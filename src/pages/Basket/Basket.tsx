@@ -257,59 +257,70 @@ const Basket = () => {
                                 <LockKeyhole />
                             </Button>
                         )}
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" size="icon">
-                                    <Settings />
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent
-                                className="w-30"
-                                side="bottom"
-                                align="end"
-                            >
-                                <DropdownMenuLabel>
-                                    바구니 설정
-                                </DropdownMenuLabel>
-                                <DropdownMenuGroup>
-                                    <DropdownMenuItem
-                                        onSelect={(e) => {
-                                            navigate(`/basket/add/${basketID}`);
-                                        }}
-                                    >
-                                        <PlusSquare className="mr-2" />
-                                        <span>상품추가</span>
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem onSelect={handleInvite}>
-                                        <MailPlusIcon className="mr-2" />
-                                        <span>초대하기</span>
-                                    </DropdownMenuItem>
-                                    {user?.idx ===
-                                        basketInfoAPI.data?.createdUserIdx && (
-                                        <>
-                                            <DropdownMenuItem
-                                                onSelect={handleSend}
-                                            >
-                                                <Send className="mr-2" />
-                                                <span>보내기</span>
-                                            </DropdownMenuItem>
-                                            <DropdownMenuItem
-                                                onSelect={handleEdit}
-                                            >
-                                                <Edit className="mr-2" />
-                                                <span>수정하기</span>
-                                            </DropdownMenuItem>
-                                            <DropdownMenuItem
-                                                onSelect={handleDelete}
-                                            >
-                                                <Trash className="mr-2" />
-                                                <span>삭제하기</span>
-                                            </DropdownMenuItem>
-                                        </>
-                                    )}
-                                </DropdownMenuGroup>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
+                        {basketInfoAPI.data.participants?.some(
+                            (participant: Participant) =>
+                                participant.userIdx == user?.idx,
+                        ) && (
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button variant="ghost" size="icon">
+                                        <Settings />
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent
+                                    className="w-30"
+                                    side="bottom"
+                                    align="end"
+                                >
+                                    <DropdownMenuLabel>
+                                        바구니 설정
+                                    </DropdownMenuLabel>
+                                    <DropdownMenuGroup>
+                                        <DropdownMenuItem
+                                            onSelect={(e) => {
+                                                navigate(
+                                                    `/basket/add/${basketID}`,
+                                                );
+                                            }}
+                                        >
+                                            <PlusSquare className="mr-2" />
+                                            <span>상품추가</span>
+                                        </DropdownMenuItem>
+
+                                        <DropdownMenuItem
+                                            onSelect={handleInvite}
+                                        >
+                                            <MailPlusIcon className="mr-2" />
+                                            <span>초대하기</span>
+                                        </DropdownMenuItem>
+                                        {user?.idx ===
+                                            basketInfoAPI.data
+                                                ?.createdUserIdx && (
+                                            <>
+                                                <DropdownMenuItem
+                                                    onSelect={handleSend}
+                                                >
+                                                    <Send className="mr-2" />
+                                                    <span>보내기</span>
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem
+                                                    onSelect={handleEdit}
+                                                >
+                                                    <Edit className="mr-2" />
+                                                    <span>수정하기</span>
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem
+                                                    onSelect={handleDelete}
+                                                >
+                                                    <Trash className="mr-2" />
+                                                    <span>삭제하기</span>
+                                                </DropdownMenuItem>
+                                            </>
+                                        )}
+                                    </DropdownMenuGroup>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        )}
                     </div>
                 </div>
 
