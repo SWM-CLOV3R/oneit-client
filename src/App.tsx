@@ -172,10 +172,12 @@ function App() {
                                             </AuthRouter>
                                         }
                                     />
-                                    <Route
-                                        path="fakeLogin"
-                                        element={<FakeLogin />}
-                                    />
+                                    {import.meta.env.DEV && (
+                                        <Route
+                                            path="fakeLogin"
+                                            element={<FakeLogin />}
+                                        />
+                                    )}
                                     <Route path="/" element={<Main />} />
                                     <Route path="*" element={<NotFound />} />
                                 </Routes>
