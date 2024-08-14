@@ -4,8 +4,9 @@ import React from 'react';
 import ParticipantAvatar from './ParticipantAvatar';
 import {Avatar, AvatarImage} from '@/components/ui/avatar';
 import {cn} from '@/lib/utils';
-import {CalendarCheck, Crown} from 'lucide-react';
+import {CalendarCheck, Crown, Plus, PlusCircle} from 'lucide-react';
 import {AspectRatio} from '@/components/ui/aspect-ratio';
+import {Button} from '@/components/ui/button';
 
 const BasketInfoCard = ({
     basket,
@@ -40,7 +41,7 @@ const BasketInfoCard = ({
                         <PopoverTrigger asChild>
                             <div className="flex -space-x-3">
                                 {basket.participants
-                                    ?.slice(0, 5)
+                                    ?.slice(0, 3)
                                     .map(
                                         (
                                             participant: Participant,
@@ -54,12 +55,15 @@ const BasketInfoCard = ({
                                                 }
                                                 profileImage={
                                                     participant.profileImage ||
-                                                    'https://via.placeholder.com/one!t'
+                                                    'https://via.placeholder.com/320?text=oneit'
                                                 }
                                                 userRole={participant.userRole}
                                             />
                                         ),
                                     )}
+                                {basket.participants?.length > 2 && (
+                                    <PlusCircle className="text-oneit-pink h-10 w-10 z-10 bg-white rounded-full p-0" />
+                                )}
                             </div>
                         </PopoverTrigger>
                         <PopoverContent

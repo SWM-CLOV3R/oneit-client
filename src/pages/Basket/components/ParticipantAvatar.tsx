@@ -1,4 +1,4 @@
-import {Avatar, AvatarImage} from '@/components/ui/avatar';
+import {Avatar, AvatarFallback, AvatarImage} from '@/components/ui/avatar';
 import {
     Tooltip,
     TooltipContent,
@@ -7,6 +7,7 @@ import {
 } from '@/components/ui/tooltip';
 import {Participant} from '@/lib/types';
 import {cn} from '@/lib/utils';
+import {UserCircle2} from 'lucide-react';
 import React from 'react';
 
 const ParticipantAvatar = (props: Participant) => {
@@ -23,6 +24,9 @@ const ParticipantAvatar = (props: Participant) => {
                                 )}
                             >
                                 <AvatarImage src={props.profileImage} />
+                                <AvatarFallback>
+                                    <UserCircle2 />
+                                </AvatarFallback>
                             </Avatar>
                         </TooltipTrigger>
                         <TooltipContent>{props.nickname}</TooltipContent>
