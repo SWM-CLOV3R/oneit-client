@@ -191,9 +191,8 @@ export const basketInvite = async (basketIdx: string) => {
 };
 
 export const confirmInvitation = async (invitationIdx: string) => {
-    // todo: remove userIdx
     return axios
-        .patch(`v1/giftbox/invitation/${invitationIdx}/status?userIdx=999`)
+        .patch(`v1/giftbox/invitation/${invitationIdx}/status`)
         .then((res) => {
             if (res.status === 200 && res.data.isSuccess) {
                 return Promise.resolve(res.data.result);

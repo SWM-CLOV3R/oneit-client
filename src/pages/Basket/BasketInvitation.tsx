@@ -26,6 +26,22 @@ const BasketInvitation = () => {
         queryFn: () => fetchBasketInfo(basketID || ''),
     });
 
+    if (basketInfoAPI.error?.toString() === '3009') {
+        return (
+            <div className="w-full pb-5 justify-center content-center text-center flex flex-col gap-2">
+                <p>바구니 참여자가 아닙니다.</p>
+                <Button
+                    onClick={() => {
+                        navigate('/');
+                    }}
+                    className="w-fit mx-auto"
+                >
+                    메인으로
+                </Button>
+            </div>
+        );
+    }
+
     const handleLogin = () => {
         console.log(window.location.pathname);
 
