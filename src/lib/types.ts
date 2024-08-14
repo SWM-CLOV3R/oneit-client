@@ -61,6 +61,7 @@ export type Basket = {
 };
 
 export interface Participant {
+    userIdx?: number;
     nickname: string;
     profileImage: string;
     userRole?: string;
