@@ -64,7 +64,14 @@ const Product = () => {
             emptyAll();
             onSelect(productAPI.data);
             putIntoBasket(basketID || '');
-            toast.success('상품이 추가되었습니다.');
+            toast.success('상품이 추가되었습니다.', {
+                action: {
+                    label: '확인하기',
+                    onClick: () => {
+                        navigate('/basket/' + basketID);
+                    },
+                },
+            });
         }
     };
 
@@ -87,10 +94,14 @@ const Product = () => {
                     <Button variant="ghost" size="icon">
                         <Heart />
                     </Button>
-                    <Share
-                        title="ONE!T"
-                        text={productAPI.data?.name || 'ONE!T'}
+                    <KakaoShare
+                        title="ONE!T - 선물 추천"
+                        description={productAPI.data?.name || 'ONE!T'}
                         url={`https://oneit.gift/product/${productAPI.data?.idx}`}
+                        image={
+                            productAPI.data?.thumbnailUrl ||
+                            'https://www.oneit.gift/oneit.png'
+                        }
                     />
                 </div>
             </div>
