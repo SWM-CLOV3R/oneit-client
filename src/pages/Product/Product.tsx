@@ -143,7 +143,7 @@ const Product = () => {
                 <div className="flex items-center gap-2"></div>
             </div>
             <Separator className="my-2" />
-            <div className="flex flex-col items-center">
+            {/* <div className="flex flex-col items-center">
                 <div className="flex items-center justify-center">
                     <div className="flex items-center gap-1 mr-2">
                         <StarIcon className="w-5 h-5 fill-primary" />
@@ -155,7 +155,7 @@ const Product = () => {
                     <span className="text-lg font-medium">3.2</span>
                 </div>
                 <p>"선물 관점의 후기 한줄평으로"</p>
-            </div>
+            </div> */}
             {/* <div className="border-[0.3px] my-1"></div>
             <div>
                 <p>상품 설명</p>
@@ -259,6 +259,18 @@ const Product = () => {
                             <MoveRight className="pl-2 inline" />
                         </Button>
                     </a>
+                </div>
+            )}
+            {!loggedIn && (
+                <div className="fixed  mx-auto bottom-12 inset-x-0 flex justify-center gap-3 max-w-sm  h-15 w-full bg-white rounded-t-md p-1 mb-3 items-center">
+                    <Button
+                        className="w-full bg-kakao-yellow hover:bg-kakao-yellow/90"
+                        onClick={() =>
+                            navigate(`/login?redirect=/product/${productID}`)
+                        }
+                    >
+                        카카오 로그인하고 바구니에 담기
+                    </Button>
                 </div>
             )}
         </div>
