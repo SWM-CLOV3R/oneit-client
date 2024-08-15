@@ -175,7 +175,7 @@ const Product = () => {
             </div> */}
 
             {loggedIn && (
-                <div className="fixed  mx-auto bottom-12 inset-x-0 flex justify-center gap-3 max-w-sm  h-15 w-full bg-white rounded-t-md p-1 mb-3 items-center">
+                <div className="fixed  mx-auto bottom-12 inset-x-0 flex justify-center gap-2 max-w-sm  h-15 w-full bg-white rounded-t-md py-1 px-2 mb-3 items-center">
                     <Drawer>
                         <DrawerTrigger asChild>
                             <Button className="w-full bg-oneit-blue hover:bg-oneit-blue/90 my-2">
