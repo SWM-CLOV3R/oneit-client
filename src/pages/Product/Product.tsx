@@ -137,23 +137,22 @@ const Product = () => {
             </div>
             <Separator className="mb-2" />
             <div className="flex flex-col">
-                <div className="flex w-full p-1 overflow-hidden whitespace-nowrap  overflow-ellipsis">
-                    {productAPI.data?.keywords.map((keyword, idx) => {
-                        return (
-                            <p
+                <div className="flex w-full overflow-hidden whitespace-nowrap overflow-ellipsis">
+                    <p className="text-oneit-pink text-sm inline-block">
+                        {productAPI.data?.keywords.map((keyword, idx) => (
+                            <span
                                 key={idx}
-                                className="text-oneit-pink text-sm inline-block mr-1"
-                            >{`#${keyword}`}</p>
-                        );
-                    })}
-                    {/* <p className="text-oneit-pink">#실용적인 #태그 #태그</p> */}
+                                className="mr-1"
+                            >{`#${keyword}`}</span>
+                        ))}
+                    </p>
                 </div>
                 <div className="flex">
                     <p>요즘 스트레스를 많이 받는 친구에게 추천</p>
                 </div>
                 <div className="flex items-center gap-2"></div>
             </div>
-            <Separator className="my-2" />
+            {/* <Separator className="my-2" /> */}
             {/* <div className="flex flex-col items-center">
                 <div className="flex items-center justify-center">
                     <div className="flex items-center gap-1 mr-2">
