@@ -1,19 +1,70 @@
-import React from 'react';
+import React, {Key} from 'react';
 import DiscoverCard from './components/DiscoverCard';
-const mockCollection = {
-    idx: 1,
-    name: 'Collection Name',
-    description: 'Collection Description',
-    thumbnailUrl: 'https://via.placeholder.com/400',
-};
+import {
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+    CarouselNext,
+    CarouselPrevious,
+} from '@/components/ui/carousel';
+import {Collection} from '@/lib/types';
+const mockCollections = [
+    {
+        idx: 1,
+        name: 'Collection Name',
+        description: 'Collection Description',
+        thumbnailUrl: 'https://via.placeholder.com/400',
+    },
+    {
+        idx: 2,
+        name: 'Collection Name',
+        description: 'Collection Description',
+        thumbnailUrl: 'https://via.placeholder.com/400',
+    },
+    {
+        idx: 3,
+        name: 'Collection Name',
+        description: 'Collection Description',
+        thumbnailUrl: 'https://via.placeholder.com/400',
+    },
+    {
+        idx: 4,
+        name: 'Collection Name',
+        description: 'Collection Description',
+        thumbnailUrl: 'https://via.placeholder.com/400',
+    },
+    {
+        idx: 5,
+        name: 'Collection Name',
+        description: 'Collection Description',
+        thumbnailUrl: 'https://via.placeholder.com/400',
+    },
+];
 
 const Discover = () => {
     return (
-        <div className="w-full pb-5 pt-4">
-            <div className="flex flex-col gap-3">
-                <h3 className="text-lg text-center">컬렉션 둘러보기</h3>
-                <DiscoverCard collection={mockCollection} />
-            </div>
+        <div className="w-full pb-5 pt-4 flex flex-col justify-center">
+            <Carousel
+                className="w-full"
+                opts={{loop: true}}
+                autoplay={true}
+                autoplayInterval={2500}
+            >
+                <CarouselContent>
+                    {mockCollections?.map(
+                        (
+                            collection: Collection,
+                            index: Key | null | undefined,
+                        ) => (
+                            <CarouselItem key={index}>
+                                <DiscoverCard collection={collection} />
+                            </CarouselItem>
+                        ),
+                    )}
+                </CarouselContent>
+                <CarouselPrevious />
+                <CarouselNext />
+            </Carousel>
         </div>
     );
 };

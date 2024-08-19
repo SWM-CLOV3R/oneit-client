@@ -73,6 +73,6 @@ export interface Participant {
 export type Collection = {
     idx: number;
     name: string;
-    description: string;
+    description?: string;
     thumbnailUrl: string;
 };
