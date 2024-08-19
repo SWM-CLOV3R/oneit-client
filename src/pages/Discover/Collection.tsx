@@ -7,6 +7,10 @@ import {Button} from '@/components/ui/button';
 import {ChevronLeft, Heart} from 'lucide-react';
 import KakaoShare from '@/components/common/KakaoShare';
 import {Separator} from '@/components/ui/separator';
+import {useQuery} from '@tanstack/react-query';
+import {fetchCollectionDetail} from '@/api/collection';
+import {Spinner} from '@/components/ui/spinner';
+import NotFound from '../NotFound';
 
 const mockCollection = {
     idx: 1,
@@ -37,7 +41,13 @@ const mockProducts: Product[] = [
 const Collection = () => {
     const {collectionID} = useParams();
     const navigate = useNavigate();
-    const collection = mockCollection;
+    const {data, isLoading, isError} = useQuery({
+        queryKey: ['collection', collectionID],
+        queryFn: () => fetchCollectionDetail(collectionID || ''),
+    });
+
+    if (isLoading) return <Spinner />;
+    if (isError) return <NotFound />;
 
     const handleGoBack = () => {
         navigate(-1);
@@ -58,13 +68,13 @@ const Collection = () => {
                         <Heart className="h-6 w-6 mr-2" />
                     </Button>
                     <KakaoShare
-                        title={'ONE!T 선물 바구니 - ' + collection?.name}
-                        description={collection?.description || 'ONE!T'}
+                        title={'ONE!T 선물 컬렉션 - ' + data?.collectionName}
+                        description={data?.collectionDescription || 'ONE!T'}
                         image={
-                            collection.thumbnailUrl ||
+                            'https://' + data.collectionThumbnailUrl ||
                             'https://www.oneit.gift/oneit.png'
                         }
-                        url={`https://oneit.gift/collection/${collection?.idx}`}
+                        url={`https://oneit.gift/collection/${collectionID}`}
                     />
                 </div>
             </div>
@@ -73,10 +83,10 @@ const Collection = () => {
                     <AspectRatio ratio={1 / 1} className="justify-center flex">
                         <img
                             src={
-                                collection.thumbnailUrl ||
+                                'https://' + data.collectionThumbnailUrl ||
                                 'https://via.placeholder.com/400'
                             }
-                            alt={collection.name}
+                            alt={data.collectionName}
                             className="relative z-[-10] h-full object-cover hover:opacity-80 transition-opacity"
                         />
                     </AspectRatio>
@@ -84,10 +94,10 @@ const Collection = () => {
 
                 <div className="p-4 ">
                     <div className="flex items-center justify-start">
-                        <span>{collection.description}</span>
+                        <span>{data?.collectionDescription}</span>
                     </div>
                     <h3 className="max-w-full  text-xl font-semibold mb-2 overflow-hidden whitespace-nowrap  overflow-ellipsis">
-                        {collection.name}
+                        {data?.collectionName}
                     </h3>
                 </div>
             </div>
@@ -95,7 +105,7 @@ const Collection = () => {
                 <h3 className="text-lg font-bold align-middle">상품 목록</h3>
             </div>
             <div className="grid grid-cols-2 gap-2 mb-5">
-                {mockProducts?.map((product: Product) => (
+                {data?.productList?.map((product: Product) => (
                     <ProductCard key={product.idx} product={product} />
                 ))}
             </div>
