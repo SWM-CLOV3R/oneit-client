@@ -41,11 +41,11 @@ getGift.debugLabel = 'getGift';
 
 export const fetchProduct = async (productID: string): Promise<Product> => {
     return axios
-        .get(`/v1/products/${productID}`)
+        .get(`/v2/products/${productID}`)
         .then((res) => {
-            if (res.status === 200 && res.data.isSuccess) {
-                console.log(res.data.result);
-                return Promise.resolve(res.data.result);
+            if (res.status === 200) {
+                console.log(res.data);
+                return Promise.resolve(res.data);
             } else {
                 throw new Error(res.data.message);
             }
