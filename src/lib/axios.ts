@@ -59,7 +59,7 @@ instance.interceptors.response.use(
                 console.log('[AUTH] Delete existing token from local storage');
                 localStorage.removeItem('token');
             }
-            return Promise.reject({code, message});
+            return Promise.reject(error);
         } else if (error instanceof Error && error.name === 'TimeoutError') {
             console.log(`[API] Timeout Error ${error.toString()}`);
             return Promise.reject({message: 'Timeout Error', code: '0'});
