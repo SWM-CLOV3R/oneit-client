@@ -97,6 +97,8 @@ const SharedBasket = () => {
                             key={product.idx}
                             product={product}
                             basketID={basketID || ''}
+                            likeCount={product.likeCount || 0}
+                            voteStatus={product.voteStatus || 'NONE'}
                         />
                     ))}
                     <div
@@ -108,44 +110,6 @@ const SharedBasket = () => {
                     </div>
                 </div>
             </div>
-            {error && (
-                <Dialog open={error} onOpenChange={setError}>
-                    <DialogContent
-                        className="sm:max-w-[425px]"
-                        onInteractOutside={(e: {
-                            preventDefault: () => void;
-                        }) => {
-                            e.preventDefault();
-                        }}
-                    >
-                        <DialogHeader>
-                            <DialogTitle>문제 발생</DialogTitle>
-                        </DialogHeader>
-                        <DialogDescription>
-                            문제가 발생했습니다. 다시 시도해주세요.
-                        </DialogDescription>
-                        <div className="flex justify-end gap-2">
-                            <Button
-                                variant="outline"
-                                onClick={() => {
-                                    setError(false);
-                                    navigate('/');
-                                }}
-                            >
-                                메인으로
-                            </Button>
-                            <Button
-                                type="submit"
-                                onClick={() => {
-                                    setError(false);
-                                }}
-                            >
-                                다시시도
-                            </Button>
-                        </div>
-                    </DialogContent>
-                </Dialog>
-            )}
             <Button
                 className="fixed bottom-16 right-0 px-3 py-6 rounded-full shadow-lg m-1"
                 onClick={scrollToTop}

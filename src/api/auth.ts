@@ -68,24 +68,19 @@ export const isLoginAtom = atom(async (get) => {
 });
 
 export const login = async (token: string) => {
-    try {
-        const res = await axios.post('/v2/kakao/login', {
+    return axios
+        .post('/v2/kakao/login', {
             accessToken: token,
-        });
-
-        if (res.status == 200) {
-            // const { accessToken, refreshToken } = res.data as LoginResponse;
+        })
+        .then((res) => {
             const accessToken = res.data.accessToken;
             localStorage.setItem('token', accessToken);
-            // cookies.set("refreshToken", refreshToken, { path: "/", httpOnly: true });
             return Promise.resolve();
-        } else {
-            throw new Error('[AUTH] Failed to login');
-        }
-    } catch (err) {
-        console.log(err);
-        return Promise.reject(err);
-    }
+        })
+        .catch((err) => {
+            console.log(err);
+            return Promise.reject(err);
+        });
 };
 
 export const logout = async () => {

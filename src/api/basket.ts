@@ -35,12 +35,9 @@ export const createBasket = atom(null, async (get, set) => {
         })
         .then((res) => {
             console.log(res);
-            if (res.status === 200) {
-                return Promise.resolve(res.data);
-            }
+            return Promise.resolve(res.data);
         })
         .catch((err) => {
-            console.log(err);
             return Promise.reject(err);
         });
 });
@@ -49,15 +46,7 @@ export const fetchBasketInfo = async (basketID: string) => {
     return axios
         .get(`/v2/giftbox/${basketID}`)
         .then((res) => {
-            if (res.status === 200) {
-                return Promise.resolve(res.data);
-            } else if (res.status === 401) {
-                return Promise.reject(res.data.message);
-            } else if (res.status === 200 && !res.data.isSuccess) {
-                return Promise.reject(res.data.code);
-            } else {
-                throw new Error(res.data.message);
-            }
+            return Promise.resolve(res.data);
         })
         .catch((err) => {
             return Promise.reject(err);
@@ -65,27 +54,25 @@ export const fetchBasketInfo = async (basketID: string) => {
 };
 
 export const fetchBasketList = async () => {
-    return axios.get('/v2/giftbox').then((res) => {
-        if (res.status === 200) {
+    return axios
+        .get('/v2/giftbox')
+        .then((res) => {
             return Promise.resolve(res.data);
-        } else if (res.status === 200 && !res.data.isSuccess) {
-            return Promise.reject(res.data.code);
-        } else {
-            throw new Error(res.data.message);
-        }
-    });
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
 };
 
 export const deleteBasket = async (basketID: string) => {
-    return axios.delete(`/v2/giftbox/${basketID}`).then((res) => {
-        if (res.status === 200) {
+    return axios
+        .delete(`/v2/giftbox/${basketID}`)
+        .then((res) => {
             return Promise.resolve(res.data);
-        } else if (res.status === 200 && !res.data.isSuccess) {
-            return Promise.reject(res.data.code);
-        } else {
-            throw new Error(res.data.message);
-        }
-    });
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
 };
 
 export const editBasket = async (
@@ -111,13 +98,10 @@ export const editBasket = async (
             transformRequest: [() => payload],
         })
         .then((res) => {
-            if (res.status === 200) {
-                return Promise.resolve(res.data);
-            } else if (res.status === 200 && !res.data.isSuccess) {
-                return Promise.reject(res.data.code);
-            } else {
-                throw new Error(res.data.message);
-            }
+            return Promise.resolve(res.data);
+        })
+        .catch((err) => {
+            return Promise.reject(err);
         });
 };
 
@@ -127,14 +111,8 @@ export const addToBasket = atom(null, async (get, set, basketIdx: string) => {
     return axios
         .post(`v2/giftbox/${basketIdx}/products`, products)
         .then((res) => {
-            if (res.status === 200) {
-                set(selectedProduct, []);
-                return Promise.resolve(res.data);
-            } else if (res.status === 200 && !res.data.isSuccess) {
-                return Promise.reject(res.data.code);
-            } else {
-                throw new Error(res.data.message);
-            }
+            set(selectedProduct, []);
+            return Promise.resolve(res.data);
         })
         .catch((err) => {
             return Promise.reject(err);
@@ -177,13 +155,7 @@ export const basketInvite = async (basketIdx: string) => {
     return axios
         .post(`v2/giftbox/${basketIdx}/invitation`)
         .then((res) => {
-            if (res.status === 200) {
-                return Promise.resolve(res.data);
-            } else if (res.status === 200 && !res.data.isSuccess) {
-                return Promise.reject(res.data.code);
-            } else {
-                throw new Error(res.data.message);
-            }
+            return Promise.resolve(res.data);
         })
         .catch((err) => {
             return Promise.reject(err);
@@ -194,15 +166,10 @@ export const confirmInvitation = async (invitationIdx: string) => {
     return axios
         .patch(`v2/giftbox/invitation/${invitationIdx}/status`)
         .then((res) => {
-            if (res.status === 200) {
-                return Promise.resolve(res.data);
-            } else if (res.status === 200 && !res.data.isSuccess) {
-                return Promise.reject(res.data.code);
-            } else {
-                throw new Error(res.data.message);
-            }
+            return Promise.resolve(res.data);
         })
         .catch((err) => {
+            console.log(err);
             return Promise.reject(err);
         });
 };
@@ -211,13 +178,7 @@ export const fetcthBasketParticipants = async (basketIdx: string) => {
     return axios
         .get(`v2/giftbox/${basketIdx}/participants`)
         .then((res) => {
-            if (res.status === 200) {
-                return Promise.resolve(res.data);
-            } else if (res.status === 200 && !res.data.isSuccess) {
-                return Promise.reject(res.data.code);
-            } else {
-                throw new Error(res.data.message);
-            }
+            return Promise.resolve(res.data);
         })
         .catch((err) => {
             return Promise.reject(err);
@@ -238,13 +199,7 @@ export const basketProductVote = async (
             vote,
         })
         .then((res) => {
-            if (res.status === 200) {
-                return Promise.resolve(res.data);
-            } else if (res.status === 200 && !res.data.isSuccess) {
-                return Promise.reject(res.data.code);
-            } else {
-                throw new Error(res.data.message);
-            }
+            return Promise.resolve(res.data);
         })
         .catch((err) => {
             return Promise.reject(err);

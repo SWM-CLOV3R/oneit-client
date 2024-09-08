@@ -73,15 +73,15 @@ const recommend = async (payload: Payload) => {
         axios
             .post('/v2/product/result/category', payload)
             .then((res) => {
-                console.log(res.data);
+                // console.log(res.data);
 
-                if (!res.data.isSuccess)
-                    throw new Error('Failed to get recommend list');
+                // if (!res.data.isSuccess)
+                //     throw new Error('Failed to get recommend list');
 
                 resolve(res.data);
             })
             .catch((err) => {
-                console.log(err);
+                // console.log(err);
                 reject(err);
             });
     });

@@ -43,15 +43,9 @@ export const fetchProduct = async (productID: string): Promise<Product> => {
     return axios
         .get(`/v2/products/${productID}`)
         .then((res) => {
-            if (res.status === 200) {
-                console.log(res.data);
-                return Promise.resolve(res.data);
-            } else {
-                throw new Error(res.data.message);
-            }
+            return Promise.resolve(res.data);
         })
         .catch((err) => {
-            console.error(err);
             return Promise.reject(err);
         });
 };
