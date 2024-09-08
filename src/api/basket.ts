@@ -9,6 +9,8 @@ import {
 import axios from '@/lib/axios';
 import {Basket} from '@/lib/types';
 import {atom} from 'jotai';
+import {atomWithMutation, atomWithQuery} from 'jotai-tanstack-query';
+import {toast} from 'sonner';
 
 export const createBasket = atom(null, async (get, set) => {
     const data = {
@@ -105,19 +107,49 @@ export const editBasket = async (
         });
 };
 
-export const addToBasket = atom(null, async (get, set, basketIdx: string) => {
-    const selected = get(selectedProduct);
-    const products = selected.map((p) => Number(p.idx));
-    return axios
-        .post(`v2/giftbox/${basketIdx}/products`, products)
-        .then((res) => {
-            set(selectedProduct, []);
-            return Promise.resolve(res.data);
-        })
-        .catch((err) => {
-            return Promise.reject(err);
-        });
-});
+type AddToBasketVariables = string;
+
+export const addToBasket = atomWithMutation<unknown, AddToBasketVariables>(
+    (get) => ({
+        mutationKey: ['addToBasket'],
+        mutationFn: async (basketIdx: AddToBasketVariables) => {
+            const selected = get(selectedProduct);
+            const products = selected.map((p) => Number(p.idx));
+            return axios
+                .post(`v2/giftbox/${basketIdx}/products`, products)
+                .then((res) => {
+                    return Promise.resolve(res.data);
+                })
+                .catch((err) => {
+                    return Promise.reject(err);
+                });
+        },
+        onSuccess: (data, variables, context) => {
+            toast.success('상품이 추가되었습니다.', {
+                action: {
+                    label: '확인하기',
+                    onClick: () => {
+                        window.location.href = '/basket/' + variables;
+                    },
+                },
+            });
+        },
+    }),
+);
+
+// export const addToBasket = atom(null, async (get, set, basketIdx: string) => {
+//     const selected = get(selectedProduct);
+//     const products = selected.map((p) => Number(p.idx));
+//     return axios
+//         .post(`v2/giftbox/${basketIdx}/products`, products)
+//         .then((res) => {
+//             set(selectedProduct, []);
+//             return Promise.resolve(res.data);
+//         })
+//         .catch((err) => {
+//             return Promise.reject(err);
+//         });
+// });
 
 export const fetchBasketProducts = async (basketIdx: string) => {
     return axios
