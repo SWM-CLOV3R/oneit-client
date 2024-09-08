@@ -221,7 +221,7 @@ const Basket = () => {
                                     basketInfoAPI.data?.imageUrl ||
                                     'https://www.oneit.gift/oneit.png'
                                 }
-                                url={`https://oneit.gift/basket/share/${basketID}`}
+                                url={`/basket/share/${basketID}`}
                             />
                         ) : (
                             <Button variant="ghost" size="icon" disabled>
