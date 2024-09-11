@@ -64,6 +64,7 @@ const BasketInvitation = React.lazy(
 const Discover = React.lazy(() => import('./pages/Discover/Discover'));
 const Collection = React.lazy(() => import('./pages/Discover/Collection'));
 const Inquiry = React.lazy(() => import('./pages/Inquiry/Inquiry'));
+const InquiryChoice = React.lazy(() => import('./pages/Inquiry/InquiryChoice'));
 
 function App() {
     const {handleError} = useApiError();
@@ -176,6 +177,10 @@ function App() {
                                             <Route
                                                 path="/inquiry/:inquiryID"
                                                 element={<Inquiry />}
+                                            />
+                                            <Route
+                                                path="/inquiry/:inquiryID/choice"
+                                                element={<InquiryChoice />}
                                             />
                                             <Route
                                                 path="/about"
