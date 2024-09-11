@@ -97,11 +97,11 @@ function App() {
                                                 element={<Recommend />}
                                             />
                                             <Route
-                                                path="/quiz/:chatID/:currentDepth"
+                                                path="/recommend/:chatID/:currentDepth"
                                                 element={<Quiz />}
                                             />
                                             <Route
-                                                path="/result/:chatID"
+                                                path="/recommend/:chatID/result"
                                                 element={<Results />}
                                             />
                                             <Route
