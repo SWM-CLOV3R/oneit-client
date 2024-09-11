@@ -113,7 +113,7 @@ function App() {
                                                 element={<Curation />}
                                             />
                                             <Route
-                                                path="/discover"
+                                                path="/collection"
                                                 element={<Discover />}
                                             />
                                             <Route
