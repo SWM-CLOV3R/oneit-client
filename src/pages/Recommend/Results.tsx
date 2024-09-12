@@ -18,9 +18,6 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '@/components/ui/dialog';
-import Kakao from '@/assets/kakao.png';
-import Naver from '@/assets/naver_blog.png';
-import Instagram from '@/assets/instagram.png';
 import {Spinner} from '@/components/ui/spinner';
 import {getGift} from '@/api/product';
 import {Card, CardTitle} from '@/components/ui/card';
@@ -34,7 +31,8 @@ import {
 import Share from '@/components/common/Share';
 import KakaoShare from '@/components/common/KakaoShare';
 import {isLoginAtom} from '@/api/auth';
-
+import {toast} from 'sonner';
+import {Link} from 'lucide-react';
 const GiftCard = React.lazy(() => import('./components/GiftCard'));
 const NotFound = React.lazy(() => import('../NotFound'));
 
@@ -80,15 +78,33 @@ const Results = () => {
                             </span>
                         </div>
                         {isValid && (
-                            <KakaoShare
-                                title={`ONE!T - ${userName === '' ? '' : userName + '을 위한 '}선물 추천`}
-                                description="WANNA GIFT IT, ONE!T"
-                                url={`https://www.oneit.gift/result/${chatID}`}
-                                image={product[0].thumbnailUrl}
-                            />
+                            // <KakaoShare
+                            //     title={`ONE!T - ${userName === '' ? '' : userName + '을 위한 '}선물 추천`}
+                            //     description="WANNA GIFT IT, ONE!T"
+                            //     url={`https://www.oneit.gift/result/${chatID}`}
+                            //     image={product[0].thumbnailUrl}
+                            // />
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={async () => {
+                                    await navigator.clipboard.writeText(
+                                        `https://oneit.gift/result/${chatID}`,
+                                    );
+                                    toast('클립보드에 복사되었습니다.');
+                                }}
+                            >
+                                <Link />
+                            </Button>
                         )}
 
-                        {/* <Share  url={`https://oneit.gift/result/${chatID}`} title={`ONE!T - ${userName===""?"":userName+"위한 "}선물 추천`} text={product.map(item => item.name).join('\n')}/> */}
+                        {/* <Share
+                            url={`https://oneit.gift/result/${chatID}`}
+                            title={`ONE!T - ${userName === '' ? '' : userName + '위한 '}선물 추천`}
+                            text={product
+                                .map((item) => item.name)
+                                .join('\n')}
+                        /> */}
                         {/* <Share2Icon/> */}
                     </CardTitle>
                     <div className="w-full">
