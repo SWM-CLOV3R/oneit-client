@@ -3,7 +3,6 @@ import Recommend from './components/RecommendCard';
 import {useQuery} from '@tanstack/react-query';
 import {fetchBasketList} from '@/api/basket';
 import {Spinner} from '@/components/ui/spinner';
-import NotFound from '../NotFound';
 import {
     Carousel,
     CarouselContent,
@@ -14,7 +13,7 @@ import {
 import {Basket} from '@/lib/types';
 import {Key} from 'react';
 import {useAtomValue} from 'jotai';
-import {authAtom, isLoginAtom} from '@/api/auth';
+import {isLoginAtom} from '@/api/auth';
 import BasketInfoCard from '../Basket/components/BasketInfoCard';
 import {Link} from 'react-router-dom';
 
@@ -39,7 +38,7 @@ const Main = () => {
                 />
             );
         }
-        console.log(data);
+        // console.log(data);
 
         return (
             <Carousel
@@ -73,14 +72,15 @@ const Main = () => {
 
     return (
         <div className="flex flex-col overflow-hidden justify-center gap-2 p-1 w-full items-center mt-4 mb-5">
-            {!isLogin && (
+            <Recommend />
+            {isLogin ? (
+                <BasketIntroCard text="선물 바구니 보러 가기" login={true} />
+            ) : (
                 <BasketIntroCard
                     text="카카오 로그인하고 바구니를 만들어보세요"
                     login={false}
                 />
             )}
-            {isLogin && <CurationList />}
-            <Recommend />
         </div>
     );
 };
