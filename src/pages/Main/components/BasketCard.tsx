@@ -1,5 +1,6 @@
 import {Link, useNavigate} from 'react-router-dom';
 import {Button} from '@/components/ui/button';
+import {cn} from '@/lib/utils';
 
 const BasketCard = ({text, login}: {text: string; login: boolean}) => {
     return (
@@ -15,7 +16,14 @@ const BasketCard = ({text, login}: {text: string; login: boolean}) => {
                             뭘 좋아할지 몰라서 다 준비해봤어
                         </p>
                     </div>
-                    <Button className="relative m-2 bg-white hover:bg-slate-50 text-md">
+                    <Button
+                        className={cn(
+                            'relative m-2',
+                            login
+                                ? ' bg-white hover:bg-slate-50 text-md'
+                                : 'bg-kakao-yellow hover:bg-kakao-yellow/90 text-oneit-gray text-md',
+                        )}
+                    >
                         {text}
                     </Button>
                 </Link>
