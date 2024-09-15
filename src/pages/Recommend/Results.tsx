@@ -36,8 +36,7 @@ import {isLoginAtom} from '@/api/auth';
 import {toast} from 'sonner';
 import {GiftIcon, Instagram, Link} from 'lucide-react';
 import InstaLogo from '@/assets/instagram.png';
-import Chusuk1 from '@/assets/chusuk1.png';
-import Chusuk2 from '@/assets/chusuk2.png';
+import Chusuk2 from '@/assets/chusuk3.png';
 import {AspectRatio} from '@/components/ui/aspect-ratio';
 
 const GiftCard = React.lazy(() => import('./components/GiftCard'));
@@ -238,15 +237,25 @@ const Results = () => {
                                             </DialogDescription>
                                         </DialogHeader>
                                         <div className="max-w-52 w-full">
-                                            <AspectRatio
-                                                className="justify-center flex"
-                                                ratio={1 / 1}
+                                            <a
+                                                href="https://www.instagram.com/p/C_7LxRNpOMS"
+                                                target="_blank"
+                                                rel="noreferrer"
                                             >
-                                                <img src={Chusuk2} />
-                                            </AspectRatio>
+                                                <AspectRatio
+                                                    className="justify-center flex"
+                                                    ratio={1 / 1}
+                                                >
+                                                    <img src={Chusuk2} />
+                                                </AspectRatio>
+                                            </a>
                                         </div>
 
-                                        <a>
+                                        <a
+                                            href="https://www.instagram.com/p/C_7LxRNpOMS"
+                                            target="_blank"
+                                            rel="noreferrer"
+                                        >
                                             <Button className="w-full">
                                                 <Instagram className="inline mr-2" />
                                                 인스타그램 바로가기

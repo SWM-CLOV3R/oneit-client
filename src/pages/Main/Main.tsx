@@ -28,8 +28,9 @@ import {
 } from '@/components/ui/drawer';
 import {Button} from '@/components/ui/button';
 import {AspectRatio} from '@/components/ui/aspect-ratio';
-import Chusuk1 from '@/assets/chusuk1.png';
-import Chusuk2 from '@/assets/chusuk2.png';
+import Chusuk1 from '@/assets/chusuk3.png';
+import Chusuk2 from '@/assets/chusuk4.png';
+import Chusuk3 from '@/assets/chusuk5.png';
 
 const Main = () => {
     const isLogin = useAtomValue(isLoginAtom);
@@ -101,35 +102,49 @@ const Main = () => {
                         </DrawerTitle>
                     </DrawerHeader>
                     <div className="max-w-sm w-full">
-                        {/* todo: link to instagram */}
-                        <Carousel
-                            className="w-full"
-                            opts={{loop: true}}
-                            autoplay={true}
-                            autoplayInterval={2500}
+                        <a
+                            href="https://www.instagram.com/p/C_7LxRNpOMS"
+                            target="_blank"
+                            rel="noreferrer"
                         >
-                            <CarouselContent>
-                                <CarouselItem>
-                                    <AspectRatio
-                                        className="justify-center flex"
-                                        ratio={1 / 1}
-                                    >
-                                        <img
-                                            src={Chusuk1}
-                                            className=" object-cover"
-                                        />
-                                    </AspectRatio>
-                                </CarouselItem>
-                                <CarouselItem className="">
-                                    <AspectRatio
-                                        className="justify-center flex"
-                                        ratio={1 / 1}
-                                    >
-                                        <img src={Chusuk2} />
-                                    </AspectRatio>
-                                </CarouselItem>
-                            </CarouselContent>
-                        </Carousel>
+                            <Carousel
+                                className="w-full"
+                                opts={{loop: true}}
+                                autoplay={true}
+                                autoplayInterval={2500}
+                            >
+                                <CarouselContent>
+                                    <CarouselItem>
+                                        <AspectRatio
+                                            className="justify-center flex"
+                                            ratio={1 / 1}
+                                        >
+                                            <img
+                                                src={Chusuk1}
+                                                className=" object-cover"
+                                            />
+                                        </AspectRatio>
+                                    </CarouselItem>
+                                    <CarouselItem className="">
+                                        <AspectRatio
+                                            className="justify-center flex"
+                                            ratio={1 / 1}
+                                        >
+                                            <img src={Chusuk2} />
+                                        </AspectRatio>
+                                    </CarouselItem>
+                                    <CarouselItem className="">
+                                        <AspectRatio
+                                            className="justify-center flex"
+                                            ratio={1 / 1}
+                                        >
+                                            <img src={Chusuk3} />
+                                        </AspectRatio>
+                                    </CarouselItem>
+                                </CarouselContent>
+                            </Carousel>
+                        </a>
+                        {/* todo: link to instagram */}
                     </div>
                     <DrawerFooter className="w-full">
                         <Button onClick={() => navigate('/recommend')}>
