@@ -214,7 +214,7 @@ const Results = () => {
                                     <DialogTrigger asChild>
                                         <Button
                                             variant="ghost"
-                                            className="animate-bounce fixed bottom-16 right-0 px-3 py-6 rounded-full shadow-lg m-1 bg-gradient-to-br from-oneit-blue to-oneit-pink text-oneit-gray hover:from-oneit-pink hover:to-oneit-blue"
+                                            className="animate-bounce fixed bottom-0 right-0 px-3 py-6 rounded-full shadow-lg m-1 bg-gradient-to-br from-oneit-blue to-oneit-pink text-oneit-gray hover:from-oneit-pink hover:to-oneit-blue"
                                         >
                                             <GiftIcon className="w-6 h-6" />
                                         </Button>

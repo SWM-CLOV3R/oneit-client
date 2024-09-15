@@ -206,7 +206,7 @@ function App() {
                         </Suspense>
                     </div>
                 </main>
-                <Navbar />
+                {/* <Navbar /> */}
                 <Toaster position="bottom-center" />
             </div>
         </div>
