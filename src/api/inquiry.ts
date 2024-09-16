@@ -39,7 +39,7 @@ export const createInquiry = atomWithMutation<unknown, CreateInquiryVariables>(
 
             Kakao.Share.sendDefault({
                 objectType: 'text',
-                text: `친구들이 ${variables.target}님의 선물을 고르고 있어요! 도와주세요!`,
+                text: `🎁친구들이 ${variables.target}님을 위한 선물을 고르고 있어요!\n마음에 드는 선물을 고를 수 있도록 도와주세요🥺`,
                 link: {
                     mobileWebUrl: url,
                     webUrl: url,
