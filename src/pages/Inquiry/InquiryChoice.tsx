@@ -7,24 +7,24 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import {Emoji} from '@/lib/types';
+import {Emoji, InquiryChoice as InquiryChoiceType} from '@/lib/types';
 import {useQuery} from '@tanstack/react-query';
 import {Smile} from 'lucide-react';
 import {useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
-
-const dummyEmoji: Emoji = {
-    idx: 1,
-    name: 'GOOD',
-    content: '마음에 들어요',
-    emojiImageURL:
-        'https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDI0LTAxL3Jhd3BpeGVsb2ZmaWNlMThfYV9jdXRlXzNkX29mX2Ffc21pbGVfZW1vamlfZmFjZV9pc29sYXRlZF9vbl9hX18xMjIzNzVhYi01YWIzLTQzYjQtODA5Ny0xN2YwMjMzNWVjMmQucG5n.png',
-};
+import EmojiList from '@/data/emoji.json';
+import {useAtom, useAtomValue, useSetAtom} from 'jotai';
+import {addChoice, choices} from '@/atoms/inquiry';
+import {Popover, PopoverContent, PopoverTrigger} from '@/components/ui/popover';
+import {cn} from '@/lib/utils';
 
 const InquiryChoice = () => {
     const {inquiryID} = useParams();
     const [currentIdx, setCurrentIdx] = useState(0);
     const [isSelected, setIsSelected] = useState(false);
+    const [selectedEmoji, setSelectedEmoji] = useState(0);
+    const choiceList = useAtomValue(choices);
+    const selectEmoji = useSetAtom(addChoice);
     const naigate = useNavigate();
 
     const inquiryAPI = useQuery({
@@ -33,7 +33,18 @@ const InquiryChoice = () => {
     });
 
     const handleEmoji = (emoji: Emoji) => {
+        if (selectedEmoji === emoji.idx) {
+            setSelectedEmoji(0);
+            setIsSelected(false);
+            return;
+        }
         setIsSelected(true);
+        setSelectedEmoji(emoji.idx);
+        const choice: InquiryChoiceType = {
+            productIdx: inquiryAPI.data?.selectedProducts[currentIdx].idx,
+            emojiIdx: emoji.idx,
+        };
+        selectEmoji(choice);
     };
 
     const handleNext = () => {
@@ -41,6 +52,7 @@ const InquiryChoice = () => {
             //todo: submit inquiry result to server
             naigate(`/inquiry/${inquiryID}/result`);
         } else {
+            setSelectedEmoji(0);
             setCurrentIdx((prev) => prev + 1);
         }
     };
@@ -74,29 +86,29 @@ const InquiryChoice = () => {
                     </h3>
                 </div>
                 <div className="w-full flex justify-between px-2">
-                    {[
-                        dummyEmoji,
-                        dummyEmoji,
-                        dummyEmoji,
-                        dummyEmoji,
-                        dummyEmoji,
-                    ].map((emoji, idx) => (
-                        <TooltipProvider>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <div
-                                        className="w-5"
-                                        onClick={() => handleEmoji(emoji)}
-                                    >
-                                        {/* <img src={dummyEmoji.emojiImageURL} /> */}
-                                        <Smile className="text-oneit-gray hover:text-oneit-pink" />
-                                    </div>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{emoji.content}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        </TooltipProvider>
+                    {EmojiList.map((emoji, idx) => (
+                        <Popover key={idx}>
+                            <PopoverTrigger asChild>
+                                <div
+                                    className="w-5"
+                                    onClick={() => handleEmoji(emoji)}
+                                >
+                                    {/* todo: match with emoji image */}
+                                    {/* <img src={dummyEmoji.emojiImageURL} /> */}
+                                    <Smile
+                                        className={cn(
+                                            ' hover:text-oneit-pink',
+                                            selectedEmoji === emoji.idx
+                                                ? 'text-oneit-pink'
+                                                : 'text-oneit-gray',
+                                        )}
+                                    />
+                                </div>
+                            </PopoverTrigger>
+                            <PopoverContent side="top" className="w-fit">
+                                <p>{emoji.content}</p>
+                            </PopoverContent>
+                        </Popover>
                     ))}
                 </div>
             </div>
