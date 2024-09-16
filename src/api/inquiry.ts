@@ -48,3 +48,14 @@ export const createInquiry = atomWithMutation<unknown, CreateInquiryVariables>(
         },
     }),
 );
+
+export const getInquiry = async (inquiryIdx: string) => {
+    return axios
+        .get(`/v2/inquiry/${inquiryIdx}`)
+        .then((res) => {
+            return Promise.resolve(res.data);
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
+};
