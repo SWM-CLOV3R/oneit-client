@@ -106,7 +106,7 @@ const InquiryChoice = () => {
                                 </div>
                             </PopoverTrigger>
                             <PopoverContent side="top" className="w-fit">
-                                <p>{emoji.content}</p>
+                                <p className="text-sm">{emoji.content}</p>
                             </PopoverContent>
                         </Popover>
                     ))}
