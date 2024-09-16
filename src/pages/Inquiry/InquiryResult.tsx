@@ -1,4 +1,4 @@
-import {getInquiry} from '@/api/inquiry';
+import {getInquiry, submitInquiry} from '@/api/inquiry';
 import {Button} from '@/components/ui/button';
 import {Product} from '@/lib/types';
 import {useQuery} from '@tanstack/react-query';
@@ -6,20 +6,25 @@ import React, {Key} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import ChoiceCard from './Components/ChoiceCard';
 import EmojiList from '@/data/emoji.json';
-import {useAtomValue} from 'jotai';
+import {useAtom, useAtomValue} from 'jotai';
 import {choices} from '@/atoms/inquiry';
 
 const InquiryResult = () => {
     const {inquiryID} = useParams();
     const navigate = useNavigate();
     const selectedEmojis = useAtomValue(choices);
+    const [choiceList, setChoiceList] = useAtom(choices);
+    const [{mutate}] = useAtom(submitInquiry);
 
     const inquiryAPI = useQuery({
         queryKey: ['inquiry', inquiryID],
         queryFn: () => getInquiry(inquiryID || ''),
     });
 
-    const handleSubmit = () => {};
+    const handleSubmit = () => {
+        mutate(inquiryID || '');
+        navigate(`/inquiry/after`, {replace: true});
+    };
 
     return (
         <>
