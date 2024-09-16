@@ -83,3 +83,8 @@ export type Emoji = {
     content: string;
     emojiImageURL: string;
 };
+
+export type InquiryChoice = {
+    productIdx: number;
+    emojiIdx: number;
+};

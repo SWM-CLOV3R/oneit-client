@@ -1,3 +1,4 @@
+import {getInquiry} from '@/api/inquiry';
 import {AspectRatio} from '@/components/ui/aspect-ratio';
 import {Button} from '@/components/ui/button';
 import {
@@ -7,28 +8,10 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import {Emoji} from '@/lib/types';
+import {useQuery} from '@tanstack/react-query';
 import {Smile} from 'lucide-react';
 import {useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
-
-interface InquiryProductType {
-    idx: number;
-    name: string;
-    thumbnailUrl: string;
-}
-
-const dummyProducts: InquiryProductType[] = [
-    {
-        idx: 1,
-        name: '상품 이름',
-        thumbnailUrl: 'https://via.placeholder.com/150',
-    },
-    {
-        idx: 2,
-        name: '상품 이름222',
-        thumbnailUrl: 'https://via.placeholder.com/150',
-    },
-];
 
 const dummyEmoji: Emoji = {
     idx: 1,
@@ -39,24 +22,29 @@ const dummyEmoji: Emoji = {
 };
 
 const InquiryChoice = () => {
-    const {inquiryId} = useParams();
+    const {inquiryID} = useParams();
     const [currentIdx, setCurrentIdx] = useState(0);
     const [isSelected, setIsSelected] = useState(false);
     const naigate = useNavigate();
+
+    const inquiryAPI = useQuery({
+        queryKey: ['inquiry', inquiryID],
+        queryFn: () => getInquiry(inquiryID || ''),
+    });
+
     const handleEmoji = (emoji: Emoji) => {
         setIsSelected(true);
     };
 
     const handleNext = () => {
-        if (currentIdx === dummyProducts.length - 1) {
+        if (currentIdx === inquiryAPI.data.selectedProducts.length - 1) {
             //todo: submit inquiry result to server
-            naigate(`/inquiry/${inquiryId}/result`);
+            naigate(`/inquiry/${inquiryID}/result`);
         } else {
+            setCurrentIdx((prev) => prev + 1);
         }
     };
-
-    //todo: fetch inquiry product data from API using inquiryId
-    const productInfo = dummyProducts;
+    // console.log(inquiryAPI.data?.selectedProducts);
 
     return (
         <div className="flex flex-col content-center w-full gap-2 justify-center items-center">
@@ -66,17 +54,23 @@ const InquiryChoice = () => {
                         <div className="relative w-full h-full flex justify-center">
                             <img
                                 src={
-                                    productInfo[currentIdx].thumbnailUrl ||
+                                    inquiryAPI.data?.selectedProducts[
+                                        currentIdx
+                                    ].thumbnailUrl ||
                                     'https://via.placeholder.com/400'
                                 }
-                                alt={productInfo[currentIdx].name}
+                                alt={
+                                    inquiryAPI.data?.selectedProducts[
+                                        currentIdx
+                                    ].name
+                                }
                                 className="relative z-[-10] h-full object-cover hover:opacity-80 transition-opacity"
                             />
                             <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity"></div>
                         </div>
                     </AspectRatio>
                     <h3 className="max-w-full text-lg font-semibold m-2 overflow-hidden whitespace-nowrap overflow-ellipsis">
-                        {productInfo[currentIdx].name}
+                        {inquiryAPI.data?.selectedProducts[currentIdx].name}
                     </h3>
                 </div>
                 <div className="w-full flex justify-between px-2">
@@ -108,7 +102,7 @@ const InquiryChoice = () => {
             </div>
             {isSelected && (
                 <Button className="w-[50%]" onClick={handleNext}>
-                    {currentIdx === productInfo.length - 1
+                    {currentIdx === inquiryAPI.data?.selectedProducts.length - 1
                         ? '결과 확인하기'
                         : '다음 상품 보기'}
                 </Button>

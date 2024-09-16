@@ -65,6 +65,7 @@ const Discover = React.lazy(() => import('./pages/Discover/Discover'));
 const Collection = React.lazy(() => import('./pages/Discover/Collection'));
 const Inquiry = React.lazy(() => import('./pages/Inquiry/Inquiry'));
 const InquiryChoice = React.lazy(() => import('./pages/Inquiry/InquiryChoice'));
+const InquiryResult = React.lazy(() => import('./pages/Inquiry/InquiryResult'));
 
 function App() {
     const {handleError} = useApiError();
@@ -181,6 +182,10 @@ function App() {
                                             <Route
                                                 path="/inquiry/:inquiryID/choice"
                                                 element={<InquiryChoice />}
+                                            />
+                                            <Route
+                                                path="/inquiry/:inquiryID/result"
+                                                element={<InquiryResult />}
                                             />
                                             <Route
                                                 path="/about"
