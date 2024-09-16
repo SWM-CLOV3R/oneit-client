@@ -32,10 +32,11 @@ import {Participant, Product} from '@/lib/types';
 import BasketProductCard from './components/BasketProductCard';
 import {toast} from 'sonner';
 import {authAtom} from '@/api/auth';
-import {useAtomValue} from 'jotai';
+import {useAtom, useAtomValue} from 'jotai';
 
 import BasketInfoCard from './components/BasketInfoCard';
 import KakaoShare from '@/components/common/KakaoShare';
+import {selctedProductCount, selectedProduct} from '@/atoms/basket';
 const {Kakao} = window;
 
 interface SelectedUser {
@@ -54,6 +55,8 @@ const Basket = () => {
     const user = useAtomValue(authAtom);
     const {basketID} = useParams();
     const navigate = useNavigate();
+    const selectedCount = useAtomValue(selctedProductCount);
+    const [selected, setSelected] = useAtom(selectedProduct);
     const basketInfoAPI = useQuery({
         queryKey: ['basket', basketID],
         queryFn: () => fetchBasketInfo(basketID || ''),
@@ -178,6 +181,8 @@ const Basket = () => {
                 console.log(err);
             });
     };
+
+    const handleInquiry = () => {};
 
     const handleInvite = async () => {
         console.log(import.meta.env.BASE_URL);
@@ -330,6 +335,24 @@ const Basket = () => {
             >
                 <ArrowUp />
             </Button>
+            {selectedCount > 0 && (
+                <nav className="fixed bottom-16  w-full bg-white shadow-md flex justify-center max-w-sm gap-2 rounded-lg">
+                    <Button
+                        variant="ghost"
+                        className="w-full flex flex-col items-center gap-1 text-muted-foreground hover:text-foreground"
+                        onClick={handleInquiry}
+                    >
+                        <span className="text-xs">물어보기</span>
+                    </Button>
+                    <Button
+                        variant="ghost"
+                        onClick={() => setSelected([])}
+                        className="w-full flex flex-col items-center gap-1 text-muted-foreground hover:text-foreground"
+                    >
+                        <span className="text-xs">선택 해제</span>
+                    </Button>
+                </nav>
+            )}
         </>
     );
 };
