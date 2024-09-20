@@ -45,6 +45,7 @@ const Results = () => {
             navigate('/recommend');
         }
         getResult(chatID);
+        console.log(chatID);
     }, []);
 
     return (
@@ -63,7 +64,7 @@ const Results = () => {
                             <KakaoShare
                                 title={`ONE!T - ${userName === '' ? '' : userName + '을 위한 '}선물 추천`}
                                 description="WANNA GIFT IT, ONE!T"
-                                url={`/result/${chatID}`}
+                                url={`/recommend/${chatID}/result`}
                                 image={product[0].thumbnailUrl}
                             />
                         )}
