@@ -20,7 +20,9 @@ export const fetchRecommendedProducts = async (chatID: string) => {
         })
         .catch((error) => {
             console.log('[FIREBASE] fetchRecommendedProduct |', error);
-            return Promise.reject(error);
+            return Promise.reject(
+                `[FIREBASE] fetchRecommendedProduct | ${error}`,
+            );
         });
 };
 

@@ -20,6 +20,7 @@ import axios from '@/lib/axios';
 import results from '@/data/result.json';
 import {atomWithMutation} from 'jotai-tanstack-query';
 import {toast} from 'sonner';
+import {sendErrorToSlack} from '@/lib/slack';
 
 interface Result {
     tags: string[];
@@ -152,6 +153,10 @@ export const finishRecommend = atomWithMutation<
             },
         }).catch((error) => {
             console.log('[FIREBASE] Failed to update record', error);
+            sendErrorToSlack({
+                message: `[FIREBASE] Failed to update record ${error}`,
+                errorPoint: 'finishRecommend',
+            });
             // toast.error('서버 에러가 발생했습니다. 잠시 후 다시 시도해주세요.');
         });
     },
