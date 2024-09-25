@@ -1,32 +1,61 @@
-import {authAtom, logout} from '@/api/auth';
 import {Avatar, AvatarFallback, AvatarImage} from '@/components/ui/avatar';
 import {Button} from '@/components/ui/button';
-import {Card, CardContent} from '@/components/ui/card';
-import {useAtomValue} from 'jotai';
-import {User2Icon, UserIcon} from 'lucide-react';
-import {useEffect} from 'react';
-import {useNavigate} from 'react-router-dom';
+import {Friend} from '@/lib/types';
+import {cn} from '@/lib/utils';
+import {CircleEllipsis, UserCircle2} from 'lucide-react';
+import React from 'react';
+import FriendCard from './Components/FriendCard';
 const {Kakao} = window;
-
 interface SelectedUser {
     uuid: string;
     id: string;
     profile_nickname: string;
     profile_thumbnail_image: string;
 }
-
 interface FriendPickerResponse {
     selectedTotalCount: number;
     users: SelectedUser[];
 }
 
-const Mypage = () => {
-    const navigate = useNavigate();
-    const user = useAtomValue(authAtom);
-    const handleLogout = async () => {
-        await logout();
-    };
+const mockFriends: Friend[] = [
+    {
+        idx: 1,
+        name: '김철수',
+        nickName: '철수',
+        profileImg: 'https://via.placeholder.com/320?text=oneit',
+        birthDate: new Date(),
+    },
+    {
+        idx: 2,
+        name: '김영희',
+        nickName: '영희',
+        profileImg: 'https://via.placeholder.com/320?text=oneit',
+        birthDate: new Date(),
+    },
+    {
+        idx: 3,
+        name: '박영수',
+        nickName: '영수',
+        profileImg: 'https://via.placeholder.com/320?text=oneit',
+        birthDate: new Date(),
+    },
+    {
+        idx: 4,
+        name: '이영미',
+        nickName: '영미',
+        profileImg: 'https://via.placeholder.com/320?text=oneit',
+        birthDate: new Date(),
+    },
+    {
+        idx: 5,
+        name: '정영희',
+        nickName: '영희',
+        profileImg: 'https://via.placeholder.com/320?text=oneit',
+        birthDate: new Date(),
+    },
+];
 
+const Friends = () => {
     const friendPicker = async () => {
         if (!Kakao.isInitialized()) {
             Kakao.init(import.meta.env.VITE_KAKAO_API_KEY);
@@ -80,32 +109,12 @@ const Mypage = () => {
     };
 
     return (
-        <div className="py-3 w-full">
-            <div className="flex w-full">
-                <div className="flex w-full align-middle justify-between items-center border-[0.5px] rounded-md p-2">
-                    <div className="flex items-center">
-                        <Avatar className="w-16 border-2 h-16">
-                            <AvatarImage
-                                src={user?.profileImgFromKakao}
-                                className="object-cover"
-                            />
-                            <AvatarFallback className="bg-secondary">
-                                <User2Icon className="w-16 h-16" />
-                            </AvatarFallback>
-                        </Avatar>
-                        <div className="flex">
-                            <UserIcon className="inline" />
-                            <span>{user?.nickname}</span>
-                        </div>
-                    </div>
-                    <Button onClick={handleLogout}>Logout</Button>
-                </div>
-            </div>
-            <div>
-                {/* <Button onClick={friendPicker}>친구 고르기</Button> */}
-            </div>
+        <div className="flex w-full flex-col">
+            {mockFriends.map((friend: Friend, idx: number) => (
+                <FriendCard friend={friend} key={idx} />
+            ))}
         </div>
     );
 };
 
-export default Mypage;
+export default Friends;
