@@ -29,16 +29,18 @@ const RequestedFriendCard = (props: {friend: RequestedFriend}) => {
         requestAcceptAPI.mutate();
         setisDone(true);
         toast.success('친구 요청을 수락했습니다.');
+        window.location.reload();
     };
 
     const handleDeny = async () => {
         rejectFriendAPI.mutate();
         setisDone(true);
         toast.success('친구 요청을 거절했습니다.');
+        window.location.reload();
     };
 
     return (
-        <div className="py-3 w-full border-b-[1px] flex gap-1 justify-between items-center">
+        <div className="py-3 w-full border-t-[1px] flex gap-1 justify-between items-center">
             <div className="flex gap-2 items-center">
                 <Avatar className="w-14 h-14">
                     <AvatarImage src={friend.fromUser.profileImg} />

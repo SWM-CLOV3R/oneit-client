@@ -10,12 +10,16 @@ import {Button} from '@/components/ui/button';
 import {useMutation} from '@tanstack/react-query';
 import {toast} from 'sonner';
 import {requestFriend} from '@/api/friend';
+import {useAtomValue} from 'jotai';
+import {authAtom} from '@/api/auth';
 
 const BasketInfoCard = ({
     basket,
     ...rest
 }: {basket: Basket} & React.HTMLAttributes<HTMLSpanElement>) => {
-    console.log(basket.idx, basket.deadline);
+    // console.log(basket.idx, basket.deadline);
+
+    const user = useAtomValue(authAtom);
 
     const requestFriendAPI = useMutation({
         mutationFn: (friend: string) => requestFriend(friend),
@@ -111,16 +115,22 @@ const BasketInfoCard = ({
                                                     <Crown className="inline-block ml-1 text-oneit-pink" />
                                                 )}
                                             </span>
-                                            <Button variant="ghost" size="icon">
-                                                <UserPlus2
-                                                    onClick={() => {
-                                                        requestFriendAPI.mutate(
-                                                            participant?.userIdx?.toString() ||
-                                                                '',
-                                                        );
-                                                    }}
-                                                />
-                                            </Button>
+                                            {user?.idx !==
+                                                participant.userIdx && (
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                >
+                                                    <UserPlus2
+                                                        onClick={() => {
+                                                            requestFriendAPI.mutate(
+                                                                participant?.userIdx?.toString() ||
+                                                                    '',
+                                                            );
+                                                        }}
+                                                    />
+                                                </Button>
+                                            )}
                                         </div>
                                     ),
                                 )}
