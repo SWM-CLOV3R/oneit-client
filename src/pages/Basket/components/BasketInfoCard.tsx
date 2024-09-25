@@ -1,18 +1,28 @@
 import {Popover, PopoverContent, PopoverTrigger} from '@/components/ui/popover';
 import {Basket, Participant} from '@/lib/types';
-import React from 'react';
+import React, {useState} from 'react';
 import ParticipantAvatar from './ParticipantAvatar';
 import {Avatar, AvatarImage} from '@/components/ui/avatar';
 import {cn} from '@/lib/utils';
-import {CalendarCheck, Crown, Plus, PlusCircle} from 'lucide-react';
+import {CalendarCheck, Crown, Plus, PlusCircle, UserPlus2} from 'lucide-react';
 import {AspectRatio} from '@/components/ui/aspect-ratio';
 import {Button} from '@/components/ui/button';
+import {useMutation} from '@tanstack/react-query';
+import {toast} from 'sonner';
+import {requestFriend} from '@/api/friend';
 
 const BasketInfoCard = ({
     basket,
     ...rest
 }: {basket: Basket} & React.HTMLAttributes<HTMLSpanElement>) => {
     console.log(basket.idx, basket.deadline);
+
+    const requestFriendAPI = useMutation({
+        mutationFn: (friend: string) => requestFriend(friend),
+        onSuccess: (data) => {
+            toast.success('친구 요청을 보냈습니다.');
+        },
+    });
 
     return (
         <div className="" {...rest}>
@@ -101,6 +111,16 @@ const BasketInfoCard = ({
                                                     <Crown className="inline-block ml-1 text-oneit-pink" />
                                                 )}
                                             </span>
+                                            <Button variant="ghost" size="icon">
+                                                <UserPlus2
+                                                    onClick={() => {
+                                                        requestFriendAPI.mutate(
+                                                            participant?.userIdx?.toString() ||
+                                                                '',
+                                                        );
+                                                    }}
+                                                />
+                                            </Button>
                                         </div>
                                     ),
                                 )}
