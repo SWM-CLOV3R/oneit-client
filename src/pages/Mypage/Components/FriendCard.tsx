@@ -26,7 +26,7 @@ const FriendCard = (props: {friend: Friend}) => {
     };
 
     return (
-        <div className="py-3 w-full border-b-[1px] flex gap-1 justify-between items-center">
+        <div className="py-3 w-full border-t-[1px] flex gap-1 justify-between items-center">
             <div className="flex gap-2 items-center">
                 <Avatar className="w-14 h-14">
                     <AvatarImage src={friend.profileImg} />

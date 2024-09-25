@@ -125,7 +125,7 @@ const Friends = () => {
     };
 
     return (
-        <div className="flex w-full flex-col">
+        <div className="flex w-full flex-col gap-2">
             <div className="flex flex-col w-full items-center border-[1px] mt-3 p-2 rounded-md">
                 <div className="flex flex-col w-full py-1">
                     <h3>전체 친구 수: {friendListAPI?.data?.length || 0}</h3>
@@ -144,15 +144,35 @@ const Friends = () => {
                     카카오톡 친구 초대하기
                 </Button>
             </div>
-            {friendRequestListAPI.data?.map(
-                (friend: RequestedFriend, idx: number) => (
-                    <RequestedFriendCard friend={friend} key={idx} />
-                ),
+            {friendRequestListAPI?.data?.length !== 0 && (
+                <div className="gap-2 flex w-full border-[1px] rounded-md p-2 flex-col items-center">
+                    <h3 className="">친구 요청</h3>
+                    {friendRequestListAPI.data?.map(
+                        (friend: RequestedFriend, idx: number) => (
+                            <RequestedFriendCard friend={friend} key={idx} />
+                        ),
+                    )}
+                </div>
+            )}
+            {friendRequestListAPI?.data?.length !== 0 && (
+                <div className="gap-2 flex w-full border-[1px] rounded-md p-2 flex-col items-center">
+                    <h3 className="">친구 요청 상태</h3>
+                    {friendRequestListAPI.data?.map(
+                        (friend: RequestedFriend, idx: number) => (
+                            <RequestedFriendCard friend={friend} key={idx} />
+                        ),
+                    )}
+                </div>
             )}
 
-            {friendListAPI.data?.map((friend: Friend, idx: number) => (
-                <FriendCard friend={friend} key={idx} />
-            ))}
+            {friendListAPI?.data?.length !== 0 && (
+                <div className="gap-2 flex w-full border-[1px] rounded-md p-2 flex-col items-center">
+                    <h3 className="">친구 목록</h3>
+                    {friendListAPI.data?.map((friend: Friend, idx: number) => (
+                        <FriendCard friend={friend} key={idx} />
+                    ))}
+                </div>
+            )}
         </div>
     );
 };
