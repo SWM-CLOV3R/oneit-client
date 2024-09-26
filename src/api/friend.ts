@@ -22,9 +22,20 @@ export const deleteFriend = async (friendIdx: string) => {
         });
 };
 
-export const fetchFriendRequests = async () => {
+export const fetchFriendRequestsToMe = async () => {
     return axios
-        .get('/v2/friends/requests')
+        .get('/v2/friends/requests-to-me')
+        .then((res) => {
+            return Promise.resolve(res.data);
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
+};
+
+export const fetchFriendRequestsFromMe = async () => {
+    return axios
+        .get('/v2/friends/requests-from-me')
         .then((res) => {
             return Promise.resolve(res.data);
         })

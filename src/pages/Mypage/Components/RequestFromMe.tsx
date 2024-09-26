@@ -8,11 +8,12 @@ import React from 'react';
 import {toast} from 'sonner';
 
 interface RequestedFriend {
+    requestIdx: number;
     fromUser: Friend;
     requestDate: Date;
 }
 
-const FriendRequestCard = (props: {friend: RequestedFriend}) => {
+const RequestFromMe = (props: {friend: RequestedFriend}) => {
     const {friend} = props;
 
     const cancelRequestAPI = useMutation({
@@ -44,14 +45,11 @@ const FriendRequestCard = (props: {friend: RequestedFriend}) => {
                     </span> */}
                 </div>
             </div>
-            <Button
-                className="bg-oneit-blue hover:bg-oneit-blue/90"
-                onClick={handleCancel}
-            >
+            <Button className="" onClick={handleCancel}>
                 취소하기
             </Button>
         </div>
     );
 };
 
-export default FriendRequestCard;
+export default RequestFromMe;

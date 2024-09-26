@@ -8,11 +8,12 @@ import React, {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {toast} from 'sonner';
 interface RequestedFriend {
+    requestIdx: number;
     fromUser: Friend;
     requestDate: Date;
 }
 
-const RequestedFriendCard = (props: {friend: RequestedFriend}) => {
+const RequestToMe = (props: {friend: RequestedFriend}) => {
     const {friend} = props;
     const [isDone, setisDone] = useState(false);
     const navigate = useNavigate();
@@ -70,4 +71,4 @@ const RequestedFriendCard = (props: {friend: RequestedFriend}) => {
     );
 };
 
-export default RequestedFriendCard;
+export default RequestToMe;
