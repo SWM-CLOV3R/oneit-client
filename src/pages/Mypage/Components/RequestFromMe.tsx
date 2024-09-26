@@ -18,7 +18,10 @@ const RequestFromMe = (props: {friend: RequestedFriend}) => {
 
     const cancelRequestAPI = useMutation({
         mutationFn: () =>
-            cancelFriendRequest(friend.fromUser.idx.toString() || ''),
+            cancelFriendRequest(
+                friend.fromUser.idx.toString() || '',
+                friend.requestIdx.toString() || '',
+            ),
         onSuccess: () => {
             toast.success('친구 요청을 취소했습니다.');
             window.location.reload();

@@ -19,11 +19,19 @@ const RequestToMe = (props: {friend: RequestedFriend}) => {
     const navigate = useNavigate();
 
     const requestAcceptAPI = useMutation({
-        mutationFn: () => acceptFriend(friend.fromUser.idx.toString() || ''),
+        mutationFn: () =>
+            acceptFriend(
+                friend.fromUser.idx.toString() || '',
+                friend.requestIdx.toString() || '',
+            ),
     });
 
     const rejectFriendAPI = useMutation({
-        mutationFn: () => rejectFriend(friend.fromUser.idx.toString() || ''),
+        mutationFn: () =>
+            rejectFriend(
+                friend.fromUser.idx.toString() || '',
+                friend.requestIdx.toString() || '',
+            ),
     });
 
     const handleAccept = async () => {
