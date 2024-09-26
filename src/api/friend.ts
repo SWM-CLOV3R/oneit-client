@@ -55,9 +55,12 @@ export const requestFriend = async (friendIdx: string) => {
         });
 };
 
-export const cancelFriendRequest = async (friendIdx: string) => {
+export const cancelFriendRequest = async (
+    friendIdx: string,
+    requestIdx: string,
+) => {
     return axios
-        .delete(`/v2/friends/${friendIdx}/request`)
+        .delete(`/v2/friends/${friendIdx}/request/${requestIdx}/cancel`)
         .then((res) => {
             return Promise.resolve(res.data);
         })
@@ -66,9 +69,9 @@ export const cancelFriendRequest = async (friendIdx: string) => {
         });
 };
 
-export const acceptFriend = async (friendIdx: string) => {
+export const acceptFriend = async (friendIdx: string, requestIdx: string) => {
     return axios
-        .post(`/v2/friends/${friendIdx}/accept`)
+        .post(`/v2/friends/${friendIdx}/request/${requestIdx}/acceptance`)
         .then((res) => {
             return Promise.resolve(res.data);
         })
@@ -77,9 +80,9 @@ export const acceptFriend = async (friendIdx: string) => {
         });
 };
 
-export const rejectFriend = async (friendIdx: string) => {
+export const rejectFriend = async (friendIdx: string, requestIdx: string) => {
     return axios
-        .post(`/v2/friends/${friendIdx}/reject`)
+        .post(`/v2/friends/${friendIdx}/request/${requestIdx}/rejection`)
         .then((res) => {
             return Promise.resolve(res.data);
         })
