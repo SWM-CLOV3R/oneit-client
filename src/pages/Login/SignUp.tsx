@@ -20,8 +20,33 @@ import {
 } from '@/components/ui/select';
 import {Button} from '@/components/ui/button';
 import {ToggleGroup, ToggleGroupItem} from '@/components/ui/toggle-group';
+import {useMutation} from '@tanstack/react-query';
+import {SignUpUser} from '@/lib/types';
+import {authAtom, redirectURI, signUp} from '@/api/auth';
+import {useNavigate} from 'react-router-dom';
+import {useAtomValue} from 'jotai';
+import {toast} from 'sonner';
 
 const SignUp = () => {
+    const navigate = useNavigate();
+    const user = useAtomValue(authAtom);
+    const signupAPI = useMutation({
+        mutationFn: async (user: SignUpUser) => {
+            return await signUp(user);
+        },
+        onSuccess: () => {
+            const redirect = localStorage.getItem('redirect');
+            navigate(redirect || '/');
+        },
+        onError: () => {
+            toast.error('회원가입에 실패했습니다.');
+        },
+    });
+
+    if (user?.birthDate && user?.gender && user?.name && user?.nickname) {
+        navigate('/');
+    }
+
     // 이름, 닉네임, 비밀번호, 이메일, 전화번호, 생년월일, 성별
     const formSchema = z.object({
         name: z.string().min(2, {message: '이름은 2자 이상이어야 합니다.'}),
@@ -37,7 +62,7 @@ const SignUp = () => {
         // phoneNumber: z.string().regex(/^01[0-9]{8,9}$/, {
         //     message: '유효한 전화번호를 입력해주세요.',
         // }),
-        birthDay: z.string().refine(
+        birthDate: z.string().refine(
             (value) => {
                 if (value === '--') return true;
                 const [year, month, day] = value.split('-');
@@ -59,7 +84,7 @@ const SignUp = () => {
             // email: '',
             // password: '',
             // phoneNumber: '',
-            birthDay: '--',
+            birthDate: '--',
             gender: 'MALE',
         },
         mode: 'all',
@@ -67,6 +92,7 @@ const SignUp = () => {
 
     const onSubmit = (data: z.infer<typeof formSchema>) => {
         console.log(data);
+        signupAPI.mutate(data);
     };
 
     return (
@@ -161,7 +187,7 @@ const SignUp = () => {
                     /> */}
                     <FormField
                         control={form.control}
-                        name="birthDay"
+                        name="birthDate"
                         render={({field}) => (
                             <FormItem>
                                 <FormLabel>생년월일</FormLabel>

@@ -230,7 +230,7 @@ function App() {
                                                 path="/signup"
                                                 element={
                                                     <AuthRouter
-                                                        option={false}
+                                                        option={true}
                                                         redirectTo="/"
                                                     >
                                                         <SignUp />
