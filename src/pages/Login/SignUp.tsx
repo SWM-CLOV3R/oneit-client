@@ -22,7 +22,7 @@ import {Button} from '@/components/ui/button';
 import {ToggleGroup, ToggleGroupItem} from '@/components/ui/toggle-group';
 import {useMutation} from '@tanstack/react-query';
 import {SignUpUser} from '@/lib/types';
-import {authAtom, redirectURI, signUp} from '@/api/auth';
+import {authAtom, signUp} from '@/api/auth';
 import {useNavigate} from 'react-router-dom';
 import {useAtomValue} from 'jotai';
 import {toast} from 'sonner';
@@ -79,13 +79,15 @@ const SignUp = () => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            name: '',
-            nickname: '',
+            name: user?.name || '',
+            nickname: user?.nickname || '',
             // email: '',
             // password: '',
             // phoneNumber: '',
-            birthDate: '--',
-            gender: 'MALE',
+            birthDate: user?.birthDate
+                ? user.birthDate.toString().split('T')[0]
+                : '--',
+            gender: user?.gender || 'MALE',
         },
         mode: 'all',
     });
