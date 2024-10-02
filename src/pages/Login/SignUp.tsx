@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {z} from 'zod';
 import {zodResolver} from '@hookform/resolvers/zod';
@@ -20,16 +20,42 @@ import {
 } from '@/components/ui/select';
 import {Button} from '@/components/ui/button';
 import {ToggleGroup, ToggleGroupItem} from '@/components/ui/toggle-group';
-import {useMutation} from '@tanstack/react-query';
+import {useMutation, useQuery} from '@tanstack/react-query';
 import {SignUpUser} from '@/lib/types';
-import {authAtom, signUp} from '@/api/auth';
+import {authAtom, nicknameCheck, signUp} from '@/api/auth';
 import {useNavigate} from 'react-router-dom';
 import {useAtomValue} from 'jotai';
 import {toast} from 'sonner';
+import axios from 'axios';
 
 const SignUp = () => {
     const navigate = useNavigate();
     const user = useAtomValue(authAtom);
+    const [isNicknameChecked, setIsNicknameChecked] = useState(false);
+
+    const nicknameCheckAPI = useMutation({
+        mutationFn: (nickname: string) => nicknameCheck(nickname),
+        onSuccess: (data) => {
+            console.log(data);
+            if (!data.exist) {
+                toast.success('사용 가능한 닉네임입니다.');
+                setIsNicknameChecked(true);
+                form.clearErrors('nickname');
+            } else {
+                toast.error('이미 사용 중인 닉네임입니다.');
+                setIsNicknameChecked(false);
+                form.setError('nickname', {
+                    type: 'manual',
+                    message: '이미 사용 중인 닉네임입니다.',
+                });
+            }
+        },
+        onError: () => {
+            toast.error('닉네임 중복 검사에 실패했습니다.');
+            setIsNicknameChecked(false);
+        },
+    });
+
     const signupAPI = useMutation({
         mutationFn: async (user: SignUpUser) => {
             return await signUp(user);
@@ -93,8 +119,19 @@ const SignUp = () => {
     });
 
     const onSubmit = (data: z.infer<typeof formSchema>) => {
+        if (!isNicknameChecked) {
+            form.setError('nickname', {
+                type: 'manual',
+                message: '닉네임 중복 검사를 먼저 진행해주세요.',
+            });
+            return;
+        }
         console.log(data);
         signupAPI.mutate(data);
+    };
+
+    const checkNickname = async (nickname: string) => {
+        nicknameCheckAPI.mutate(nickname);
     };
 
     return (
@@ -129,10 +166,27 @@ const SignUp = () => {
                                 <FormLabel>닉네임</FormLabel>
                                 <FormMessage />
                                 <FormControl>
-                                    <Input
-                                        {...field}
-                                        placeholder="닉네임을 입력하세요"
-                                    />
+                                    <div className="flex gap-2">
+                                        <Input
+                                            {...field}
+                                            placeholder="닉네임을 입력하세요"
+                                            onChange={(e) => {
+                                                field.onChange(e);
+                                                setIsNicknameChecked(false);
+                                            }}
+                                        />
+                                        <Button
+                                            type="button"
+                                            onClick={() =>
+                                                checkNickname(field.value)
+                                            }
+                                            disabled={isNicknameChecked}
+                                        >
+                                            {isNicknameChecked
+                                                ? '검사완료'
+                                                : '중복검사'}
+                                        </Button>
+                                    </div>
                                 </FormControl>
                             </FormItem>
                         )}
@@ -312,14 +366,31 @@ const SignUp = () => {
                                     <FormControl>
                                         <ToggleGroup
                                             type="single"
-                                            onValueChange={field.onChange}
-                                            defaultValue="MALE"
+                                            onValueChange={(value) => {
+                                                if (value) {
+                                                    field.onChange(value);
+                                                }
+                                            }}
+                                            value={field.value}
+                                            defaultValue={
+                                                user?.gender || 'MALE'
+                                            }
                                             className="flex gap-2"
                                         >
-                                            <ToggleGroupItem value="MALE">
+                                            <ToggleGroupItem
+                                                value="MALE"
+                                                disabled={
+                                                    field.value === 'MALE'
+                                                }
+                                            >
                                                 남성
                                             </ToggleGroupItem>
-                                            <ToggleGroupItem value="FEMALE">
+                                            <ToggleGroupItem
+                                                value="FEMALE"
+                                                disabled={
+                                                    field.value === 'FEMALE'
+                                                }
+                                            >
                                                 여성
                                             </ToggleGroupItem>
                                         </ToggleGroup>

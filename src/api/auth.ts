@@ -102,6 +102,17 @@ export const signUp = async (user: SignUpUser) => {
         });
 };
 
+export const nicknameCheck = async (nickname: string) => {
+    return axios
+        .get(`/v2/nickname/check?nickname=${nickname}`)
+        .then((res) => {
+            return Promise.resolve(res.data);
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
+};
+
 // const getRefreshToken = async (): Promise<string> => {
 //     return axios.get("/auth/refresh", {
 //         headers: {
