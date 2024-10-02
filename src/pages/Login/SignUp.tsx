@@ -28,18 +28,26 @@ const SignUp = () => {
         nickname: z
             .string()
             .min(2, {message: '닉네임은 2자 이상이어야 합니다.'}),
-        email: z
-            .string()
-            .email({message: '유효한 이메일 주소를 입력해주세요.'}),
-        password: z
-            .string()
-            .min(8, {message: '비밀번호는 8자 이상이어야 합니다.'}),
-        phoneNumber: z.string().regex(/^01[0-9]{8,9}$/, {
-            message: '유효한 전화번호를 입력해주세요.',
-        }),
-        birthDay: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, {
-            message: '생년월일은 YYYY-MM-DD 형식이어야 합니다.',
-        }),
+        // email: z
+        //     .string()
+        //     .email({message: '유효한 이메일 주소를 입력해주세요.'}),
+        // password: z
+        //     .string()
+        //     .min(8, {message: '비밀번호는 8자 이상이어야 합니다.'}),
+        // phoneNumber: z.string().regex(/^01[0-9]{8,9}$/, {
+        //     message: '유효한 전화번호를 입력해주세요.',
+        // }),
+        birthDay: z.string().refine(
+            (value) => {
+                if (value === '--') return true;
+                const [year, month, day] = value.split('-');
+                if (!year || !month || !day) return true;
+                return /^\d{4}-\d{2}-\d{2}$/.test(value);
+            },
+            {
+                message: '생년월일은 YYYY-MM-DD 형식이어야 합니다.',
+            },
+        ),
         gender: z.enum(['MALE', 'FEMALE']),
     });
 
@@ -48,10 +56,10 @@ const SignUp = () => {
         defaultValues: {
             name: '',
             nickname: '',
-            email: '',
-            password: '',
-            phoneNumber: '',
-            birthDay: '',
+            // email: '',
+            // password: '',
+            // phoneNumber: '',
+            birthDay: '--',
             gender: 'MALE',
         },
         mode: 'all',
@@ -101,7 +109,7 @@ const SignUp = () => {
                             </FormItem>
                         )}
                     />
-                    <FormField
+                    {/* <FormField
                         control={form.control}
                         name="email"
                         render={({field}) => (
@@ -134,8 +142,8 @@ const SignUp = () => {
                                 </FormControl>
                             </FormItem>
                         )}
-                    />
-                    <FormField
+                    /> */}
+                    {/* <FormField
                         control={form.control}
                         name="phoneNumber"
                         render={({field}) => (
@@ -150,14 +158,13 @@ const SignUp = () => {
                                 </FormControl>
                             </FormItem>
                         )}
-                    />
+                    /> */}
                     <FormField
                         control={form.control}
                         name="birthDay"
                         render={({field}) => (
                             <FormItem>
                                 <FormLabel>생년월일</FormLabel>
-                                <FormMessage />
                                 <FormControl>
                                     <div className="flex space-x-2">
                                         <Select
@@ -165,10 +172,12 @@ const SignUp = () => {
                                                 const [_, month, day] =
                                                     field.value.split('-');
                                                 field.onChange(
-                                                    `${value}-${month}-${day}`,
+                                                    `${value}-${month || ''}-${day || ''}`,
                                                 );
                                             }}
-                                            value={field.value.split('-')[0]}
+                                            value={
+                                                field.value.split('-')[0] || ''
+                                            }
                                         >
                                             <SelectTrigger>
                                                 <SelectValue placeholder="년도" />
@@ -194,10 +203,12 @@ const SignUp = () => {
                                                 const [year, _, day] =
                                                     field.value.split('-');
                                                 field.onChange(
-                                                    `${year}-${value.padStart(2, '0')}-${day}`,
+                                                    `${year || ''}-${value.padStart(2, '0')}-${day || ''}`,
                                                 );
                                             }}
-                                            value={field.value.split('-')[1]}
+                                            value={
+                                                field.value.split('-')[1] || ''
+                                            }
                                         >
                                             <SelectTrigger>
                                                 <SelectValue placeholder="월" />
@@ -223,10 +234,12 @@ const SignUp = () => {
                                                 const [year, month, _] =
                                                     field.value.split('-');
                                                 field.onChange(
-                                                    `${year}-${month}-${value.padStart(2, '0')}`,
+                                                    `${year || ''}-${month || ''}-${value.padStart(2, '0')}`,
                                                 );
                                             }}
-                                            value={field.value.split('-')[2]}
+                                            value={
+                                                field.value.split('-')[2] || ''
+                                            }
                                         >
                                             <SelectTrigger>
                                                 <SelectValue placeholder="일" />
@@ -249,6 +262,12 @@ const SignUp = () => {
                                         </Select>
                                     </div>
                                 </FormControl>
+                                {field.value !== '--' &&
+                                    field.value
+                                        .split('-')
+                                        .every((part) => part !== '') && (
+                                        <FormMessage />
+                                    )}
                             </FormItem>
                         )}
                     />
@@ -266,7 +285,7 @@ const SignUp = () => {
                                         <ToggleGroup
                                             type="single"
                                             onValueChange={field.onChange}
-                                            defaultValue={field.value}
+                                            defaultValue="MALE"
                                             className="flex gap-2"
                                         >
                                             <ToggleGroupItem value="MALE">
