@@ -24,22 +24,41 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const messaging = getMessaging(app);
 export const firebaseMessagingConfig = async (): Promise<string | null> => {
-    Notification.requestPermission()
-        .then(async (permission) => {
-            if (permission === 'granted') {
-                console.log('Notification permission granted.');
-                return getToken(messaging, {
-                    vapidKey: import.meta.env.VITE_FIREBASE_VAPID_KEY,
-                }).then((token) => {
-                    console.log(token);
-                    return token;
-                });
-            }
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-    return null;
+    // Check if the browser supports notifications
+    if (!('Notification' in window)) {
+        console.log('This browser does not support notifications.');
+        return null;
+    }
+
+    // Check if the browser supports Firebase messaging
+    if (!messaging) {
+        console.log('Firebase messaging is not supported in this browser.');
+        return null;
+    }
+
+    try {
+        let permission = Notification.permission;
+
+        // Only request permission if it's not already granted or denied
+        if (permission === 'default') {
+            permission = await Notification.requestPermission();
+        }
+
+        if (permission === 'granted') {
+            console.log('Notification permission granted.');
+            const token = await getToken(messaging, {
+                vapidKey: import.meta.env.VITE_FIREBASE_VAPID_KEY,
+            });
+            console.log(token);
+            return token;
+        } else {
+            console.log('Notification permission not granted.');
+            return null;
+        }
+    } catch (err) {
+        console.error('An error occurred while setting up notifications:', err);
+        return null;
+    }
 };
 
 if (messaging) {
