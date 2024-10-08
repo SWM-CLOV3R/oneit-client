@@ -2,7 +2,7 @@
 import {initializeApp} from 'firebase/app';
 import {getAnalytics} from 'firebase/analytics';
 import {getDatabase} from 'firebase/database';
-import {getMessaging, getToken} from 'firebase/messaging';
+import {getMessaging, getToken, onMessage} from 'firebase/messaging';
 import {sendInfoToSlack} from './slack';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -23,18 +23,15 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const messaging = getMessaging(app);
-export const firebaseMessagingConfig = async () => {
+export const firebaseMessagingConfig = async (): Promise<string | null> => {
     Notification.requestPermission()
         .then(async (permission) => {
             if (permission === 'granted') {
                 console.log('Notification permission granted.');
-                const messaging = getMessaging();
                 return getToken(messaging, {
                     vapidKey: import.meta.env.VITE_FIREBASE_VAPID_KEY,
                 }).then((token) => {
                     console.log(token);
-                    //todo: remove slack if done
-                    sendInfoToSlack(token);
                     return token;
                 });
             }
@@ -44,6 +41,13 @@ export const firebaseMessagingConfig = async () => {
         });
     return null;
 };
+
+if (messaging) {
+    onMessage(messaging, (payload) => {
+        console.log(payload.notification?.title);
+        console.log(payload.notification?.body);
+    });
+}
 const analytics = getAnalytics(app);
 
 export const db = getDatabase(app);
