@@ -5,12 +5,7 @@ import {Product} from '@/lib/types';
 
 export const fetchRecommendedProducts = async (chatID: string) => {
     const dbRef = ref(db);
-    return read(
-        child(
-            dbRef,
-            `/recommendRecord/${import.meta.env.VITE_CURRENT_DOMAIN}/${chatID}`,
-        ),
-    )
+    return read(child(dbRef, `/recommendRecord/${chatID}`))
         .then((snapshot) => {
             if (snapshot.exists() && snapshot.val().resultType) {
                 const data = snapshot.val();

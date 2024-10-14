@@ -14,6 +14,7 @@ import {Button} from '@/components/ui/button';
 import {finishRecommend, next} from '@/api/chat';
 import {parse} from 'cox-postposition';
 import Header from '@/components/common/Header';
+import React from 'react';
 
 const MAXDEPTH = 8;
 
@@ -131,16 +132,33 @@ const Quiz = () => {
                                         />
                                         <label
                                             htmlFor={`select${index + 1}`}
-                                            className={` w-full py-2 px-4text-center border rounded-full cursor-pointer overflow-hidden whitespace-pre-wrap break-words min-h-[2.5rem] flex items-center justify-center
-                                            ${
-                                                selected === index
-                                                    ? 'border-[#ff4bc1] text-[#ff4bc1]'
-                                                    : 'border-[#b1b1b1] text-[#3d3d3d]'
-                                            }
-                                            ${optionSizes[index]}
-                                        `}
+                                            className={`w-full py-2 px-4 text-center border rounded-full cursor-pointer overflow-hidden whitespace-pre-wrap break-words min-h-[2.5rem] flex items-center justify-center
+                                        ${
+                                            selected === index
+                                                ? 'border-[#ff4bc1] text-[#ff4bc1]'
+                                                : 'border-[#b1b1b1] text-[#3d3d3d]'
+                                        }
+                                        ${optionSizes[index]}
+                                    `}
                                         >
-                                            {option}
+                                            {option
+                                                .split('\n')
+                                                .map(
+                                                    (
+                                                        line,
+                                                        lineIndex,
+                                                        array,
+                                                    ) => (
+                                                        <React.Fragment
+                                                            key={lineIndex}
+                                                        >
+                                                            {line}
+                                                            {lineIndex <
+                                                                array.length -
+                                                                    1 && <br />}
+                                                        </React.Fragment>
+                                                    ),
+                                                )}
                                         </label>
                                     </div>
                                 ),
