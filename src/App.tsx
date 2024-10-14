@@ -32,7 +32,7 @@ const AuthRouterWithRedirect = ({
     const {basketID} = useParams();
     if (basketID === undefined) {
         return (
-            <AuthRouter option={option} redirectTo={'/'}>
+            <AuthRouter option={option} redirectTo={'/main'}>
                 {children}
             </AuthRouter>
         );
@@ -121,7 +121,7 @@ function App() {
                                             path="/product/:productID"
                                             element={<Product />}
                                         />
-                                        <Route
+                                        {/* <Route
                                             path="/curation"
                                             element={<Curation />}
                                         />
@@ -211,7 +211,7 @@ function App() {
                                         <Route
                                             path="/inquiry/after"
                                             element={<AfterInquiry />}
-                                        />
+                                        /> */}
                                         <Route
                                             path="/about"
                                             element={<About />}
@@ -260,7 +260,7 @@ function App() {
                                                 </AuthRouter>
                                             }
                                         />
-                                        <Route
+                                        {/* <Route
                                             path="/friends"
                                             element={
                                                 <AuthRouter
@@ -270,7 +270,7 @@ function App() {
                                                     <Friends />
                                                 </AuthRouter>
                                             }
-                                        />
+                                        /> */}
                                         {import.meta.env.DEV && (
                                             <Route
                                                 path="/fakeLogin"
