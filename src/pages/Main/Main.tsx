@@ -20,7 +20,7 @@ const Main = () => {
 
     return (
         <>
-            <Header />
+            <Header variant="logo" />
             <main className="pt-14">
                 <div className="flex flex-col gap-6 p-4">
                     <button

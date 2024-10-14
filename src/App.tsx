@@ -98,8 +98,8 @@ function App() {
     return (
         <>
             <QueryClientProvider client={queryClient}>
-                <div className="App flex flex-col justify-center items-center min-h-screen w-full">
-                    <div className="w-[360px]">
+                <div className="App flex flex-col  items-center min-h-screen w-full">
+                    <div className="w-[360px] flex flex-col flex-grow">
                         {/* <Header /> */}
                         <div className="w-full h-full">
                             <Suspense fallback={<Spinner size="large" />}>
