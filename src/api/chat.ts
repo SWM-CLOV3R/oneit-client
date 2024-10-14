@@ -40,16 +40,22 @@ export const startRecommend = atomWithMutation<
 >((get) => ({
     mutationKey: ['saveRecommendInfo'],
     mutationFn: async ({chatID}: {chatID: string}) => {
-        await write(ref(db, `recommendRecord/${chatID}`), {
-            chatID,
-            name: get(name),
-            gender: get(gender),
-            recipient: get(recipient),
-            occasion: get(occasion),
-            priceRange: get(priceRange),
-            createdAt: serverTimestamp(),
-            production: import.meta.env.VITE_CURRENT_DOMAIN,
-        });
+        await write(
+            ref(
+                db,
+                `recommendRecord/${import.meta.env.VITE_CURRENT_DOMAIN}/${chatID}`,
+            ),
+            {
+                chatID,
+                name: get(name),
+                gender: get(gender),
+                recipient: get(recipient),
+                occasion: get(occasion),
+                priceRange: get(priceRange),
+                createdAt: serverTimestamp(),
+                production: import.meta.env.VITE_CURRENT_DOMAIN,
+            },
+        );
     },
     onSuccess: (data, variables, context) => {},
     onError: (error, variables, context) => {
@@ -109,10 +115,16 @@ export const finishRecommend = atomWithMutation<
 >((get) => ({
     mutationKey: ['finishRecommend'],
     mutationFn: async ({chatID}: {chatID: string}) => {
-        await update(ref(db, `/recommendRecord/${chatID}`), {
-            answers: get(answers),
-            modifiedAt: serverTimestamp(),
-        });
+        await update(
+            ref(
+                db,
+                `recommendRecord/${import.meta.env.VITE_CURRENT_DOMAIN}/${chatID}`,
+            ),
+            {
+                answers: get(answers),
+                modifiedAt: serverTimestamp(),
+            },
+        );
 
         const payload: Payload = {
             gender: get(gender),
@@ -143,15 +155,22 @@ export const finishRecommend = atomWithMutation<
         const result = resultList.find((result) =>
             result.tags.every((tag) => tags.includes(tag)),
         );
-        update(ref(db, `/recommendRecord/${variables.chatID}`), {
-            answers: get(answers),
-            modifiedAt: serverTimestamp(),
-            result: data,
-            resultType: {
-                title: result?.title || '네가 주면 난 다 좋아! 🎁',
-                comment: result?.comment || '#까다롭지_않아요 #취향_안_타요',
+        update(
+            ref(
+                db,
+                `recommendRecord/${import.meta.env.VITE_CURRENT_DOMAIN}/${variables.chatID}`,
+            ),
+            {
+                answers: get(answers),
+                modifiedAt: serverTimestamp(),
+                result: data,
+                resultType: {
+                    title: result?.title || '네가 주면 난 다 좋아! 🎁',
+                    comment:
+                        result?.comment || '#까다롭지_않아요 #취향_안_타요',
+                },
             },
-        }).catch((error) => {
+        ).catch((error) => {
             console.log('[FIREBASE] Failed to update record', error);
             sendErrorToSlack({
                 message: `[FIREBASE] Failed to update record ${error}`,
@@ -161,6 +180,32 @@ export const finishRecommend = atomWithMutation<
         });
     },
 }));
+interface rateResultVariables {
+    chatID: string;
+    rating: number;
+}
+export const rateResult = atomWithMutation<unknown, rateResultVariables>(
+    (get) => ({
+        mutationKey: ['rateResult'],
+        mutationFn: async ({
+            chatID,
+            rating,
+        }: {
+            chatID: string;
+            rating: number;
+        }) => {
+            await update(
+                ref(
+                    db,
+                    `recommendRecord/${import.meta.env.VITE_CURRENT_DOMAIN}/${chatID}`,
+                ),
+                {
+                    rating,
+                },
+            );
+        },
+    }),
+);
 
 // export const finishChat = atom(
 //     null,

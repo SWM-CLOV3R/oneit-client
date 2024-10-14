@@ -131,3 +131,15 @@
   }
 }
 
+@layer utilities {
+  .select label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.5rem;
+    /* Adjust as needed */
+    height: auto;
+    white-space: normal;
+    word-break: break-word;
+  }
+}
