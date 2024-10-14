@@ -212,10 +212,10 @@ function App() {
                                             path="/inquiry/after"
                                             element={<AfterInquiry />}
                                         /> */}
-                                        <Route
+                                        {/* <Route
                                             path="/about"
                                             element={<About />}
-                                        />
+                                        /> */}
                                         <Route
                                             path="/login"
                                             element={

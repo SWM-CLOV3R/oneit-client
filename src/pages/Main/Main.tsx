@@ -17,7 +17,7 @@ import {useAtomValue} from 'jotai';
 import {authAtom, isLoginAtom} from '@/api/auth';
 import BasketInfoCard from '../Basket/components/BasketInfoCard';
 import {Link, useNavigate} from 'react-router-dom';
-import {FCMTokenAtom} from '@/api/notification';
+
 import Header from '@/components/common/Header';
 import banner from '@/assets/banner.png';
 
@@ -27,7 +27,7 @@ import banner3 from '@/assets/banner_3.svg';
 
 const Main = () => {
     const isLogin = useAtomValue(isLoginAtom);
-    // const token = useAtomValue(FCMTokenAtom);
+
     const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState(false);
     // console.log(token);
@@ -97,7 +97,12 @@ const Main = () => {
 
                 <div
                     className="mt-7 w-full relative"
-                    onClick={() => navigate('/login')}
+                    onClick={() => {
+                        if (!isLogin) navigate('/login');
+                        else
+                            window.location.href =
+                                'https://www.instagram.com/oneit.gift/';
+                    }}
                 >
                     <img
                         src={banner}

@@ -16,11 +16,12 @@ const Login = () => {
         } else {
             //get uri of the page before login page
             const referrer = document.referrer;
-            const uri = referrer ? new URL(referrer).pathname : '/';
+            const uri = referrer ? new URL(referrer).pathname : '/main';
             console.log(uri);
+            console.log(referrer);
 
             // setRedirctURI(uri || '/');
-            localStorage.setItem('redirect', uri || '/');
+            localStorage.setItem('redirect', uri || '/main');
         }
         // console.log(redirect);
         // console.log(showToast,success);
