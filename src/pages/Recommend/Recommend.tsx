@@ -25,6 +25,31 @@ const Recommend = () => {
     const [priceRangeAtom, setPriceRangeAtom] = useAtom(priceRange);
     const [{mutate}] = useAtom(startRecommend);
 
+    const handleGoBack = () => {
+        if (step > 0) {
+            setStep((prevStep) => prevStep - 1);
+            window.history.pushState(null, '', window.location.href);
+        } else {
+            navigate('/main');
+        }
+    };
+    useEffect(() => {
+        window.history.pushState({step}, '', window.location.href);
+    }, [step]);
+    useEffect(() => {
+        const handlePopState = (event: PopStateEvent) => {
+            event.preventDefault();
+            handleGoBack();
+        };
+
+        window.history.pushState(null, '', window.location.href);
+        window.addEventListener('popstate', handlePopState);
+
+        return () => {
+            window.removeEventListener('popstate', handlePopState);
+        };
+    }, [step]);
+
     const {control, handleSubmit, watch} = useForm<FormData>({
         defaultValues: {
             name: nameAtom,
