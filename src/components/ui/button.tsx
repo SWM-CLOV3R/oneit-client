@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-    variant?: 'primary' | 'border' | 'underline';
+    variant?: 'primary' | 'border' | 'underline' | 'disabled';
     fullWidth?: boolean;
 }
 
@@ -17,9 +17,10 @@ const Button: React.FC<ButtonProps> = ({
 
     const variantClasses = {
         primary: 'bg-gradient-to-r from-[#ff4bc1] to-[#ff4341] text-white h-12',
-        border: 'border-2 border-[#ff4bc1] bg-white text-[#ff4bc1] h-[2.625rem]',
+        border: 'border-2 border-[#ff4bc1] bg-white text-[#ff4bc1] h-12',
         underline:
-            'text-[#5d5d5d] underline text-xs font-medium bg-transparent',
+            'text-[#5d5d5d] underline text-xs font-medium bg-transparent h-12',
+        disabled: 'bg-[#d1d1d1] text-[#fff] h-12',
     };
 
     const widthClass = fullWidth ? 'w-full' : '';

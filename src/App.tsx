@@ -99,9 +99,9 @@ function App() {
         <>
             <QueryClientProvider client={queryClient}>
                 <div className="App flex flex-col  items-center min-h-screen w-full">
-                    <div className="w-[360px] flex flex-col flex-grow">
+                    <div className="w-[360px] h-full flex-grow flex-shrink flex flex-col">
                         {/* <Header /> */}
-                        <div className="w-full h-full">
+                        <>
                             <Suspense fallback={<Spinner size="large" />}>
                                 <Router>
                                     <Routes>
@@ -297,7 +297,7 @@ function App() {
                                     </Routes>
                                 </Router>
                             </Suspense>
-                        </div>
+                        </>
                     </div>
                 </div>
                 <footer className="bg-gray-100 p-4">
