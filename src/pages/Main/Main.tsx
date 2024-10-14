@@ -12,7 +12,7 @@ import {
     CarouselPrevious,
 } from '@/components/ui/carousel';
 import {Basket} from '@/lib/types';
-import {Key} from 'react';
+import {Key, useState} from 'react';
 import {useAtomValue} from 'jotai';
 import {authAtom, isLoginAtom} from '@/api/auth';
 import BasketInfoCard from '../Basket/components/BasketInfoCard';
@@ -27,8 +27,9 @@ import banner3 from '@/assets/banner_3.svg';
 
 const Main = () => {
     const isLogin = useAtomValue(isLoginAtom);
-    const token = useAtomValue(FCMTokenAtom);
+    // const token = useAtomValue(FCMTokenAtom);
     const navigate = useNavigate();
+    const [isModalOpen, setIsModalOpen] = useState(false);
     // console.log(token);
 
     return (
@@ -36,7 +37,10 @@ const Main = () => {
             <Header />
             <main className="pt-14">
                 <div className="flex flex-col gap-6 p-4">
-                    <button className="h-[7.125rem] rounded-3xl w-full relative flex flex-col justify-center bg-[#fff0f0]">
+                    <button
+                        onClick={() => navigate('/recommend')}
+                        className="h-[7.125rem] rounded-3xl w-full relative flex flex-col justify-center bg-[#fff0f0]"
+                    >
                         <div className="pl-6 text-left text-sm text-[#5d5d5d] mb-2">
                             선물 요정이 알려드려요!
                         </div>
@@ -52,7 +56,10 @@ const Main = () => {
                         />
                     </button>
 
-                    <button className="h-[7.125rem] rounded-3xl w-full relative flex flex-col justify-center bg-[#fef1fa]">
+                    <button
+                        onClick={() => setIsModalOpen(true)}
+                        className="h-[7.125rem] rounded-3xl w-full relative flex flex-col justify-center bg-[#fef1fa]"
+                    >
                         <div className="pl-6 text-left text-sm text-[#5d5d5d] mb-2">
                             내 위시템을 모아 모아~
                         </div>
@@ -68,7 +75,10 @@ const Main = () => {
                         />
                     </button>
 
-                    <button className="h-[7.125rem] rounded-3xl w-full relative flex flex-col justify-center bg-[#eee3ff]">
+                    <button
+                        onClick={() => setIsModalOpen(true)}
+                        className="h-[7.125rem] rounded-3xl w-full relative flex flex-col justify-center bg-[#eee3ff]"
+                    >
                         <div className="pl-6 text-left text-sm text-[#5d5d5d] mb-2">
                             친구를 위한 다양한 추천 선물 !
                         </div>
@@ -85,7 +95,10 @@ const Main = () => {
                     </button>
                 </div>
 
-                <div className="mt-7 w-full relative">
+                <div
+                    className="mt-7 w-full relative"
+                    onClick={() => navigate('/login')}
+                >
                     <img
                         src={banner}
                         alt="Promotion Banner"
@@ -102,6 +115,35 @@ const Main = () => {
                     </div>
                 </div>
             </main>
+            {isModalOpen && (
+                <div
+                    className="absolute inset-0 flex items-center justify-center"
+                    onClick={() => setIsModalOpen(false)}
+                >
+                    <div className="absolute inset-0 bg-black bg-opacity-25 z-10"></div>
+                    <div
+                        onClick={(e) => e.stopPropagation()}
+                        className="bg-white rounded-3xl p-6 z-20 max-w-[20.5rem] w-full flex flex-col justify-center"
+                    >
+                        <p className="text-left text-[#5d5d5d]">
+                            아직 공사 중이에요!
+                        </p>
+                        <div className="text-lg font-bold mt-2 mb-5 text-left">
+                            10월 00일 출시를 목표로
+                            <br />
+                            열심히 개발하고 있어요!
+                        </div>
+                        {!isLogin && (
+                            <button
+                                onClick={() => navigate('/login')}
+                                className="bg-[#fee500] w-full h-[2.5625rem] text-sm font-bold flex justify-center items-center"
+                            >
+                                카카오 회원가입하고 출시 알림 받기
+                            </button>
+                        )}
+                    </div>
+                </div>
+            )}
         </>
     );
 };
