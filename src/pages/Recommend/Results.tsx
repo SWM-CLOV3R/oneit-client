@@ -118,6 +118,7 @@ const Results = () => {
         console.log(payload);
 
         Kakao.Share.sendDefault(payload);
+        setIsOpen(true);
     };
 
     if (recommendedAPI.isLoading) {
