@@ -25,7 +25,7 @@ const Landing = () => {
                     </div>
                 </div>
 
-                <div className="text-sm text-[#6d6d6d] text-center before:content-[''] before:w-16 before:h-16 before:block before:bg-[url('@/assets/exhale.svg')] before:bg-no-repeat before:bg-center before:bg-contain before:mx-auto before:mt-8 before:mb-5">
+                <div className="text-sm text-[#6d6d6d] text-center before:content-[''] before:w-16 before:h-16 before:block before:bg-[url('@/assets/exhale.gif')] before:bg-no-repeat before:bg-center before:bg-contain before:mx-auto before:mt-8 before:mb-5">
                     선물하는 과정에서 마주하는 수많은 고민거리로
                     <br />
                     마음을 전달하기 앞서 부담이 쌓인다면

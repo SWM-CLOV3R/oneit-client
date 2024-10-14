@@ -16,75 +16,93 @@ import {Key} from 'react';
 import {useAtomValue} from 'jotai';
 import {authAtom, isLoginAtom} from '@/api/auth';
 import BasketInfoCard from '../Basket/components/BasketInfoCard';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {FCMTokenAtom} from '@/api/notification';
+import Header from '@/components/common/Header';
+import banner from '@/assets/banner.png';
+
+import banner1 from '@/assets/banner_1.gif';
+import banner2 from '@/assets/banner_2.gif';
+import banner3 from '@/assets/banner_3.svg';
 
 const Main = () => {
     const isLogin = useAtomValue(isLoginAtom);
     const token = useAtomValue(FCMTokenAtom);
+    const navigate = useNavigate();
     // console.log(token);
 
-    const CurationList = () => {
-        const {data, isLoading, isError} = useQuery({
-            queryKey: ['basket'],
-            queryFn: () => fetchBasketList(),
-            enabled: isLogin,
-        });
-        if (isLoading) return <Spinner />;
-        if (isError) {
-            return <div>생성한 바구니가 없습니다.</div>;
-        }
-        if (data.length === 0) {
-            return (
-                <BasketIntroCard
-                    text="새로운 바구니를 만들어보세요"
-                    login={true}
-                />
-            );
-        }
-        // console.log(data);
-
-        return (
-            <Carousel
-                className="w-full"
-                opts={{loop: true}}
-                autoplay={true}
-                autoplayInterval={2500}
-            >
-                <CarouselContent>
-                    {data?.map(
-                        (basket: Basket, index: Key | null | undefined) => (
-                            <CarouselItem key={index}>
-                                <Link
-                                    to={`/basket/${basket.idx}`}
-                                    className="block"
-                                >
-                                    <BasketInfoCard
-                                        basket={basket}
-                                        className="rounded-lg overflow-hidden shadow-sm group  w-full my-2 border-[0.5px]"
-                                    />
-                                </Link>
-                            </CarouselItem>
-                        ),
-                    )}
-                </CarouselContent>
-                <CarouselPrevious />
-                <CarouselNext />
-            </Carousel>
-        );
-    };
-
     return (
-        <div className="flex flex-col overflow-hidden justify-center gap-2 p-1 w-full items-center mt-4 mb-5">
-            {!isLogin && (
-                <BasketIntroCard
-                    text="카카오 로그인하고 바구니를 만들어보세요"
-                    login={false}
-                />
-            )}
-            {isLogin && <CurationList />}
-            <Recommend />
-        </div>
+        <>
+            <Header />
+            <main className="pt-14">
+                <div className="flex flex-col gap-6 p-4">
+                    <button className="h-[7.125rem] rounded-3xl w-full relative flex flex-col justify-center bg-[#fff0f0]">
+                        <div className="pl-6 text-left text-sm text-[#5d5d5d] mb-2">
+                            선물 요정이 알려드려요!
+                        </div>
+                        <div className="pl-6 text-left text-lg font-bold">
+                            선물 요정에게
+                            <br />
+                            선물 추천을 받아보세요
+                        </div>
+                        <img
+                            src={banner1}
+                            alt="Banner 1"
+                            className="absolute right-6 top-1/2 -translate-y-1/2 w-[4.625rem] h-[4.625rem] object-contain"
+                        />
+                    </button>
+
+                    <button className="h-[7.125rem] rounded-3xl w-full relative flex flex-col justify-center bg-[#fef1fa]">
+                        <div className="pl-6 text-left text-sm text-[#5d5d5d] mb-2">
+                            내 위시템을 모아 모아~
+                        </div>
+                        <div className="pl-6 text-left text-lg font-bold">
+                            바구니에 선물을 담고
+                            <br />
+                            다같이 골라볼까요?
+                        </div>
+                        <img
+                            src={banner2}
+                            alt="Banner 2"
+                            className="absolute right-6 top-1/2 -translate-y-1/2 w-[4.625rem] h-[4.625rem] object-contain"
+                        />
+                    </button>
+
+                    <button className="h-[7.125rem] rounded-3xl w-full relative flex flex-col justify-center bg-[#eee3ff]">
+                        <div className="pl-6 text-left text-sm text-[#5d5d5d] mb-2">
+                            친구를 위한 다양한 추천 선물 !
+                        </div>
+                        <div className="pl-6 text-left text-lg font-bold">
+                            ONE!T이 추천하는
+                            <br />
+                            선물 목록 살펴 보기
+                        </div>
+                        <img
+                            src={banner3}
+                            alt="Banner 3"
+                            className="absolute right-6 top-1/2 -translate-y-1/2 w-[4.625rem] h-[4.625rem] object-contain"
+                        />
+                    </button>
+                </div>
+
+                <div className="mt-7 w-full relative">
+                    <img
+                        src={banner}
+                        alt="Promotion Banner"
+                        className="w-full object-contain"
+                    />
+                    <div className="absolute inset-0 flex flex-col justify-center items-start p-6 text-white">
+                        <h2 className="text-lg font-bold">
+                            ONE!T 10월 00일 정식 출시 예정
+                            <br />
+                            {isLogin
+                                ? '인스타그램 둘러보고 출시 소식 받기'
+                                : '회원가입하고 출시 알림 받기'}
+                        </h2>
+                    </div>
+                </div>
+            </main>
+        </>
     );
 };
 
