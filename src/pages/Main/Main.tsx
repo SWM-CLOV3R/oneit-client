@@ -1,17 +1,3 @@
-import BasketIntroCard from './components/BasketCard';
-import Recommend from './components/RecommendCard';
-import {useQuery} from '@tanstack/react-query';
-import {fetchBasketList} from '@/api/basket';
-import {Spinner} from '@/components/ui/spinner';
-import NotFound from '../NotFound';
-import {
-    Carousel,
-    CarouselContent,
-    CarouselItem,
-    CarouselNext,
-    CarouselPrevious,
-} from '@/components/ui/carousel';
-import {Basket} from '@/lib/types';
 import {Key, useState} from 'react';
 import {useAtomValue} from 'jotai';
 import {authAtom, isLoginAtom} from '@/api/auth';
@@ -138,7 +124,14 @@ const Main = () => {
                             <br />
                             열심히 개발하고 있어요!
                         </div>
-                        {!isLogin && (
+                        {isLogin ? (
+                            <a
+                                href="https://www.instagram.com/oneit.gift/"
+                                className="bg-[#000000] text-white w-full h-[2.5625rem] text-sm font-bold flex justify-center items-center"
+                            >
+                                인스타그램 둘러보고 ONE!T 소식 받기
+                            </a>
+                        ) : (
                             <button
                                 onClick={() => navigate('/login')}
                                 className="bg-[#fee500] w-full h-[2.5625rem] text-sm font-bold flex justify-center items-center"
