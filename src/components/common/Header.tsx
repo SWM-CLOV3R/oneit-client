@@ -1,4 +1,4 @@
-import {useAtomValue} from 'jotai';
+import {useAtom, useAtomValue} from 'jotai';
 import {isLoginAtom} from '@/api/auth';
 import logoImage from '@/assets/logo.svg';
 import mypageIcon from '@/assets/icon_mypage.svg';
@@ -11,6 +11,12 @@ import {
     DropdownMenuContent,
     DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
+import {query} from 'firebase/database';
+import {fetchNotifications, notificationAtom} from '@/api/notification';
+import {useQuery} from '@tanstack/react-query';
+import {useEffect, useState} from 'react';
+import NotifiCard from './NotifiCard';
+import {Notif} from '@/lib/types';
 
 interface HeaderProps {
     variant: 'logo' | 'back';
@@ -19,6 +25,28 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({variant}) => {
     const isLogin = useAtomValue(isLoginAtom);
     const navigate = useNavigate();
+    const [notifList, setNotifList] = useAtom(notificationAtom);
+    const [hasNewNotifications, setHasNewNotifications] = useState(false);
+    const fetchNotifAPI = useQuery({
+        queryKey: ['fetchNotif'],
+        queryFn: () => fetchNotifications(),
+        enabled: isLogin,
+    });
+
+    useEffect(() => {
+        if (fetchNotifAPI.data && notifList) {
+            const currentNotifications = fetchNotifAPI.data;
+            if (
+                JSON.stringify(currentNotifications) !==
+                JSON.stringify(notifList)
+            ) {
+                setHasNewNotifications(true);
+                setNotifList(fetchNotifAPI.data);
+            } else {
+                setHasNewNotifications(false);
+            }
+        }
+    }, [fetchNotifAPI.data]);
 
     const toMypage = () => {
         if (isLogin) {
@@ -57,16 +85,27 @@ const Header: React.FC<HeaderProps> = ({variant}) => {
                 {isLogin && (
                     <DropdownMenu>
                         <DropdownMenuTrigger>
-                            <img
-                                src={notifIconLine}
-                                alt="notification"
-                                className="w-full h-full object-contain"
-                            />
+                            {fetchNotifAPI?.data && hasNewNotifications ? (
+                                <img
+                                    src={notifIconLine}
+                                    alt="notification"
+                                    className="w-full h-full object-contain"
+                                />
+                            ) : (
+                                <img
+                                    src={notifIconColor}
+                                    alt="notification"
+                                    className="w-full h-full object-contain"
+                                />
+                            )}
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent
-                            side="bottom"
-                            align="end"
-                        ></DropdownMenuContent>
+                        <DropdownMenuContent side="bottom" align="end">
+                            {fetchNotifAPI?.data?.map(
+                                (notif: Notif, idx: number) => (
+                                    <NotifiCard key={idx} notif={notif} />
+                                ),
+                            )}
+                        </DropdownMenuContent>
                     </DropdownMenu>
                 )}
                 <button onClick={toMypage} className="w-9 h-9">

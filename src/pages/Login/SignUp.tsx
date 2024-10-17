@@ -18,7 +18,10 @@ const SignUp = () => {
     const [isNicknameChecked, setIsNicknameChecked] = useState(false);
 
     const formSchema = z.object({
-        name: z.string().min(2, {message: '2자 이상이어야 합니다.'}),
+        name: z
+            .string()
+            .min(2, {message: '2자 이상이어야 합니다.'})
+            .regex(/^[가-힣]+$/, {message: '한글 이름만 가능합니다.'}),
         nickname: z
             .string()
             .min(2, {message: '닉네임은 2자 이상이어야 합니다.'}),

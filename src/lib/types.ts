@@ -103,3 +103,12 @@ export type SignUpUser = {
     gender: 'FEMALE' | 'MALE';
     birthDate: string;
 };
+
+export type Notif = {
+    idx: number;
+    title: string;
+    body: string;
+    receiverIdx: number;
+    createdAt: Date;
+    // status: 'CREATED' | 'SENT' | 'READ';
+};
