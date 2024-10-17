@@ -49,3 +49,14 @@ notificationAtom.debugLabel = 'notificationAtom';
 //         enabled: !!isLoggedIn,
 //     };
 // });
+
+export const readNotification = async (notifIdx: number) => {
+    return axios
+        .patch(`/v2/notification/read?notificationIdx=${notifIdx}`)
+        .then((res) => {
+            return Promise.resolve(res.data);
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
+};

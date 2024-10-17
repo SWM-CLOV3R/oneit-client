@@ -82,7 +82,7 @@ const Header: React.FC<HeaderProps> = ({variant}) => {
                 )}
             </div>
             <div className="flex gap-1">
-                {isLogin && (
+                {isLogin && (fetchNotifAPI?.data?.length ?? 0) > 0 && (
                     <DropdownMenu>
                         <DropdownMenuTrigger>
                             {fetchNotifAPI?.data && hasNewNotifications ? (
