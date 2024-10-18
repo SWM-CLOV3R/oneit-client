@@ -63,7 +63,12 @@ const Recommend = () => {
         setNameAtom(data.name);
         setGenderAtom(data.gender);
         setRecipientAtom(data.recipient);
-        setPriceRangeAtom(data.priceRange);
+        setPriceRangeAtom([
+            Number(data.priceRange[0]),
+            Number(data.priceRange[1]),
+        ]);
+
+        console.log('onSubmit', data);
 
         const chatID = nanoid(10);
         mutate({chatID});
@@ -250,6 +255,7 @@ const Recommend = () => {
                     minInputRef.current!.value = minVal.toString();
                     maxInputRef.current!.value = maxVal.toString();
                 }
+                // console.log(minVal, maxVal);
             };
 
             const handlePriceInput = (e: Event) => {
