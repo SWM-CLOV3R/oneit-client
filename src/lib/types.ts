@@ -110,5 +110,6 @@ export type Notif = {
     body: string;
     receiverIdx: number;
     createdAt: Date;
-    // status: 'CREATED' | 'SENT' | 'READ';
+    notiStatus: 'CREATED' | 'SENT' | 'READ';
+    actionType: string;
 };

@@ -25,28 +25,11 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({variant}) => {
     const isLogin = useAtomValue(isLoginAtom);
     const navigate = useNavigate();
-    const [notifList, setNotifList] = useAtom(notificationAtom);
-    const [hasNewNotifications, setHasNewNotifications] = useState(false);
     const fetchNotifAPI = useQuery({
         queryKey: ['fetchNotif'],
         queryFn: () => fetchNotifications(),
         enabled: isLogin,
     });
-
-    useEffect(() => {
-        if (fetchNotifAPI.data && notifList) {
-            const currentNotifications = fetchNotifAPI.data;
-            if (
-                JSON.stringify(currentNotifications) !==
-                JSON.stringify(notifList)
-            ) {
-                setHasNewNotifications(true);
-                setNotifList(fetchNotifAPI.data);
-            } else {
-                setHasNewNotifications(false);
-            }
-        }
-    }, [fetchNotifAPI.data]);
 
     const toMypage = () => {
         if (isLogin) {
@@ -85,7 +68,10 @@ const Header: React.FC<HeaderProps> = ({variant}) => {
                 {isLogin && (fetchNotifAPI?.data?.length ?? 0) > 0 && (
                     <DropdownMenu>
                         <DropdownMenuTrigger>
-                            {fetchNotifAPI?.data && hasNewNotifications ? (
+                            {fetchNotifAPI?.data &&
+                            !fetchNotifAPI?.data?.some(
+                                (notif) => notif.notiStatus !== 'READ',
+                            ) ? (
                                 <img
                                     src={notifIconLine}
                                     alt="notification"
