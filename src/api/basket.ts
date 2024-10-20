@@ -274,7 +274,7 @@ export const addBasketProductComment = async (
         });
 };
 
-export const deleteBasketProductComment = async (commentIdx: string) => {
+export const deleteBasketProductComment = async (commentIdx: number) => {
     return axios
         .delete(`v2/comments/${commentIdx}`)
         .then((res) => {

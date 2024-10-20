@@ -3,7 +3,14 @@ import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import Gift from '@/assets/giftbox.png';
 import {Button} from '@/components/ui/button';
 import KakaoShare from '@/components/common/KakaoShare';
-import {CalendarCheck, ChevronLeft, Heart, MoveRight, Send} from 'lucide-react';
+import {
+    CalendarCheck,
+    ChevronLeft,
+    Heart,
+    MoveRight,
+    Send,
+    Trash2,
+} from 'lucide-react';
 import {Spinner} from '@/components/ui/spinner';
 import NotFound from '../NotFound';
 import {Separator} from '@/components/ui/separator';
@@ -19,6 +26,7 @@ import {
     fetchBasketProductComments,
 } from '@/api/basket';
 import {Comment} from '@/lib/types';
+import {set} from 'date-fns';
 
 const BasketProduct = () => {
     const {basketID, productID} = useParams();
@@ -52,14 +60,14 @@ const BasketProduct = () => {
     });
 
     const deleteCommentAPI = useMutation({
-        mutationFn: (commentID: string) =>
+        mutationFn: (commentID: number) =>
             deleteBasketProductComment(commentID),
         mutationKey: ['deleteComment'],
-        onSuccess: (data) => {
+        onSuccess: (data, variables) => {
             queryClient.setQueryData(
                 ['comments', basketID, productID],
                 (prev: Comment[]) =>
-                    prev?.filter((comment) => comment.idx !== data.idx),
+                    prev?.filter((comment) => comment.idx !== variables),
             );
         },
     });
@@ -72,6 +80,11 @@ const BasketProduct = () => {
         e.preventDefault();
         console.log(text);
         addCommentAPI.mutateAsync();
+        setText('');
+    };
+
+    const handleDeleteComment = (commentID: number) => {
+        deleteCommentAPI.mutate(commentID);
     };
 
     if (productAPI.isLoading) return <Spinner />;
@@ -155,9 +168,35 @@ const BasketProduct = () => {
             <div className="pt-1">
                 <p>선물 토크</p>
                 <div className="bg-[#FEF1FA] w-full min-h-32">
-                    <div className="flex items-center gap-2">
+                    <div className="flex w-full gap-2 flex-col">
                         {fetchCommentsAPI?.data?.map(
                             (comment: Comment, idx: number) => {
+                                if (comment.writerIdx == user?.idx) {
+                                    return (
+                                        <div
+                                            key={idx}
+                                            className={cn(
+                                                'flex gap-2',
+                                                'justify-end',
+                                            )}
+                                        >
+                                            <div className="flex items-center gap-2">
+                                                <p>{comment.writerNickName}</p>
+                                                <button
+                                                    onClick={() =>
+                                                        handleDeleteComment(
+                                                            comment.idx,
+                                                        )
+                                                    }
+                                                >
+                                                    <Trash2 />
+                                                </button>
+                                            </div>
+                                            <p>{comment.content}</p>
+                                        </div>
+                                    );
+                                }
+
                                 return (
                                     <div
                                         key={idx}
