@@ -56,6 +56,7 @@ const BasketProduct = () => {
                 ['comments', basketID, productID],
                 (prev: Comment[]) => (prev ? [...prev, data] : [data]),
             );
+            setText('');
         },
     });
 
@@ -80,7 +81,6 @@ const BasketProduct = () => {
         e.preventDefault();
         console.log(text);
         addCommentAPI.mutateAsync();
-        setText('');
     };
 
     const handleDeleteComment = (commentID: number) => {
@@ -221,6 +221,7 @@ const BasketProduct = () => {
                     <input
                         className="w-full border-[#D1D1D1] border-2 rounded-md"
                         onChange={(e) => setText(e.target.value)}
+                        value={text}
                     ></input>
                     <button type="submit">
                         <Send />
