@@ -66,6 +66,7 @@ const Friends = React.lazy(() => import('./pages/Mypage/Friends'));
 
 const BasketList = React.lazy(() => import('./pages/Basket/BasketList'));
 const Basket = React.lazy(() => import('./pages/Basket/Basket'));
+const BasketProduct = React.lazy(() => import('./pages/Basket/BasketProduct'));
 const CreateBasket = React.lazy(() => import('./pages/Basket/CreateBasket'));
 const EditBasket = React.lazy(() => import('./pages/Basket/EditBasket'));
 const SharedBasket = React.lazy(() => import('./pages/Basket/SharedBasket'));
@@ -198,7 +199,7 @@ function App() {
                                                     option={true}
                                                     redirectTo="/login?redirect=/basket/:basketID/product/:productID"
                                                 >
-                                                    <Basket />
+                                                    <BasketProduct />
                                                 </AuthRouterWithRedirect>
                                             }
                                         />

@@ -3,29 +3,22 @@ import {useQuery} from '@tanstack/react-query';
 import Gift from '@/assets/giftbox.png';
 import {Button} from '@/components/ui/button';
 import KakaoShare from '@/components/common/KakaoShare';
-import {CalendarCheck, ChevronLeft, Heart, MoveRight} from 'lucide-react';
+import {CalendarCheck, ChevronLeft, Heart, MoveRight, Send} from 'lucide-react';
 import {Spinner} from '@/components/ui/spinner';
 import NotFound from '../NotFound';
 import {Separator} from '@/components/ui/separator';
 import {fetchProduct} from '@/api/product';
-import {
-    Drawer,
-    DrawerClose,
-    DrawerContent,
-    DrawerFooter,
-    DrawerTrigger,
-} from '@/components/ui/drawer';
-import {addToBasket, fetchBasketList} from '@/api/basket';
-import {Basket} from '@/lib/types';
 import {useAtom, useAtomValue} from 'jotai';
 import {ScrollArea} from '@/components/ui/scroll-area';
 import {cn} from '@/lib/utils';
 import {isLoginAtom} from '@/api/auth';
+import {useState} from 'react';
 
 const Product = () => {
     const {basketID, productID} = useParams();
     const loggedIn = useAtomValue(isLoginAtom);
     const navigate = useNavigate();
+    const [text, setText] = useState('');
 
     const productAPI = useQuery({
         queryKey: ['product', productID],
@@ -34,6 +27,11 @@ const Product = () => {
 
     const handleGoBack = () => {
         navigate(-1);
+    };
+
+    const handleText = (e: {preventDefault: () => void}) => {
+        e.preventDefault();
+        console.log(text);
     };
 
     if (productAPI.isLoading) return <Spinner />;
@@ -114,6 +112,19 @@ const Product = () => {
                     </p>
                 </div>
                 <div className="flex items-center gap-2"></div>
+            </div>
+            <div className="pt-1">
+                <p>선물 토크</p>
+                <div className="bg-[#FEF1FA] w-full min-h-32"></div>
+                <form className="flex w-full gap-2" onSubmit={handleText}>
+                    <input
+                        className="w-full border-[#D1D1D1] border-2 rounded-md"
+                        onChange={(e) => setText(e.target.value)}
+                    ></input>
+                    <button type="submit">
+                        <Send />
+                    </button>
+                </form>
             </div>
         </div>
     );
