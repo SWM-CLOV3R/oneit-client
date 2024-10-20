@@ -13,8 +13,6 @@ export type Product = {
     idx: number;
     name: string;
     originalPrice: number;
-    currentPrice?: number;
-    discountRate?: number;
     brandName?: string;
     mallName?: string;
     productUrl?: string;
@@ -26,6 +24,7 @@ export type Product = {
     description: string;
     likeCount?: number;
     voteStatus?: 'LIKE' | 'DISLIKE' | 'NONE';
+    purchaseStatus?: 'PURCHASED' | 'NOT_PURCHASED';
 };
 
 export type Question = {
