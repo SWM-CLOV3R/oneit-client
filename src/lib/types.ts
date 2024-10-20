@@ -113,3 +113,12 @@ export type Notif = {
     notiStatus: 'CREATED' | 'SENT' | 'READ';
     actionType: string;
 };
+
+export type Comment = {
+    idx: number;
+    giftboxProductIdx: number;
+    writerIdx: number;
+    writerNickName: string;
+    content: string;
+    createdAt: Date;
+};

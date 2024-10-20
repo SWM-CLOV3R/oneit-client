@@ -1,5 +1,5 @@
 import {useNavigate, useParams} from 'react-router-dom';
-import {useQuery} from '@tanstack/react-query';
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import Gift from '@/assets/giftbox.png';
 import {Button} from '@/components/ui/button';
 import KakaoShare from '@/components/common/KakaoShare';
@@ -11,18 +11,57 @@ import {fetchProduct} from '@/api/product';
 import {useAtom, useAtomValue} from 'jotai';
 import {ScrollArea} from '@/components/ui/scroll-area';
 import {cn} from '@/lib/utils';
-import {isLoginAtom} from '@/api/auth';
+import {authAtom, isLoginAtom} from '@/api/auth';
 import {useState} from 'react';
+import {
+    addBasketProductComment,
+    deleteBasketProductComment,
+    fetchBasketProductComments,
+} from '@/api/basket';
+import {Comment} from '@/lib/types';
 
-const Product = () => {
+const BasketProduct = () => {
     const {basketID, productID} = useParams();
     const loggedIn = useAtomValue(isLoginAtom);
+    const user = useAtomValue(authAtom);
     const navigate = useNavigate();
     const [text, setText] = useState('');
+    const queryClient = useQueryClient();
+
+    const fetchCommentsAPI = useQuery({
+        queryKey: ['comments', basketID, productID],
+        queryFn: () =>
+            fetchBasketProductComments(basketID || '', productID || ''),
+    });
 
     const productAPI = useQuery({
         queryKey: ['product', productID],
         queryFn: () => fetchProduct(productID || ''),
+    });
+
+    const addCommentAPI = useMutation({
+        mutationFn: () =>
+            addBasketProductComment(basketID || '', productID || '', text),
+        mutationKey: ['addComment'],
+        onSuccess: (data) => {
+            queryClient.setQueryData(
+                ['comments', basketID, productID],
+                (prev: Comment[]) => (prev ? [...prev, data] : [data]),
+            );
+        },
+    });
+
+    const deleteCommentAPI = useMutation({
+        mutationFn: (commentID: string) =>
+            deleteBasketProductComment(commentID),
+        mutationKey: ['deleteComment'],
+        onSuccess: (data) => {
+            queryClient.setQueryData(
+                ['comments', basketID, productID],
+                (prev: Comment[]) =>
+                    prev?.filter((comment) => comment.idx !== data.idx),
+            );
+        },
     });
 
     const handleGoBack = () => {
@@ -32,6 +71,7 @@ const Product = () => {
     const handleText = (e: {preventDefault: () => void}) => {
         e.preventDefault();
         console.log(text);
+        addCommentAPI.mutateAsync();
     };
 
     if (productAPI.isLoading) return <Spinner />;
@@ -111,11 +151,33 @@ const Product = () => {
                         {productAPI.data?.description}
                     </p>
                 </div>
-                <div className="flex items-center gap-2"></div>
             </div>
             <div className="pt-1">
                 <p>선물 토크</p>
-                <div className="bg-[#FEF1FA] w-full min-h-32"></div>
+                <div className="bg-[#FEF1FA] w-full min-h-32">
+                    <div className="flex items-center gap-2">
+                        {fetchCommentsAPI?.data?.map(
+                            (comment: Comment, idx: number) => {
+                                return (
+                                    <div
+                                        key={idx}
+                                        className={cn(
+                                            'flex gap-2',
+                                            user?.idx == comment.writerIdx
+                                                ? 'justify-end'
+                                                : 'justify-start',
+                                        )}
+                                    >
+                                        <div className="flex items-center gap-2">
+                                            <p>{comment.writerNickName}</p>
+                                        </div>
+                                        <p>{comment.content}</p>
+                                    </div>
+                                );
+                            },
+                        )}
+                    </div>
+                </div>
                 <form className="flex w-full gap-2" onSubmit={handleText}>
                     <input
                         className="w-full border-[#D1D1D1] border-2 rounded-md"
@@ -130,4 +192,4 @@ const Product = () => {
     );
 };
 
-export default Product;
+export default BasketProduct;
