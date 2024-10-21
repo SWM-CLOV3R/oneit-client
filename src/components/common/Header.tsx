@@ -18,11 +18,23 @@ import {useEffect, useState} from 'react';
 import NotifiCard from './NotifiCard';
 import {Notif} from '@/lib/types';
 
-interface HeaderProps {
+export interface HeaderProps {
+    btn_back?: boolean;
+    title?: string;
+    setting?: boolean; // setting 버튼 표시 여부
+    profile?: boolean; // profile 버튼 표시 여부
     variant: 'logo' | 'back';
 }
 
-const Header: React.FC<HeaderProps> = ({variant}) => {
+const Header = ({
+    variant,
+    btn_back,
+    title,
+    setting,
+    profile,
+
+    ...props
+}: HeaderProps) => {
     const isLogin = useAtomValue(isLoginAtom);
     const navigate = useNavigate();
     const fetchNotifAPI = useQuery({
@@ -43,8 +55,18 @@ const Header: React.FC<HeaderProps> = ({variant}) => {
         navigate(-1);
     };
 
+    const handleSetting = () => {
+        const uri = window.location.pathname;
+        if (uri.startsWith('/basket')) {
+            navigate(uri + '/info');
+        }
+    };
+
     return (
-        <header className="fixed top-0 left-0 right-0 bg-white flex h-14 items-center justify-between px-4 z-20">
+        <header
+            className="fixed top-0 left-0 right-0 bg-white flex h-14 items-center justify-between px-4 z-20 props"
+            {...props}
+        >
             <div className="flex items-center">
                 {variant === 'logo' ? (
                     <a href="/main" className="flex items-center">
@@ -55,16 +77,28 @@ const Header: React.FC<HeaderProps> = ({variant}) => {
                         />
                     </a>
                 ) : (
-                    <button onClick={handleBack} className="flex items-center">
-                        <img
-                            src={backIcon}
-                            alt="Back"
-                            className="w-6 h-6 object-contain"
-                        />
-                    </button>
+                    <>
+                        <h2>{title}</h2>
+                        <button
+                            onClick={handleBack}
+                            className="flex items-center"
+                        >
+                            <img
+                                src={backIcon}
+                                alt="Back"
+                                className="w-6 h-6 object-contain"
+                            />
+                        </button>
+                    </>
                 )}
             </div>
-            <div className="flex gap-1">
+            <div className="flex items-center gap-4 right">
+                {setting && (
+                    <button
+                        className="btn_setting"
+                        onClick={handleSetting}
+                    ></button>
+                )}{' '}
                 {isLogin && (fetchNotifAPI?.data?.length ?? 0) > 0 && (
                     <DropdownMenu>
                         <DropdownMenuTrigger>
