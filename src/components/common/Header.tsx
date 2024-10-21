@@ -78,7 +78,6 @@ const Header = ({
                     </a>
                 ) : (
                     <>
-                        <h2>{title}</h2>
                         <button
                             onClick={handleBack}
                             className="flex items-center"
@@ -89,6 +88,7 @@ const Header = ({
                                 className="w-6 h-6 object-contain"
                             />
                         </button>
+                        <h2>{title}</h2>
                     </>
                 )}
             </div>
