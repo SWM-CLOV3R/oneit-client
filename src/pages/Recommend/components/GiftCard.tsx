@@ -1,5 +1,5 @@
 import {Basket, Product} from '@/lib/types';
-import Gift from '@/assets/giftbox.png';
+import Gift from '@/assets/images/giftbox.png';
 import {Button} from '@/components/ui/button';
 import {isLoginAtom} from '@/api/auth';
 import {useAtom, useAtomValue, useSetAtom} from 'jotai';

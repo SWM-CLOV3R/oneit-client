@@ -1,6 +1,6 @@
 import {useNavigate, useParams} from 'react-router-dom';
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
-import Gift from '@/assets/giftbox.png';
+import Gift from '@/assets/images/giftbox.png';
 import {Button} from '@/components/ui/button';
 import KakaoShare from '@/components/common/KakaoShare';
 import {

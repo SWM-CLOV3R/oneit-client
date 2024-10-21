@@ -5,11 +5,11 @@ import BasketInfoCard from '../Basket/components/BasketInfoCard';
 import {Link, useNavigate} from 'react-router-dom';
 
 import Header from '@/components/common/Header';
-import banner from '@/assets/banner.png';
+import banner from '@/assets/images/banner.png';
 
-import banner1 from '@/assets/banner_1.gif';
-import banner2 from '@/assets/banner_2.gif';
-import banner3 from '@/assets/banner_3.svg';
+import banner1 from '@/assets/images/banner_1.gif';
+import banner2 from '@/assets/images/banner_2.gif';
+import banner3 from '@/assets/images/banner_3.svg';
 
 const Main = () => {
     const isLogin = useAtomValue(isLoginAtom);

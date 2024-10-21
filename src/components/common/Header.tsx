@@ -1,10 +1,10 @@
 import {useAtom, useAtomValue} from 'jotai';
 import {isLoginAtom} from '@/api/auth';
-import logoImage from '@/assets/logo.svg';
-import mypageIcon from '@/assets/icon_mypage.svg';
-import backIcon from '@/assets/icon_back.svg';
-import notifIconLine from '@/assets/majesticons_bell-line.svg';
-import notifIconColor from '@/assets/majesticons_bell-color.svg';
+import logoImage from '@/assets/images/logo.svg';
+import mypageIcon from '@/assets/images/icon_mypage.svg';
+import backIcon from '@/assets/images/icon_back.svg';
+import notifIconLine from '@/assets/images/majesticons_bell-line.svg';
+import notifIconColor from '@/assets/images/majesticons_bell-color.svg';
 import {useNavigate} from 'react-router-dom';
 import {
     DropdownMenu,
