@@ -89,15 +89,18 @@ const BasketProductCard = (props: ProductCardProps) => {
     };
 
     return (
-        <div
-            className={cn('box', purchaseStatus === 'PURCHASED' && 'solid')}
-            onClick={() =>
-                navigate(`/basket/${basketID}/product/${product.idx}`)
-            }
-        >
+        <div className={cn('box', purchaseStatus === 'PURCHASED' && 'solid')}>
             <div className="image">
                 <div className="photo">
-                    <img src={product.thumbnailUrl} alt="제품 이미지" />
+                    <img
+                        onClick={() =>
+                            navigate(
+                                `/basket/${basketID}/product/${product.idx}`,
+                            )
+                        }
+                        src={product.thumbnailUrl}
+                        alt="제품 이미지"
+                    />
                     <div className="heart" onClick={handleVote}>
                         {vote == 'LIKE' ? (
                             <i
@@ -120,7 +123,15 @@ const BasketProductCard = (props: ProductCardProps) => {
                             {count}
                         </span>
                     </div>
-                    <div className="desc">
+                    <div
+                        className="desc"
+                        onClick={() =>
+                            navigate(
+                                `/basket/${basketID}/product/${product.idx}`,
+                            )
+                        }
+                    >
+                        {/* todo: get inquiry result */}
                         <i>
                             <img src={likeit} alt="좋아요 아이콘" />
                         </i>
@@ -128,13 +139,21 @@ const BasketProductCard = (props: ProductCardProps) => {
                     </div>
                 </div>
             </div>
-            <p className="title text-overflow h-10">{product.name}</p>
-            <p className="price">₩ {product.originalPrice.toLocaleString()}</p>
-            <div className="tags">
-                {product.keywords
-                    ?.splice(0, 3)
-                    .map((tag, idx) => <span key={idx}>#{tag}</span>)}
-            </div>
+            <a
+                onClick={() =>
+                    navigate(`/basket/${basketID}/product/${product.idx}`)
+                }
+            >
+                <p className="title text-overflow h-10 ">{product.name}</p>
+                <p className="price">
+                    ₩ {product.originalPrice.toLocaleString()}
+                </p>
+                <div className="tags">
+                    {product.keywords
+                        ?.splice(0, 3)
+                        .map((tag, idx) => <span key={idx}>#{tag}</span>)}
+                </div>
+            </a>
         </div>
     );
 };
