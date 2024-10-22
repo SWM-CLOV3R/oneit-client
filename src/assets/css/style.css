@@ -248,8 +248,9 @@ header {
 
           img {
             position: absolute;
-            width: 100%;
-            object-fit: contain;
+            width: 7.5rem;
+            height: 7.5rem;
+            object-fit: cover;
           }
         }
         &:nth-child(2) {
@@ -367,11 +368,11 @@ header {
             flex-direction: column;
             justify-content: center;
             width: 6.25rem;
-            height: 4rem;
+            max-height: 4rem;
             position: absolute;
             z-index: 5;
-            bottom: 0;
-            left: 1rem;
+            bottom: -0.1rem;
+            left: 1.875rem;
 
             > button {
               display: flex;
