@@ -167,18 +167,9 @@ const Basket = () => {
         deleteAPI.mutate();
     };
 
-    const handleEdit = () => {
-        navigate(`/basket/edit/${basketID}`);
-    };
-
     const handleInquiry = () => {
         mutate({basketIdx: basketID || '', selected, target});
         setSelected([]);
-    };
-
-    const handleInvite = async () => {
-        console.log(import.meta.env.BASE_URL);
-        inviteAPI.mutate();
     };
 
     const scrollToTop = () => {

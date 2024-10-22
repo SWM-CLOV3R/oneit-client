@@ -4,12 +4,16 @@ import Gift from '@/assets/images/giftbox.png';
 import {Button} from '@/components/ui/button';
 import KakaoShare from '@/components/common/KakaoShare';
 import {
+    ArrowRightSquare,
     CalendarCheck,
     ChevronLeft,
+    CircleEllipsis,
+    EllipsisVertical,
     Heart,
     MoveRight,
     Send,
     Trash2,
+    XCircleIcon,
 } from 'lucide-react';
 import {Spinner} from '@/components/ui/spinner';
 import NotFound from '../NotFound';
@@ -23,6 +27,7 @@ import {useState} from 'react';
 import {
     addBasketProductComment,
     basketProductVote,
+    deleteBasketProduct,
     deleteBasketProductComment,
     fetchBasketProductComments,
 } from '@/api/basket';
@@ -31,6 +36,12 @@ import {set} from 'date-fns';
 import Header from '@/components/common/Header';
 import mageHeart from '@/assets/images/mage_heart.svg';
 import mageHeartFill from '@/assets/images/mage_heart_fill.svg';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+} from '@/components/ui/dropdown-menu';
+import {DropdownMenuTrigger} from '@radix-ui/react-dropdown-menu';
 
 const BasketProduct = () => {
     const {basketID, productID} = useParams();
@@ -85,6 +96,12 @@ const BasketProduct = () => {
             basketProductVote(basketID || '', productID || '', 'uuid', vote),
     });
 
+    const deleteBasketProductAPI = useMutation({
+        mutationKey: ['deleteBasketProduct'],
+        mutationFn: () =>
+            deleteBasketProduct(basketID || '', productID?.toString() || ''),
+    });
+
     const handleVote = () => {
         let newVote: 'LIKE' | 'DISLIKE' | 'NONE';
         let newCount: number;
@@ -114,6 +131,11 @@ const BasketProduct = () => {
         deleteCommentAPI.mutate(commentID);
     };
 
+    const handleDelete = () => {
+        deleteBasketProductAPI.mutate();
+        navigate(`/basket/${basketID}`);
+    };
+
     if (productAPI.isLoading) return <Spinner />;
     if (productAPI.isError) return <NotFound />;
 
@@ -121,7 +143,7 @@ const BasketProduct = () => {
         <>
             <Header variant="back" btn_back={false} />
 
-            <div className="cardDetail scrollbar-hide">
+            <div className="cardDetail scrollbar-hide pt-24">
                 <div className="image_area">
                     <img
                         src={productAPI?.data?.thumbnailUrl}
@@ -151,7 +173,40 @@ const BasketProduct = () => {
                         >
                             {count}
                         </span>
-                        명이 이 선물을 좋아하고 있어요!
+                        <span>명이 이 선물을 좋아하고 있어요!</span>
+                        <div className="flex justify-end ml-16 pr-2">
+                            <DropdownMenu>
+                                <DropdownMenuTrigger>
+                                    <button>
+                                        <EllipsisVertical />
+                                    </button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent className="mr-2">
+                                    <DropdownMenuItem>
+                                        <button
+                                            onClick={() =>
+                                                navigate(
+                                                    `/product/${productID}`,
+                                                )
+                                            }
+                                            className="flex justify-between w-full"
+                                        >
+                                            더 알아보기
+                                            <ArrowRightSquare />
+                                        </button>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem>
+                                        <button
+                                            className="flex w-full justify-between"
+                                            onClick={handleDelete}
+                                        >
+                                            삭제하기
+                                            <XCircleIcon className="text-[#FF5757]" />
+                                        </button>
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </div>
                     </div>
                 </div>
                 <div className="prd_info">
