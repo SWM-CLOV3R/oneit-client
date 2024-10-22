@@ -198,7 +198,7 @@ const Basket = () => {
                 setting
                 variant="back"
                 profile
-                title="바구니 이름"
+                title={basketInfoAPI.data?.name}
             />
             <div className="p-4 cardList scrollbar-hide">
                 <div className="Dday_wrap">

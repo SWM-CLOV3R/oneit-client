@@ -1,6 +1,6 @@
 import {Input} from '@/components/ui/input';
 import {useAtom, useSetAtom} from 'jotai';
-import {useRef, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {
     basketName,
     basketDescription,
@@ -97,6 +97,38 @@ const CreateBasket = () => {
             fileInputRef.current.click();
         }
     };
+
+    const handleGoBack = () => {
+        if (currentStep == 'title') {
+            navigate('/basket', {replace: true});
+        } else {
+            setCurrentStep((prevStep) => {
+                if (prevStep === 'thumbnail') {
+                    return 'title';
+                } else if (prevStep === 'deadline') {
+                    return 'thumbnail';
+                }
+                return 'title'; // Default return value to ensure a string is always returned
+            });
+            window.history.pushState(null, '', window.location.href);
+        }
+    };
+    useEffect(() => {
+        window.history.pushState({currentStep}, '', window.location.href);
+    }, [currentStep]);
+    useEffect(() => {
+        const handlePopState = (event: PopStateEvent) => {
+            event.preventDefault();
+            handleGoBack();
+        };
+
+        window.history.pushState(null, '', window.location.href);
+        window.addEventListener('popstate', handlePopState);
+
+        return () => {
+            window.removeEventListener('popstate', handlePopState);
+        };
+    }, [currentStep]);
 
     return (
         <>
