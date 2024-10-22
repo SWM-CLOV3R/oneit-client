@@ -22,7 +22,14 @@ const BasketInfoCard = ({
         <ul className="rounding" onClick={handleClick}>
             <li>
                 <div className="cont">
-                    <div className="capsule">D-{dDay}</div>
+                    {dDay >= 0 ? (
+                        <div className="capsule">
+                            D-
+                            {dDay}
+                        </div>
+                    ) : (
+                        <div className="capsule">마감</div>
+                    )}
                     <div>
                         <p className="text-sm font-bold">{basket.name}</p>
                         <div className="mt-2 mr-4 text-xs persons">

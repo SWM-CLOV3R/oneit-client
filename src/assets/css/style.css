@@ -248,9 +248,9 @@ header {
 
           img {
             position: absolute;
-            width: 7.5rem;
-            height: 7.5rem;
-            object-fit: cover;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
           }
         }
         &:nth-child(2) {

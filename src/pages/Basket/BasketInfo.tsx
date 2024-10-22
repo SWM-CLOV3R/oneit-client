@@ -1,4 +1,4 @@
-import {editBasket, fetchBasketInfo} from '@/api/basket';
+import {deleteBasket, editBasket, fetchBasketInfo} from '@/api/basket';
 import Header from '@/components/common/Header';
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import React, {useEffect, useRef, useState} from 'react';
@@ -22,6 +22,17 @@ import {
     FormMessage,
 } from '@/components/ui/form';
 import {Input} from '@/components/ui/input';
+import {Trash2Icon, XSquareIcon} from 'lucide-react';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 
 const ParticipantThumbnail = ({participant}: {participant: Participant}) => {
     const user = useAtomValue(authAtom);
@@ -135,14 +146,9 @@ const BasketEdit = ({
     });
 
     const formSchema = z.object({
-        title: z
-            .string()
-            .min(2, {
-                message: '바구니 이름은 2자 이상이어야합니다.',
-            })
-            .max(10, {
-                message: '바구니 이름은 10자 이하여야합니다.',
-            }),
+        title: z.string().min(2, {
+            message: '바구니 이름은 2자 이상이어야합니다.',
+        }),
         image: z.instanceof(File).optional(),
         deadline: z
             .string()
@@ -329,11 +335,22 @@ const BasketInfo = () => {
             }),
     });
 
+    const deleteAPI = useMutation({
+        mutationFn: () => deleteBasket(basketID || ''),
+        onSuccess: (data) => {
+            navigate(`/basket`, {replace: true});
+        },
+    });
+
     // const openModal = () => setIsOpen(true);
     const closeModal = () => setIsOpen(false);
 
     // const openModal = () => setIsOpen(true);
     const closeModal2 = () => setIsOpen2(false);
+
+    const hanldeDelete = () => {
+        deleteAPI.mutate();
+    };
 
     return (
         <>
@@ -344,7 +361,8 @@ const BasketInfo = () => {
                         <div>
                             <img
                                 src={basketInfoAPI?.data?.imageUrl || Logo}
-                                alt=""
+                                alt="bakset thumbnail"
+                                className=""
                             />
                         </div>
                         <div>
@@ -358,7 +376,7 @@ const BasketInfo = () => {
                                     {-dDay}일 지남
                                 </div>
                             )}
-                            <div className="title min-w-48">
+                            <div className="title min-w-44">
                                 {basketInfoAPI?.data?.name}
                             </div>
                         </div>
@@ -367,11 +385,40 @@ const BasketInfo = () => {
                                 parti.userRole == 'MANAGER' &&
                                 parti.userIdx == user?.idx,
                         ) && (
-                            <div>
+                            <div className="gap-1">
                                 <button
                                     className="btn_pencil"
                                     onClick={() => setIsOpen(true)}
                                 ></button>
+                                <AlertDialog>
+                                    <AlertDialogTrigger>
+                                        <button>
+                                            {/* <Trash2Icon className="text-[#ff5757]" /> */}
+                                            <XSquareIcon className="text-[#ff5757]" />
+                                        </button>
+                                    </AlertDialogTrigger>
+                                    <AlertDialogContent>
+                                        <AlertDialogHeader>
+                                            바구니를 삭제할까요?
+                                        </AlertDialogHeader>
+                                        <AlertDialogDescription className="text-center">
+                                            바구니를 삭제하면 <br />
+                                            바구니에 담긴 선물들도 함께
+                                            삭제됩니다.
+                                        </AlertDialogDescription>
+                                        <AlertDialogFooter className="flex w-full flex-row gap-2 items-center">
+                                            <AlertDialogCancel className="w-full mt-0">
+                                                취소
+                                            </AlertDialogCancel>
+                                            <AlertDialogAction
+                                                onClick={hanldeDelete}
+                                                className="w-full bg-[#ff4bc1] text-white hover:bg-[#ff4bc1]/90"
+                                            >
+                                                삭제
+                                            </AlertDialogAction>
+                                        </AlertDialogFooter>
+                                    </AlertDialogContent>
+                                </AlertDialog>
                             </div>
                         )}
                     </div>

@@ -220,6 +220,7 @@ const Basket = () => {
                             <div className="bar">
                                 <div
                                     className="color"
+                                    // todo: change graph depending on dDay
                                     style={{
                                         width:
                                             dDay <= 0
@@ -255,30 +256,40 @@ const Basket = () => {
                             <button className="btn_filter"></button>
                         </div>
                     </div>
-                    <div className="mt-3 gift_list ">
-                        <ul>
-                            <li className="grid-cols-2 grid gap-2">
-                                {basketProductAPI.data?.map(
-                                    (product: Product) => (
-                                        <BasketProductCard
-                                            shared={false}
-                                            key={product.idx}
-                                            product={product}
-                                            basketID={basketID || ''}
-                                            voteStatus={
-                                                product.voteStatus || 'NONE'
-                                            }
-                                            likeCount={product.likeCount || 0}
-                                            purchaseStatus={
-                                                product.purchaseStatus ||
-                                                'NOT_PURCHASED'
-                                            }
-                                        />
-                                    ),
-                                )}
-                            </li>
-                        </ul>
-                    </div>
+                    {basketProductAPI?.data?.length !== 0 ? (
+                        <div className="mt-3 gift_list ">
+                            <ul>
+                                <li className="grid-cols-2 grid gap-2">
+                                    {basketProductAPI.data?.map(
+                                        (product: Product) => (
+                                            <BasketProductCard
+                                                shared={false}
+                                                key={product.idx}
+                                                product={product}
+                                                basketID={basketID || ''}
+                                                voteStatus={
+                                                    product.voteStatus || 'NONE'
+                                                }
+                                                likeCount={
+                                                    product.likeCount || 0
+                                                }
+                                                purchaseStatus={
+                                                    product.purchaseStatus ||
+                                                    'NOT_PURCHASED'
+                                                }
+                                            />
+                                        ),
+                                    )}
+                                </li>
+                            </ul>
+                        </div>
+                    ) : (
+                        <div className="flex justify-center">
+                            <p className="text-sm text-[#5d5d5d] text-center mt-7 mb-1">
+                                아직 선물 바구니가 비어있어요!
+                            </p>
+                        </div>
+                    )}
                 </div>
             </div>
 
