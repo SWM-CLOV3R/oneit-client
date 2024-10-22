@@ -96,8 +96,8 @@ const Main = () => {
                         className="w-full object-contain"
                     />
                     <div className="absolute inset-0 flex flex-col justify-center items-start p-6 text-white">
-                        <h2 className="text-lg font-bold">
-                            ONE!T 10월 21일 정식 출시 예정
+                        <h2 className="text-lg font-bold text-white">
+                            ONE!T 10월 31일 정식 출시 예정
                             <br />
                             {isLogin
                                 ? '인스타그램 둘러보고 출시 소식 받기'

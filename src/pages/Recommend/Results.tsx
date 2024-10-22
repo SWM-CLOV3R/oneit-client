@@ -227,7 +227,7 @@ const Results = () => {
                                                     </a> */}
                                                 </div>
                                             </div>
-                                            <div className="btns flex gap-3 items-center w-full mt-[1.125rem]">
+                                            <div className=" flex gap-3 items-center w-full mt-[1.125rem]">
                                                 <Button
                                                     className="flex-1 justify-center items-center border-[#b0b0b0] text-[#b0b0b0]"
                                                     variant="border"
