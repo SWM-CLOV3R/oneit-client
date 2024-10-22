@@ -72,9 +72,13 @@ const ParticipantThumbnail = ({participant}: {participant: Participant}) => {
                     <div className="overlay">
                         <button
                             className="profile"
-                            onClick={() =>
-                                navigate(`/user/${participant.userIdx}`)
-                            }
+                            onClick={() => {
+                                if (user?.idx === participant.userIdx) {
+                                    navigate(`/mypage`);
+                                } else {
+                                    navigate(`/user/${participant.userIdx}`);
+                                }
+                            }}
                         >
                             <i></i>프로필보기
                         </button>
