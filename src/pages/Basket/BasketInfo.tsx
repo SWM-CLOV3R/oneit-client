@@ -130,11 +130,6 @@ const BasketEdit = ({
         },
     });
 
-    const [title, setTitle] = useState('');
-    const [deadline, setDeadline] = useState<Date>(new Date());
-    const [imageURL, setImageURL] = useState('https://via.placeholder.com/200');
-    const [image, setImage] = useState<File | null>(null);
-
     const formSchema = z.object({
         title: z
             .string()
@@ -170,13 +165,12 @@ const BasketEdit = ({
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         console.log(values);
 
-        setTitle(values.title);
-        setImage(values.image || null);
-        setDeadline(new Date(values.deadline));
         const payload = {
             name: values.title,
             deadline: new Date(values.deadline),
             idx: basket.idx,
+            description: basket.description,
+            accessStatus: basket.accessStatus,
         };
 
         editBasketAPI.mutate({
@@ -189,9 +183,6 @@ const BasketEdit = ({
     useEffect(() => {
         if (basket) {
             console.log(basket);
-            setTitle(basket.name || '');
-            setDeadline(new Date(basket.deadline) || null);
-            setImageURL(basket.imageUrl || 'https://via.placeholder.com/200');
             reset({
                 title: basket.name || '',
                 deadline: basket.deadline.toString(),
@@ -264,7 +255,7 @@ const BasketEdit = ({
                                                         event.target.files![0],
                                                     );
 
-                                                setImageURL(displayUrl);
+                                                // setImageURL(displayUrl);
                                                 console.log(event);
                                                 const file =
                                                     event.target.files![0];
@@ -367,7 +358,7 @@ const BasketInfo = () => {
                                 {basketInfoAPI?.data?.name}
                             </div>
                         </div>
-                        {basketInfoAPI.data.participants.some(
+                        {basketInfoAPI.data?.participants.some(
                             (parti: Participant) =>
                                 parti.userRole == 'MANAGER' &&
                                 parti.userIdx == user?.idx,
