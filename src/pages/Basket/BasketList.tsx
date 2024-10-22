@@ -24,7 +24,10 @@ const BasketList = () => {
             </div>
 
             <div className="btn_area_fixed px-2">
-                <button className="btn_pink">
+                <button
+                    className="btn_pink"
+                    onClick={() => navigate('/basket/create')}
+                >
                     <i className="basket"></i>선물 바구니 만들기
                 </button>
             </div>

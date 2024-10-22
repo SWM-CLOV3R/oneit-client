@@ -237,7 +237,7 @@ legend {
   clip: rect(0 0 0 0);
 }
 
-button {
+/* button {
   cursor: pointer;
   overflow: visible;
   border: 0 none;
@@ -245,7 +245,7 @@ button {
   color: var(--Neutral-900, #111);
   text-indent: 0;
   outline: none;
-}
+} */
 
 caption,
 legend {
@@ -302,7 +302,7 @@ area {
   outline: none;
 }
 
-button {
+/* button {
   background-color: transparent;
   color: inherit;
   cursor: pointer;
@@ -310,7 +310,7 @@ button {
 
 button:hover {
   color: inherit;
-}
+} */
 
 input::-ms-clear,
 input::-ms-reveal {
