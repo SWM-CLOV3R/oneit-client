@@ -13,7 +13,7 @@ import {
 import {Avatar, AvatarFallback, AvatarImage} from '@/components/ui/avatar';
 import {Button} from '@/components/ui/button';
 import {Friend} from '@/lib/types';
-import {useMutation} from '@tanstack/react-query';
+import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {UserCircle2} from 'lucide-react';
 import React, {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
@@ -30,6 +30,7 @@ const RequestFromMe = (props: {friend: RequestedFriend}) => {
     const {friend} = props;
     const navigate = useNavigate();
     const [isOpen, setIsOpen] = useState(false);
+    const queryClient = useQueryClient();
     const cancelRequestAPI = useMutation({
         mutationFn: () =>
             cancelFriendRequest(
@@ -38,7 +39,13 @@ const RequestFromMe = (props: {friend: RequestedFriend}) => {
             ),
         onSuccess: () => {
             toast.success('친구 요청을 취소했습니다.');
-            window.location.reload();
+            queryClient.setQueryData(
+                ['friendRequestListFromMe'],
+                (old: RequestedFriend[]) =>
+                    old.filter(
+                        (item) => item.fromUser.idx !== friend.fromUser.idx,
+                    ),
+            );
         },
     });
 
