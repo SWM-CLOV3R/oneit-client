@@ -69,6 +69,9 @@ const Basket = React.lazy(() => import('./pages/Basket/Basket'));
 const BasketInfo = React.lazy(() => import('./pages/Basket/BasketInfo'));
 const BasketProduct = React.lazy(() => import('./pages/Basket/BasketProduct'));
 const CreateBasket = React.lazy(() => import('./pages/Basket/CreateBasket'));
+const BasketAddFriend = React.lazy(
+    () => import('./pages/Basket/BasketAddFriend'),
+);
 const BasketInvitation = React.lazy(
     () => import('./pages/Basket/BasketInvitation'),
 );
@@ -180,28 +183,6 @@ function App() {
                                                 </AuthRouterWithRedirect>
                                             }
                                         />
-                                        {/* <Route
-                                            path="/basket/edit/:basketID"
-                                            element={
-                                                <AuthRouterWithRedirect
-                                                    option={true}
-                                                    redirectTo="/login?redirect=/basket/edit/:basketID"
-                                                >
-                                                    <EditBasket />
-                                                </AuthRouterWithRedirect>
-                                            }
-                                        />
-                                        <Route
-                                            path="/basket/add/:basketID"
-                                            element={
-                                                <AuthRouterWithRedirect
-                                                    option={true}
-                                                    redirectTo="/login?redirect=/basket/add/:basketID"
-                                                >
-                                                    <AddToBasket />
-                                                </AuthRouterWithRedirect>
-                                            }
-                                        /> */}
                                         <Route
                                             path="/basket/:basketID/product/:productID"
                                             element={
@@ -213,15 +194,20 @@ function App() {
                                                 </AuthRouterWithRedirect>
                                             }
                                         />
-                                        {/* 
                                         <Route
-                                            path="/basket/share/:basketID"
-                                            element={<SharedBasket />}
+                                            path="/basket/:basketID/invite"
+                                            element={<BasketAddFriend />}
                                         />
                                         <Route
                                             path="/basket/:basketID/invite/:inviteID"
                                             element={<BasketInvitation />}
                                         />
+                                        {/* 
+                                        <Route
+                                            path="/basket/share/:basketID"
+                                            element={<SharedBasket />}
+                                        />
+                                        
                                         <Route
                                             path="/inquiry/:inquiryID"
                                             element={<Inquiry />}

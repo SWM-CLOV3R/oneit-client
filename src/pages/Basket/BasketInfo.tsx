@@ -505,7 +505,9 @@ const BasketInfo = () => {
                         </div>
                         <button
                             className="btn_text"
-                            onClick={() => navigate('/friends')}
+                            onClick={() =>
+                                navigate(`/basket/${basketID}/invite`)
+                            }
                         >
                             친구목록에서 초대하기
                         </button>
