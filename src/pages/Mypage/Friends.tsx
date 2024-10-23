@@ -16,6 +16,7 @@ import {authAtom} from '@/api/auth';
 import RequestedFriendCard from './Components/RequestToMe';
 import RequestToMe from './Components/RequestToMe';
 import RequestFromMe from './Components/RequestFromMe';
+import Header from '@/components/common/Header';
 const {Kakao} = window;
 interface SelectedUser {
     uuid: string;
@@ -79,6 +80,21 @@ const Friends = () => {
             ],
         });
     };
+
+    return (
+        <>
+            <Header btn_back variant="back" profile title="친구 목록" />
+            <div className="friendList">
+                <ul>
+                    {friendListAPI?.data?.map((friend: Friend, idx: number) => (
+                        <li key={friend.idx}>
+                            <FriendCard friend={friend} />
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </>
+    );
 
     return (
         <div className="flex w-full flex-col gap-2">
