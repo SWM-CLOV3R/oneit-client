@@ -51,7 +51,10 @@ const Mypage = () => {
                         >
                             로그아웃
                         </button>
-                        <button className="btn_pencil2"></button>
+                        <button
+                            className="btn_pencil2"
+                            onClick={() => navigate('/mypage/edit')}
+                        ></button>
                     </div>
                     {/* <div className="wish_area">
                         <div className="title">위시아이템</div>
