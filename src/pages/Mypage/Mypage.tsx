@@ -76,7 +76,13 @@ const Mypage = () => {
                             <ul className="scrollbar-hide">
                                 {basketListAPI.data?.map((basket: Basket) => (
                                     <li key={basket.idx}>
-                                        <button>
+                                        <button
+                                            onClick={() =>
+                                                navigate(
+                                                    `/basket/${basket.idx}`,
+                                                )
+                                            }
+                                        >
                                             <img
                                                 src={basket.imageUrl || logo}
                                                 alt=""
