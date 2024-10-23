@@ -285,7 +285,7 @@ function App() {
                                                 </AuthRouter>
                                             }
                                         />
-                                        {/* <Route
+                                        <Route
                                             path="/friends"
                                             element={
                                                 <AuthRouter
@@ -295,7 +295,7 @@ function App() {
                                                     <Friends />
                                                 </AuthRouter>
                                             }
-                                        /> */}
+                                        />
                                         {import.meta.env.DEV && (
                                             <Route
                                                 path="/fakeLogin"
