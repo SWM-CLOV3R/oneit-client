@@ -145,8 +145,6 @@ const InquiryChoice = () => {
                                         currentIdx
                                     ]?.description
                                 }
-                                en <br />
-                                wnf
                             </div>
                         </div>
                     </div>
