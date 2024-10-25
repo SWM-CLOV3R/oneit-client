@@ -360,7 +360,7 @@ const BasketInfo = () => {
             <Header variant="back" btn_back profile />
             <div className="cardInfo">
                 <div className="list_rounding">
-                    <div className="writing">
+                    <div className="writing gap-2">
                         <div>
                             <img
                                 src={basketInfoAPI?.data?.imageUrl || Logo}
@@ -381,7 +381,7 @@ const BasketInfo = () => {
                             )}
                             <div
                                 className={cn(
-                                    'title ',
+                                    'title text-overflow-one',
                                     basketInfoAPI.data?.participants.some(
                                         (parti: Participant) =>
                                             parti.userRole == 'MANAGER' &&
