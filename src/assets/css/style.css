@@ -1578,25 +1578,28 @@ header {
     padding-left: 1rem;
     padding-right: 1rem;
   }
+
   .visual_banner {
     width: 20.5rem;
-    height: 400px;
+    /* height: 400px; */
     display: block;
     margin: 95px auto 1.3125rem;
 
     position: relative;
+
     .ballon {
       width: 20.5rem;
       height: 6.0625rem;
       display: block;
-      background: url("/src/assets/images/visual_ballon.svg") no-repeat center/contain;
+      background: url("../images/visual_ballon.svg") no-repeat center/contain;
       position: absolute;
       top: -50px;
       left: 50%;
       transform: translateX(-50%);
     }
+
     .cart {
-      background: url("/src/assets/images/visual_cart.png") no-repeat center/contain;
+      background: url("../images/visual_cart.png") no-repeat center/contain;
       width: 17.5625rem;
       height: 17.5625rem;
       display: block;
