@@ -1612,7 +1612,7 @@ header {
 
 .question2 {
   .big_title {
-    margin-top: 1.5rem;
+    margin-top: 1rem;
     font-weight: bold;
     color: #4f4f4f;
     line-height: 1.4rem;
@@ -1630,7 +1630,7 @@ header {
 
     .photo {
       border: 1px solid #e7e7e7;
-      height: 18.6875rem;
+      height: 16rem;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -1640,8 +1640,8 @@ header {
       margin-top: 1rem;
 
       > img {
-        width: 11.75rem;
-        height: 11.75rem;
+        width: 8rem;
+        height: 8rem;
         object-fit: contain;
       }
 

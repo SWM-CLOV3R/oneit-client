@@ -20,7 +20,7 @@ const Inquiry = () => {
 
     return (
         <>
-            <Header btn_back variant="back" profile />
+            <Header btn_back variant="logo" profile />
             <div className="question1">
                 <div className="big_title">
                     {inquiryAPI.data?.name ? (
