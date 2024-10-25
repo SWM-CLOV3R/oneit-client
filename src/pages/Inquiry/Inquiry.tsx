@@ -1,9 +1,9 @@
-import {Button} from '@/components/ui/button';
 import boxImage from '@/assets/images/giftbox2.png';
 import {useNavigate, useParams} from 'react-router-dom';
 import {useQuery} from '@tanstack/react-query';
 import {getInquiry} from '@/api/inquiry';
 import Header from '@/components/common/Header';
+import {Button} from '@/components/common/Button';
 
 const Inquiry = () => {
     const {inquiryID} = useParams();
@@ -42,9 +42,17 @@ const Inquiry = () => {
             </div>
             <div className="bottom_btn">
                 <p className="text">내 취향을 저격한선물은?</p>
-                <button className="btn_pink2" onClick={handleStart}>
-                    선물 바구니 확인하러 가기
-                </button>
+                {inquiryAPI?.error ? (
+                    <>
+                        <Button className="w-full" variant="disabled" disabled>
+                            이미 응답 완료했어요
+                        </Button>
+                    </>
+                ) : (
+                    <button className="btn_pink2" onClick={handleStart}>
+                        선물 바구니 확인하러 가기
+                    </button>
+                )}
             </div>
         </>
     );
