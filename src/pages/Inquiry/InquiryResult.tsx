@@ -95,7 +95,9 @@ const InquiryResult = () => {
             <div className="btn_area_fixed pl-4 pr-4">
                 <button
                     className="btn_border"
-                    onClick={() => navigate(`/inquiry/${inquiryID}`)}
+                    onClick={() =>
+                        navigate(`/inquiry/${inquiryID}`, {replace: true})
+                    }
                 >
                     다시 하기
                 </button>
