@@ -4,7 +4,6 @@ import {Product} from '@/lib/types';
 import {useQuery} from '@tanstack/react-query';
 import React, {Key} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
-import ChoiceCard from './Components/ChoiceCard';
 import EmojiList from '@/data/emoji.json';
 import {useAtom, useAtomValue} from 'jotai';
 import {choices} from '@/atoms/inquiry';
