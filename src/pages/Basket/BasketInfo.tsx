@@ -132,19 +132,18 @@ const BasketEdit = ({
             image,
         }: {
             basketID: string;
-            basket: Basket;
+            basket: any;
             image: File | null;
         }) => {
             return await editBasket(basketID, basket, image);
         },
         onSuccess: (data, variables) => {
-            closeModal();
             //todo: update basket info
-            queryClient.setQueryData(['basket', basket.idx], {
-                ...basket,
-                name: variables.basket.name,
-                deadline: variables.basket.deadline,
+            queryClient.invalidateQueries({
+                queryKey: ['basket', basket.idx.toString()],
             });
+            toast.success('바구니 정보가 수정되었습니다.');
+            closeModal();
         },
     });
 
@@ -182,8 +181,6 @@ const BasketEdit = ({
             name: values.title,
             deadline: new Date(values.deadline),
             idx: basket.idx,
-            description: basket.description,
-            accessStatus: basket.accessStatus,
         };
 
         editBasketAPI.mutate({
@@ -319,23 +316,12 @@ const BasketInfo = () => {
     const {basketID} = useParams();
     const [isOpen, setIsOpen] = useState(false);
     const [isOpen2, setIsOpen2] = useState(false);
-    const [dDay, setDDay] = useState(0);
     const user = useAtomValue(authAtom);
     const navigate = useNavigate();
 
     const basketInfoAPI = useQuery({
         queryKey: ['basket', basketID],
-        queryFn: () =>
-            fetchBasketInfo(basketID || '').then((data) => {
-                const dDay =
-                    Math.ceil(
-                        (new Date(data?.deadline).getTime() -
-                            new Date().getTime()) /
-                            (1000 * 60 * 60 * 24),
-                    ) || 0;
-                setDDay(dDay);
-                return data;
-            }),
+        queryFn: () => fetchBasketInfo(basketID || ''),
     });
 
     const deleteAPI = useMutation({
@@ -369,14 +355,14 @@ const BasketInfo = () => {
                             />
                         </div>
                         <div>
-                            {dDay >= 0 ? (
+                            {basketInfoAPI?.data?.dday >= 0 ? (
                                 <div className="dDay">
                                     D-
-                                    {dDay}
+                                    {basketInfoAPI?.data?.dday}
                                 </div>
                             ) : (
                                 <div className="text-[#ff5757] text-sm font-semibold">
-                                    {-dDay}일 지남
+                                    {-basketInfoAPI?.data?.dday}일 지남
                                 </div>
                             )}
                             <div

@@ -117,7 +117,7 @@ const Mypage = () => {
                             </button>
                         </li>
                         <li>
-                            <button onClick={handleNotyet}>
+                            <button onClick={() => navigate('/basket')}>
                                 참여 바구니 목록
                             </button>
                         </li>

@@ -62,6 +62,7 @@ export type Basket = {
     accessStatus?: string;
     imageUrl?: string;
     participants?: Participant[];
+    dday: number;
 };
 
 export interface Participant {

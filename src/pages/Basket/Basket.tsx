@@ -154,6 +154,22 @@ const Basket = () => {
         }
     };
 
+    const calculateElapsedPercentage = (
+        createdAt: string,
+        deadline: string,
+    ): number => {
+        const createdAtDate = new Date(createdAt);
+        const deadlineDate = new Date(deadline);
+        const todayDate = new Date();
+
+        const totalTime = deadlineDate.getTime() - createdAtDate.getTime();
+        const elapsedTime = todayDate.getTime() - createdAtDate.getTime();
+
+        const percentage = (elapsedTime / totalTime) * 100;
+
+        return Math.min(Math.max(percentage, 0), 100); // Ensure the percentage is between 0 and 100
+    };
+
     if (basketInfoAPI.isLoading) return <Spinner />;
     if (basketInfoAPI.isError) return <NotFound />;
 
@@ -169,29 +185,36 @@ const Basket = () => {
             <div className="p-4 cardList scrollbar-hide">
                 <div className="Dday_wrap">
                     <div className="graph">
-                        {dDay >= 0 ? (
+                        {basketInfoAPI?.data?.dday >= 0 ? (
                             <div className="count">
                                 D-
                                 {dDay}
                             </div>
                         ) : (
-                            <div className="count">{-dDay}일 지남</div>
+                            <div className="count">
+                                {-basketInfoAPI?.data?.dday}일 지남
+                            </div>
                         )}
-                        {dDay < 3 && dDay >= 0 && (
-                            <p>마감일이 얼마 남지 않았어요 빨리 골라주세요</p>
+                        {basketInfoAPI?.data?.dday < 3 &&
+                            basketInfoAPI?.data?.dday >= 0 && (
+                                <p>
+                                    마감일이 얼마 남지 않았어요 빨리 골라주세요
+                                </p>
+                            )}
+                        {basketInfoAPI?.data?.dday < 0 && (
+                            <p>이미 마감된 선물 바구니입니다.</p>
                         )}
-                        {dDay < 0 && <p>이미 마감된 선물 바구니입니다.</p>}
 
                         <div className="bar_wrap">
                             <div className="bar">
                                 <div
                                     className="color"
-                                    // todo: change graph depending on dDay
+                                    // todo: change graph depending on today - deadline
                                     style={{
                                         width:
                                             dDay <= 0
                                                 ? '100%'
-                                                : `${((basketInfoAPI.data - dDay) * 100) / 3}%`,
+                                                : `${calculateElapsedPercentage(basketInfoAPI!.data!.createdAt, basketInfoAPI!.data!.deadline)}%`,
                                     }}
                                 ></div>
                             </div>
