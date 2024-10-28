@@ -284,3 +284,19 @@ export const deleteBasketProductComment = async (commentIdx: number) => {
             return Promise.reject(err);
         });
 };
+
+export const searchKewordProduct = async (
+    basketIdx: string,
+    keyword: string,
+) => {
+    return axios
+        .get(
+            `/v2/giftbox/${basketIdx}/products/search?searchKeyword=${keyword}`,
+        )
+        .then((res) => {
+            return Promise.resolve(res.data);
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
+};

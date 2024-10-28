@@ -26,7 +26,6 @@ const Curation = () => {
     const navigate = useNavigate();
     const nextFetchTargetRef = useRef<HTMLDivElement | null>(null); // ref 객체 생성
     const [keyword, setKeyword] = useState('');
-    const [searchedList, setsearchedList] = useState<Product[]>([]);
     const [searchOpen, setSearchOpen] = useState(false);
     // console.log(fetchNextPage,hasNextPage);
 

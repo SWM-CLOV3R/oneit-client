@@ -852,11 +852,70 @@ header {
               font-size: 0.625rem;
               color: #fff;
 
-              i {
+              /* i {
                 margin-right: 0.5rem;
                 img {
                   width: 1.5rem;
                   height: 1.5rem;
+                }
+              } */
+
+              >button {
+                margin-top: 0.3125rem;
+                border: 1px solid #ff4bc1;
+                color: #ff4bc1;
+                font-size: 0.75rem;
+                font-weight: 400;
+                height: 1.75rem;
+                border-radius: 999px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                /* opacity: 0.6; */
+
+                i {
+                  width: 1.5rem;
+                  height: 1.5rem;
+                  margin-right: 0.2188rem;
+                  display: block;
+                  background: url("/src/assets/images/emoji_like.svg") no-repeat center/contain;
+                }
+
+                &.like {
+                  i {
+                    background: url("/src/assets/images/emoji_like.svg") no-repeat center/contain;
+                  }
+                }
+
+                &.like2 {
+                  i {
+                    background: url("/src/assets/images/emoji_like2.svg") no-repeat center/contain;
+                  }
+                }
+
+                &.need {
+                  i {
+                    background: url("/src/assets/images/emoji_need.svg") no-repeat center/contain;
+                  }
+                }
+
+                &.soso {
+                  i {
+                    background: url("/src/assets/images/emoji_soso.svg") no-repeat center/contain;
+                  }
+                }
+
+                &.bad {
+                  i {
+                    background: url("/src/assets/images/emoji_bad.svg") no-repeat center/contain;
+                  }
+                }
+
+                &.had {
+                  i {
+                    background: url("/src/assets/images/emoji_had.svg") no-repeat center/contain;
+                  }
                 }
               }
             }

@@ -26,6 +26,7 @@ export type Product = {
     likeCount?: number;
     voteStatus?: 'LIKE' | 'DISLIKE' | 'NONE';
     purchaseStatus?: 'PURCHASED' | 'NOT_PURCHASED';
+    emojiIdx?: 'LOVE' | 'LIKE' | 'NEED' | 'SOSO' | 'BAD' | 'HAVE';
 };
 
 export type Question = {

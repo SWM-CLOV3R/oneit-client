@@ -1,17 +1,6 @@
 import {basketProductVote, deleteBasketProduct} from '@/api/basket';
 import {selctedProductCount, selectProduct} from '@/atoms/basket';
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
-import {AspectRatio} from '@/components/ui/aspect-ratio';
-import {Button} from '@/components/ui/button';
+import EmojiList from '@/data/emoji.json';
 import {Product} from '@/lib/types';
 import {cn} from '@/lib/utils';
 import {useMutation} from '@tanstack/react-query';
@@ -124,20 +113,26 @@ const BasketProductCard = (props: ProductCardProps) => {
                             {count}
                         </span>
                     </div>
-                    <div
-                        className="desc"
-                        onClick={() =>
-                            navigate(
-                                `/basket/${basketID}/product/${product.idx}`,
-                            )
-                        }
-                    >
-                        {/* todo: get inquiry result */}
-                        <i>
-                            <img src={likeit} alt="좋아요 아이콘" />
-                        </i>
-                        너무 맘에 들어
-                    </div>
+                    {product?.emojiIdx && (
+                        <div
+                            // className={cn(
+                            //     'desc',
+                            //     product.emojiIdx &&
+                            //         `${EmojiList[product.emojiIdx].name}`,
+                            // )}
+                            className="desc like"
+                            onClick={() =>
+                                navigate(
+                                    `/basket/${basketID}/product/${product.idx}`,
+                                )
+                            }
+                        >
+                            <button className="like">
+                                <i></i>
+                                <p>{EmojiList[product.emojiIdx].content}</p>
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
             <a

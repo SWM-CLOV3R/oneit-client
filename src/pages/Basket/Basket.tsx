@@ -3,6 +3,7 @@ import {
     deleteBasket,
     fetchBasketInfo,
     fetchBasketProducts,
+    searchKewordProduct,
 } from '@/api/basket';
 import {Spinner} from '@/components/ui/spinner';
 import {useMutation, useQuery} from '@tanstack/react-query';
@@ -54,7 +55,8 @@ const Basket = () => {
     const [searchOpen, setSearchOpen] = useState(false);
     const [dDay, setDDay] = useState(0);
     const [mode, setMode] = useState(false);
-
+    const [keyword, setKeyword] = useState('');
+    const [searchedList, setsearchedList] = useState<Product[]>([]);
     const toggleDrawer = (newOpen: boolean) => () => {
         setOpen(newOpen);
     };
@@ -109,38 +111,10 @@ const Basket = () => {
         },
     });
 
-    const inviteAPI = useMutation({
-        mutationFn: () => basketInvite(basketID || ''),
-        onSuccess: (data) => {
-            const invitationIdx = data.invitationIdx;
-
-            const url = `${import.meta.env.VITE_CURRENT_DOMAIN}/basket/${basketID}/invite/${invitationIdx}`;
-
-            Kakao.Share.sendDefault({
-                objectType: 'feed',
-                content: {
-                    title: user
-                        ? `${user?.nickname}님이 선물 바구니에 초대했습니다.`
-                        : 'ONE!T 선물 바구니에 초대되었습니다.',
-                    description: basketInfoAPI.data.name || 'ONE!T 선물 바구니',
-                    imageUrl:
-                        basketInfoAPI.data.imageUrl ||
-                        'https://www.oneit.gift/oneit.png',
-                    link: {
-                        mobileWebUrl: url,
-                        webUrl: url,
-                    },
-                },
-                buttons: [
-                    {
-                        title: 'ONE!T에서 확인하기',
-                        link: {
-                            mobileWebUrl: url,
-                            webUrl: url,
-                        },
-                    },
-                ],
-            });
+    const searchKeywordAPI = useMutation({
+        mutationKey: ['searchKeywordBasketProduct'],
+        mutationFn: async (keyword: string) => {
+            return searchKewordProduct(basketID || '', keyword);
         },
     });
 
@@ -171,6 +145,13 @@ const Basket = () => {
         console.log('mode change', mode);
 
         setMode(!mode);
+    };
+
+    const handleKeyword = async (keyword: string) => {
+        setKeyword(keyword);
+        if (keyword.length > 1) {
+            await searchKeywordAPI.mutateAsync(keyword);
+        }
     };
 
     if (basketInfoAPI.isLoading) return <Spinner />;
@@ -236,17 +217,66 @@ const Basket = () => {
                         <div className="icons">
                             <button
                                 className="btn_zoomer"
-                                onClick={handleSearch}
+                                onClick={() => setSearchOpen(true)}
                             ></button>
                             <button className="btn_filter"></button>
                         </div>
                     </div>
-                    {basketProductAPI?.data?.length !== 0 ? (
+                    {searchOpen && (
+                        <div className="flex gap-2 mt-2">
+                            <input
+                                type="text"
+                                placeholder="검색어를 2자 이상 입력해주세요"
+                                value={keyword}
+                                onChange={(e) => handleKeyword(e.target.value)}
+                            />
+                        </div>
+                    )}
+                    {keyword.length < 2 ? (
+                        basketProductAPI?.data?.length !== 0 ? (
+                            <div className="mt-3 gift_list ">
+                                <ul>
+                                    <li className="grid-cols-2 grid gap-2">
+                                        {basketProductAPI.data?.map(
+                                            (product: Product) => (
+                                                <BasketProductCard
+                                                    shared={false}
+                                                    key={product.idx}
+                                                    product={product}
+                                                    basketID={basketID || ''}
+                                                    voteStatus={
+                                                        product.voteStatus ||
+                                                        'NONE'
+                                                    }
+                                                    likeCount={
+                                                        product.likeCount || 0
+                                                    }
+                                                    purchaseStatus={
+                                                        product.purchaseStatus ||
+                                                        'NOT_PURCHASED'
+                                                    }
+                                                />
+                                            ),
+                                        )}
+                                    </li>
+                                </ul>
+                            </div>
+                        ) : (
+                            <div className="flex justify-center">
+                                <p className="text-sm text-[#5d5d5d] text-center mt-7 mb-1">
+                                    아직 선물 바구니가 비어있어요!
+                                </p>
+                            </div>
+                        )
+                    ) : (
                         <div className="mt-3 gift_list ">
                             <ul>
                                 <li className="grid-cols-2 grid gap-2">
-                                    {basketProductAPI.data?.map(
-                                        (product: Product) => (
+                                    {searchKeywordAPI.data?.map(
+                                        (
+                                            product: Product,
+                                            productIndex: number,
+                                        ) => (
                                             <BasketProductCard
                                                 shared={false}
                                                 key={product.idx}
@@ -267,12 +297,6 @@ const Basket = () => {
                                     )}
                                 </li>
                             </ul>
-                        </div>
-                    ) : (
-                        <div className="flex justify-center">
-                            <p className="text-sm text-[#5d5d5d] text-center mt-7 mb-1">
-                                아직 선물 바구니가 비어있어요!
-                            </p>
                         </div>
                     )}
                 </div>
