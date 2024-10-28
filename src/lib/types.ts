@@ -5,8 +5,9 @@ export type Answer = {
 
 export type Keyword = {
     idx: number;
-    keyword: string;
+    name: string;
     description: string;
+    field?: string;
 };
 
 export type Product = {
