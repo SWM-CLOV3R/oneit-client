@@ -16,7 +16,7 @@ const InquiryResult = () => {
     const [choiceList, setChoiceList] = useAtom(choices);
     const [{mutate}] = useAtom(submitInquiry);
 
-    console.log(choiceList);
+    // console.log(choiceList);
 
     const inquiryAPI = useQuery({
         queryKey: ['inquiry', inquiryID],
@@ -33,9 +33,9 @@ const InquiryResult = () => {
             <Header btn_back variant="back" profile />
             <div className="question3">
                 <div className="title">
-                    {inquiryAPI.data?.name ? (
+                    {inquiryAPI.data?.target ? (
                         <>
-                            <span>서연</span>님의 Pick!
+                            <span>{inquiryAPI.data?.target}</span>님의 Pick!
                         </>
                     ) : (
                         '당신의 Pick!'
@@ -70,16 +70,14 @@ const InquiryResult = () => {
                                             <button
                                                 className={`${
                                                     EmojiList[
-                                                        choiceList[idx]
-                                                            ?.emojiIdx - 1
+                                                        choiceList[idx].emojiIdx
                                                     ]?.name
                                                 }`}
                                             >
                                                 <i></i>
                                                 {
                                                     EmojiList[
-                                                        choiceList[idx]
-                                                            ?.emojiIdx - 1
+                                                        choiceList[idx].emojiIdx
                                                     ]?.content
                                                 }
                                             </button>
