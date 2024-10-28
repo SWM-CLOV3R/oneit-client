@@ -79,7 +79,7 @@ const BasketProductCard = (props: ProductCardProps) => {
     };
 
     return (
-        <div className={cn('box', purchaseStatus === 'PURCHASED' && 'solid')}>
+        <div className={cn('box', purchaseStatus === 'PURCHASED' && 'sold')}>
             <div className="image">
                 <div className="photo">
                     <img

@@ -760,7 +760,7 @@ header {
 
         &.sold {
           &::before {
-            content: "이미 구매 한 제품이에요 ㅠㅠ";
+            content: "이미 구매 한 제품이에요";
             font-size: 0.75rem;
             font-weight: bold;
             color: #fff;

@@ -300,3 +300,17 @@ export const searchKewordProduct = async (
             return Promise.reject(err);
         });
 };
+
+export const productPurchased = async (
+    basketIdx: string,
+    productIdx: string,
+) => {
+    return axios
+        .put(`v2/giftbox/${basketIdx}/products/${productIdx}/purchase`)
+        .then((res) => {
+            return Promise.resolve(res.data);
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
+};

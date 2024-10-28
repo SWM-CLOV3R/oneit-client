@@ -119,6 +119,7 @@ export type Comment = {
     giftboxProductIdx: number;
     writerIdx: number;
     writerNickName: string;
+    writerProfileImg: string;
     content: string;
     createdAt: Date;
 };

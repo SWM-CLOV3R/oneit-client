@@ -6,6 +6,7 @@ import KakaoShare from '@/components/common/KakaoShare';
 import {
     ArrowRightSquare,
     CalendarCheck,
+    CheckSquare2,
     ChevronLeft,
     CircleEllipsis,
     EllipsisVertical,
@@ -30,8 +31,9 @@ import {
     deleteBasketProduct,
     deleteBasketProductComment,
     fetchBasketProductComments,
+    productPurchased,
 } from '@/api/basket';
-import {Comment} from '@/lib/types';
+import {Comment, Product} from '@/lib/types';
 import {set} from 'date-fns';
 import Header from '@/components/common/Header';
 import mageHeart from '@/assets/images/mage_heart.svg';
@@ -63,6 +65,27 @@ const BasketProduct = () => {
     const productAPI = useQuery({
         queryKey: ['product', productID],
         queryFn: () => fetchProduct(productID || ''),
+    });
+
+    const purchasedAPI = useMutation({
+        mutationKey: ['purchased'],
+        mutationFn: () => productPurchased(basketID || '', productID || ''),
+        onSuccess: () => {
+            queryClient.setQueryData(
+                ['product', productID],
+                (prev: Product) => {
+                    if (prev) {
+                        return {
+                            ...prev,
+                            purchaseStatus:
+                                prev.purchaseStatus === 'PURCHASED'
+                                    ? null
+                                    : 'PURCHASED',
+                        };
+                    }
+                },
+            );
+        },
     });
 
     const addCommentAPI = useMutation({
@@ -101,6 +124,10 @@ const BasketProduct = () => {
         mutationFn: () =>
             deleteBasketProduct(basketID || '', productID?.toString() || ''),
     });
+
+    const handlePurchased = () => {
+        purchasedAPI.mutate();
+    };
 
     const handleVote = () => {
         let newVote: 'LIKE' | 'DISLIKE' | 'NONE';
@@ -197,6 +224,18 @@ const BasketProduct = () => {
                                     </DropdownMenuItem>
                                     <DropdownMenuItem>
                                         <button
+                                            onClick={handlePurchased}
+                                            className="flex justify-between w-full"
+                                        >
+                                            {productAPI?.data
+                                                ?.purchaseStatus !== 'PURCHASED'
+                                                ? '구매 표시하기'
+                                                : '구매 해제하기'}
+                                            <CheckSquare2 />
+                                        </button>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem>
+                                        <button
                                             className="flex w-full justify-between"
                                             onClick={handleDelete}
                                         >
@@ -273,8 +312,7 @@ const BasketProduct = () => {
                                                 {/* todo: get profile of writer */}
                                                 <img
                                                     src={
-                                                        productAPI?.data
-                                                            ?.thumbnailUrl
+                                                        comment?.writerProfileImg
                                                     }
                                                     className="rounded-full"
                                                 />
