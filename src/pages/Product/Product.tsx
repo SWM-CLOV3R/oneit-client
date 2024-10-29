@@ -10,6 +10,7 @@ import {cn} from '@/lib/utils';
 import {isLoginAtom} from '@/api/auth';
 import Header from '@/components/common/Header';
 import logo from '@/assets/images/oneit.png';
+import {Button} from '@/components/common/Button';
 
 const Product = () => {
     const {productID} = useParams();
@@ -91,6 +92,15 @@ const Product = () => {
                             ))}
                         </div>
                     </div>
+
+                    {!loggedIn &&
+                        productAPI?.data?.productStatus !== 'INVALID' && (
+                            <div className="flex justify-center mb-[-20px]">
+                                <Button className="px-3 h-8" variant="primary">
+                                    로그인하고 바구니에 추가하기
+                                </Button>
+                            </div>
+                        )}
 
                     {productAPI?.data?.productStatus !== 'INVALID' && (
                         <div className="cart_prd scrollbar-hide">
