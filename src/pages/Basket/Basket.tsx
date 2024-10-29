@@ -9,7 +9,7 @@ import {Spinner} from '@/components/ui/spinner';
 import {useMutation, useQuery} from '@tanstack/react-query';
 import {useNavigate, useParams} from 'react-router-dom';
 import NotFound from '../NotFound';
-import {BaksetProduct, Participant, Product} from '@/lib/types';
+import {BaksetProduct} from '@/lib/types';
 import BasketProductCard from './components/BasketProductCard';
 import {toast} from 'sonner';
 import {authAtom} from '@/api/auth';
@@ -56,7 +56,6 @@ const Basket = () => {
     const [dDay, setDDay] = useState(0);
     const [mode, setMode] = useState(false);
     const [keyword, setKeyword] = useState('');
-    const [searchedList, setsearchedList] = useState<Product[]>([]);
     const toggleDrawer = (newOpen: boolean) => () => {
         setOpen(newOpen);
     };

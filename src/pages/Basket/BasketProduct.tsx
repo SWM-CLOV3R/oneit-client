@@ -34,7 +34,7 @@ import {
     fetchBasketProductDetail,
     productPurchased,
 } from '@/api/basket';
-import {BaksetProduct, Comment, Keyword, Product} from '@/lib/types';
+import {BaksetProduct, Comment} from '@/lib/types';
 import {set} from 'date-fns';
 import Header from '@/components/common/Header';
 import mageHeart from '@/assets/images/mage_heart.svg';
@@ -134,6 +134,10 @@ const BasketProduct = () => {
         mutationKey: ['deleteBasketProduct'],
         mutationFn: () =>
             deleteBasketProduct(basketID || '', productID?.toString() || ''),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: ['basket', basketID]});
+            navigate(`/basket/${basketID}`, {replace: true});
+        },
     });
 
     const handlePurchased = () => {
@@ -171,7 +175,6 @@ const BasketProduct = () => {
 
     const handleDelete = () => {
         deleteBasketProductAPI.mutate();
-        navigate(`/basket/${basketID}`);
     };
 
     if (productAPI.isLoading) return <Spinner />;

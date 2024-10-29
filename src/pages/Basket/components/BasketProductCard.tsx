@@ -1,7 +1,7 @@
 import {basketProductVote, deleteBasketProduct} from '@/api/basket';
 import {selctedProductCount, selectProduct} from '@/atoms/basket';
 import EmojiList from '@/data/emoji.json';
-import {BaksetProduct, Product} from '@/lib/types';
+import {BaksetProduct} from '@/lib/types';
 import {cn} from '@/lib/utils';
 import {useMutation} from '@tanstack/react-query';
 import {useAtomValue, useSetAtom} from 'jotai';
