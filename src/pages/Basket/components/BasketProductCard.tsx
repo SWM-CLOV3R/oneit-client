@@ -1,7 +1,7 @@
 import {basketProductVote, deleteBasketProduct} from '@/api/basket';
 import {selctedProductCount, selectProduct} from '@/atoms/basket';
 import EmojiList from '@/data/emoji.json';
-import {Product} from '@/lib/types';
+import {BaksetProduct, Product} from '@/lib/types';
 import {cn} from '@/lib/utils';
 import {useMutation} from '@tanstack/react-query';
 import {useAtomValue, useSetAtom} from 'jotai';
@@ -13,7 +13,7 @@ import mageHeartFill from '@/assets/images/mage_heart_fill.svg';
 import {useNavigate} from 'react-router-dom';
 
 interface ProductCardProps {
-    product: Product;
+    product: BaksetProduct;
     basketID: string;
     shared: boolean;
     likeCount: number;
@@ -48,15 +48,6 @@ const BasketProductCard = (props: ProductCardProps) => {
             setIsSelected(false);
         }
     });
-
-    const handleClick = () => {
-        setIsSelected(!isSelected);
-        onSelect(product);
-    };
-
-    const handleDelete = async () => {
-        deleteAPI.mutate();
-    };
 
     const handleVote = () => {
         let newVote: 'LIKE' | 'DISLIKE' | 'NONE';
@@ -146,8 +137,12 @@ const BasketProductCard = (props: ProductCardProps) => {
                 </p>
                 <div className="tags">
                     {product.keywords
-                        ?.splice(0, 3)
-                        .map((tag, idx) => <span key={idx}>#{tag}</span>)}
+                        ?.slice(0, 3)
+                        .map((tag, idx) => (
+                            <span key={`${product.idx}-${idx}`}>
+                                #{tag.name}
+                            </span>
+                        ))}
                 </div>
             </a>
         </div>

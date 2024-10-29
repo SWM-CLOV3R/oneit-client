@@ -9,7 +9,7 @@ import {Spinner} from '@/components/ui/spinner';
 import {useMutation, useQuery} from '@tanstack/react-query';
 import {useNavigate, useParams} from 'react-router-dom';
 import NotFound from '../NotFound';
-import {Participant, Product} from '@/lib/types';
+import {BaksetProduct, Participant, Product} from '@/lib/types';
 import BasketProductCard from './components/BasketProductCard';
 import {toast} from 'sonner';
 import {authAtom} from '@/api/auth';
@@ -261,7 +261,7 @@ const Basket = () => {
                                 <ul>
                                     <li className="grid-cols-2 grid gap-2">
                                         {basketProductAPI.data?.map(
-                                            (product: Product) => (
+                                            (product: BaksetProduct) => (
                                                 <BasketProductCard
                                                     shared={false}
                                                     key={product.idx}
@@ -272,7 +272,8 @@ const Basket = () => {
                                                         'NONE'
                                                     }
                                                     likeCount={
-                                                        product.likeCount || 0
+                                                        product.likeCountInGiftbox ||
+                                                        0
                                                     }
                                                     purchaseStatus={
                                                         product.purchaseStatus ||
@@ -297,7 +298,7 @@ const Basket = () => {
                                 <li className="grid-cols-2 grid gap-2">
                                     {searchKeywordAPI.data?.map(
                                         (
-                                            product: Product,
+                                            product: BaksetProduct,
                                             productIndex: number,
                                         ) => (
                                             <BasketProductCard
@@ -309,7 +310,8 @@ const Basket = () => {
                                                     product.voteStatus || 'NONE'
                                                 }
                                                 likeCount={
-                                                    product.likeCount || 0
+                                                    product.likeCountInGiftbox ||
+                                                    0
                                                 }
                                                 purchaseStatus={
                                                     product.purchaseStatus ||
