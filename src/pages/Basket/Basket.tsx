@@ -256,7 +256,7 @@ const Basket = () => {
                     )}
                     {keyword.length < 2 ? (
                         basketProductAPI?.data?.length !== 0 ? (
-                            <div className="mt-3 gift_list ">
+                            <div className="mt-3 gift_list_in_basket ">
                                 <ul>
                                     <li className="grid-cols-2 grid gap-2">
                                         {basketProductAPI.data?.map(
