@@ -144,6 +144,17 @@ export const editUserInfo = async (user: EditUserInfo) => {
         });
 };
 
+export const userWithdrawal = async () => {
+    return axios
+        .post('/v2/withdraw')
+        .then((res) => {
+            return Promise.resolve(res.data);
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
+};
+
 // export const editBasket = async (
 //     basketID: string,
 //     basket: Basket,
