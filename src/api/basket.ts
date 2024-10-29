@@ -314,3 +314,17 @@ export const productPurchased = async (
             return Promise.reject(err);
         });
 };
+
+export const fetchBasketProductDetail = async (
+    basketIdx: string,
+    productIdx: string,
+) => {
+    return axios
+        .get(`v2/giftbox/${basketIdx}/products/${productIdx}`)
+        .then((res) => {
+            return Promise.resolve(res.data);
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
+};

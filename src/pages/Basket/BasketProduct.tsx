@@ -31,9 +31,10 @@ import {
     deleteBasketProduct,
     deleteBasketProductComment,
     fetchBasketProductComments,
+    fetchBasketProductDetail,
     productPurchased,
 } from '@/api/basket';
-import {Comment, Product} from '@/lib/types';
+import {BaksetProduct, Comment, Keyword, Product} from '@/lib/types';
 import {set} from 'date-fns';
 import Header from '@/components/common/Header';
 import mageHeart from '@/assets/images/mage_heart.svg';
@@ -44,6 +45,7 @@ import {
     DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
 import {DropdownMenuTrigger} from '@radix-ui/react-dropdown-menu';
+import logo from '@/assets/images/oneit.png';
 
 const BasketProduct = () => {
     const {basketID, productID} = useParams();
@@ -64,7 +66,16 @@ const BasketProduct = () => {
 
     const productAPI = useQuery({
         queryKey: ['product', productID],
-        queryFn: () => fetchProduct(productID || ''),
+        queryFn: () => {
+            return fetchBasketProductDetail(
+                basketID || '',
+                productID || '',
+            ).then((data) => {
+                setVote(data.voteStatus);
+                setCount(data.likeCountInGiftbox);
+                return data;
+            });
+        },
     });
 
     const purchasedAPI = useMutation({
@@ -73,7 +84,7 @@ const BasketProduct = () => {
         onSuccess: () => {
             queryClient.setQueryData(
                 ['product', productID],
-                (prev: Product) => {
+                (prev: BaksetProduct) => {
                     if (prev) {
                         return {
                             ...prev,
@@ -173,7 +184,7 @@ const BasketProduct = () => {
             <div className="cardDetail scrollbar-hide pt-24">
                 <div className="image_area">
                     <img
-                        src={productAPI?.data?.thumbnailUrl}
+                        src={productAPI?.data?.thumbnailUrl || logo}
                         alt="상품 썸네일"
                     />
 
@@ -203,14 +214,14 @@ const BasketProduct = () => {
                         <span>명이 이 선물을 좋아하고 있어요!</span>
                         <div className="flex justify-end ml-16 pr-2">
                             <DropdownMenu>
-                                <DropdownMenuTrigger>
+                                <DropdownMenuTrigger asChild>
                                     <button>
                                         <EllipsisVertical />
                                     </button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent className="mr-2">
                                     <DropdownMenuItem>
-                                        <button
+                                        <div
                                             onClick={() =>
                                                 navigate(
                                                     `/product/${productID}`,
@@ -220,10 +231,10 @@ const BasketProduct = () => {
                                         >
                                             더 알아보기
                                             <ArrowRightSquare />
-                                        </button>
+                                        </div>
                                     </DropdownMenuItem>
                                     <DropdownMenuItem>
-                                        <button
+                                        <div
                                             onClick={handlePurchased}
                                             className="flex justify-between w-full"
                                         >
@@ -232,16 +243,16 @@ const BasketProduct = () => {
                                                 ? '구매 표시하기'
                                                 : '구매 해제하기'}
                                             <CheckSquare2 />
-                                        </button>
+                                        </div>
                                     </DropdownMenuItem>
                                     <DropdownMenuItem>
-                                        <button
+                                        <div
                                             className="flex w-full justify-between"
                                             onClick={handleDelete}
                                         >
                                             삭제하기
                                             <XCircleIcon className="text-[#FF5757]" />
-                                        </button>
+                                        </div>
                                     </DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
@@ -259,11 +270,13 @@ const BasketProduct = () => {
                 <div className="tag_area">
                     <div className="title">Tag</div>
                     <ul>
-                        {productAPI.data?.keywords?.map((keyword, idx) => (
-                            <li key={idx}>
-                                <button>{keyword}</button>
-                            </li>
-                        ))}
+                        {productAPI.data?.keywords?.map(
+                            (keyword: string, idx: number) => (
+                                <li key={idx}>
+                                    <button disabled>{keyword}</button>
+                                </li>
+                            ),
+                        )}
                     </ul>
                 </div>
 
