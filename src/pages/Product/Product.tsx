@@ -107,7 +107,7 @@ const Product = () => {
                             <ul className="scrollbar-hide">
                                 {basketAPI.data?.map((basket: Basket) => {
                                     return (
-                                        <li>
+                                        <li key={basket.idx}>
                                             <div
                                                 className="photo"
                                                 onClick={() =>
@@ -133,7 +133,7 @@ const Product = () => {
                                                     </div>
                                                 )}
                                             </div>
-                                            <div className="name text-overflow-one">
+                                            <div className="name text-overflow-one h-8">
                                                 {basket.name || '바구니 이름'}
                                             </div>
                                             <div className="btn_add_cart_area">

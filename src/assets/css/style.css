@@ -517,7 +517,7 @@ header {
   }
 
   .talk_area {
-    margin-top: 2rem;
+    margin-top: 0.25rem;
 
     .title {
       font-size: 0.875rem;
@@ -596,7 +596,7 @@ header {
   }
 
   .talk_input_fixed {
-    position: fixed;
+    position: absolute;
     bottom: 0;
     left: 0;
     right: 0;

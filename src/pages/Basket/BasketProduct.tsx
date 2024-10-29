@@ -46,6 +46,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import {DropdownMenuTrigger} from '@radix-ui/react-dropdown-menu';
 import logo from '@/assets/images/oneit.png';
+import {Tabs, TabsContent, TabsList, TabsTrigger} from '@/components/ui/tabs';
 
 const BasketProduct = () => {
     const {basketID, productID} = useParams();
@@ -282,81 +283,94 @@ const BasketProduct = () => {
                         )}
                     </ul>
                 </div>
-
-                <div className="talk_area ">
-                    <div className="title">선물 토크</div>
-                    <div className="chat_area min-h-32">
-                        {fetchCommentsAPI?.data?.length === 0 && (
-                            <div className="flex justify-center text-center">
-                                첫 번째 댓글을 남겨보세요!
-                            </div>
-                        )}
-                        {fetchCommentsAPI?.data?.map(
-                            (comment: Comment, idx: number) => {
-                                if (comment.writerIdx == user?.idx) {
-                                    return (
-                                        <div
-                                            key={comment.idx}
-                                            className={cn('talking me')}
-                                        >
-                                            <div className="del">
-                                                <button
-                                                    className="btn_del"
-                                                    onClick={() =>
-                                                        handleDeleteComment(
-                                                            comment.idx,
-                                                        )
-                                                    }
-                                                >
-                                                    토크삭제
-                                                </button>
-                                            </div>
-                                            <div className="info">
-                                                <div className="ballon">
-                                                    {comment.content}
+                <Tabs defaultValue="chat" className="p-1 w-full mt-2">
+                    <TabsList className="w-full ">
+                        <TabsTrigger value="chat" className="w-full">
+                            선물 토크
+                        </TabsTrigger>
+                        <TabsTrigger value="detail" className="w-full">
+                            상세 정보
+                        </TabsTrigger>
+                    </TabsList>
+                    <TabsContent value="chat" className="talk_area">
+                        <div className="chat_area min-h-32 shadow-sm shadow-[#ffcaf2]  rounded-md ">
+                            {fetchCommentsAPI?.data?.length === 0 && (
+                                <div className="flex justify-center text-center">
+                                    첫 번째 댓글을 남겨보세요!
+                                </div>
+                            )}
+                            {fetchCommentsAPI?.data?.map(
+                                (comment: Comment, idx: number) => {
+                                    if (comment.writerIdx == user?.idx) {
+                                        return (
+                                            <div
+                                                key={comment.idx}
+                                                className={cn('talking me')}
+                                            >
+                                                <div className="del">
+                                                    <button
+                                                        className="btn_del"
+                                                        onClick={() =>
+                                                            handleDeleteComment(
+                                                                comment.idx,
+                                                            )
+                                                        }
+                                                    >
+                                                        토크삭제
+                                                    </button>
+                                                </div>
+                                                <div className="info">
+                                                    <div className="ballon">
+                                                        {comment.content}
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    );
-                                } else {
-                                    return (
-                                        <div
-                                            className="talking you"
-                                            key={comment.idx}
-                                        >
-                                            <div className="thum">
-                                                {/* todo: get profile of writer */}
-                                                <img
-                                                    src={
-                                                        comment?.writerProfileImg
-                                                    }
-                                                    className="rounded-full"
-                                                />
-                                            </div>
-                                            <div className="info">
-                                                <p className="name">
-                                                    {comment.writerNickName}
-                                                </p>
-                                                <div className="ballon">
-                                                    {comment.content}
+                                        );
+                                    } else {
+                                        return (
+                                            <div
+                                                className="talking you"
+                                                key={comment.idx}
+                                            >
+                                                <div className="thum">
+                                                    {/* todo: get profile of writer */}
+                                                    <img
+                                                        src={
+                                                            comment?.writerProfileImg
+                                                        }
+                                                        className="rounded-full"
+                                                    />
+                                                </div>
+                                                <div className="info">
+                                                    <p className="name">
+                                                        {comment.writerNickName}
+                                                    </p>
+                                                    <div className="ballon">
+                                                        {comment.content}
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    );
-                                }
-                            },
-                        )}
-                    </div>
-                </div>
-                <form className="talk_input_fixed" onSubmit={handleText}>
-                    <input
-                        type="text"
-                        placeholder="이 제품을 추천/비추천하는 이유를 작성해보세요!"
-                        onChange={(e) => setText(e.target.value)}
-                        value={text}
-                    />
-                    <button className="btn_send" type="submit"></button>
-                </form>
+                                        );
+                                    }
+                                },
+                            )}
+                        </div>
+                        <form
+                            className="talk_input_fixed"
+                            onSubmit={handleText}
+                        >
+                            <input
+                                type="text"
+                                placeholder="이 제품을 추천/비추천하는 이유를 작성해보세요!"
+                                onChange={(e) => setText(e.target.value)}
+                                value={text}
+                            />
+                            <button className="btn_send" type="submit"></button>
+                        </form>
+                    </TabsContent>
+                    {/* todo: product detail image */}
+                    <TabsContent value="detail">제품 상세 이미지</TabsContent>
+                </Tabs>
             </div>
         </>
     );

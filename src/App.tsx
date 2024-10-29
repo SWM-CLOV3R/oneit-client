@@ -18,6 +18,7 @@ import {ReactQueryDevtools} from '@tanstack/react-query-devtools';
 import '@/lib/firebase';
 import Landing from './Landing';
 import AfterBasketCreate from './pages/Basket/AfterBasketCreate';
+import ScrollToTop from './components/common/ScrollToTop';
 
 // Custom component to handle dynamic redirect
 const AuthRouterWithRedirect = ({
@@ -112,6 +113,7 @@ function App() {
                         <>
                             <Suspense fallback={<Spinner size="large" />}>
                                 <Router>
+                                    <ScrollToTop />
                                     <Routes>
                                         <Route
                                             path="/recommend"
