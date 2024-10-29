@@ -18,7 +18,6 @@ import {ReactQueryDevtools} from '@tanstack/react-query-devtools';
 import '@/lib/firebase';
 import Landing from './Landing';
 import AfterBasketCreate from './pages/Basket/AfterBasketCreate';
-import Privacy from './pages/Privacy';
 
 // Custom component to handle dynamic redirect
 const AuthRouterWithRedirect = ({
@@ -318,10 +317,7 @@ function App() {
                                             path="/main"
                                             element={<Main />}
                                         />
-                                        {/* <Route
-                                            path="/privacy"
-                                            element={<Privacy />}
-                                        /> */}
+
                                         <Route path="/" element={<Landing />} />
                                         <Route
                                             path="/404"
