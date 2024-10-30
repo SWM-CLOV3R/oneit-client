@@ -99,7 +99,7 @@ export type Emoji = {
 
 export type InquiryChoice = {
     productIdx: number;
-    emojiIdx: 'LOVE' | 'LIKE' | 'NEED' | 'SOSO' | 'BAD' | 'HAVE';
+    emojiName: 'LOVE' | 'LIKE' | 'NEED' | 'SOSO' | 'BAD' | 'HAVE';
 };
 
 export type Friend = {

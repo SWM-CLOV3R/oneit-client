@@ -57,7 +57,7 @@ const InquiryChoice = () => {
         setSelectedEmoji(emoji);
         const choice: InquiryChoiceType = {
             productIdx: inquiryAPI.data?.selectedProducts[currentIdx].idx,
-            emojiIdx: emoji,
+            emojiName: emoji,
         };
         selectEmoji(choice);
     };

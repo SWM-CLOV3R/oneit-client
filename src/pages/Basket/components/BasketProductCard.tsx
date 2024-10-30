@@ -111,19 +111,24 @@ const BasketProductCard = (props: ProductCardProps) => {
                     </div>
                     {product?.emojiIdx && (
                         <div
-                            // className={cn(
-                            //     'desc',
-                            //     product.emojiIdx &&
-                            //         `${EmojiList[product.emojiIdx].name}`,
-                            // )}
-                            className="desc like"
+                            className={cn(
+                                'desc',
+                                product.emojiIdx &&
+                                    `${EmojiList[product.emojiIdx].name}`,
+                            )}
+                            // className="desc like"
                             onClick={() =>
                                 navigate(
                                     `/basket/${basketID}/product/${product.idx}`,
                                 )
                             }
                         >
-                            <button className="like">
+                            <button
+                                className={cn(
+                                    product.emojiIdx &&
+                                        `${EmojiList[product.emojiIdx].name}`,
+                                )}
+                            >
                                 <i></i>
                                 <p>{EmojiList[product.emojiIdx].content}</p>
                             </button>
