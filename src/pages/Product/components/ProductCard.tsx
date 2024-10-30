@@ -39,7 +39,7 @@ const ProductCard = (props: ProductCardProps) => {
                 <div className="tags">
                     {product?.keywords
                         ?.slice(0, 3)
-                        .map((tag, idx) => <span key={idx}>#{tag}</span>)}
+                        .map((tag, idx) => <span key={idx}>#{tag.name}</span>)}
                 </div>
             </a>
         </div>

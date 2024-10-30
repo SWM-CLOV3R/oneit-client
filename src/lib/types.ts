@@ -20,8 +20,9 @@ export type Product = {
     thumbnailUrl: string;
     categoryName?: string;
     categoryDisplayName?: string;
-    keywords?: string[];
+    keywords?: Keyword[];
     productStatus?: string;
+    detailImages?: string[];
     description: string;
     likeCount?: number;
     voteStatus?: 'LIKE' | 'DISLIKE' | 'NONE';
