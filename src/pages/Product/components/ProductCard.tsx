@@ -17,7 +17,12 @@ const ProductCard = (props: ProductCardProps) => {
             onClick={() => navigate(`/product/${product.idx}`)}
         >
             <div className="image">
-                <div className="photo">
+                <div
+                    className={cn(
+                        'photo',
+                        product.productStatus === 'INVALID' && 'sold',
+                    )}
+                >
                     <img src={product.thumbnailUrl || logo} alt="제품 이미지" />
                 </div>
             </div>
