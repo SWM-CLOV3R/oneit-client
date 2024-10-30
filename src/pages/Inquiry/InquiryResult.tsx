@@ -64,7 +64,7 @@ const InquiryResult = () => {
                                             />
                                         </div>
                                         <div className="info min-w-40 justify-center">
-                                            <div className="title">
+                                            <div className="title text-overflow">
                                                 {product?.name ||
                                                     '제품정보없음'}
                                             </div>
