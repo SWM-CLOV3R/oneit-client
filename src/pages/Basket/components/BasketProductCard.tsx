@@ -11,6 +11,7 @@ import likeit from '@/assets/images/icon_likeit.svg';
 import mageHeart from '@/assets/images/mage_heart.svg';
 import mageHeartFill from '@/assets/images/mage_heart_fill.svg';
 import {useNavigate} from 'react-router-dom';
+import logo from '@/assets/images/oneit.png';
 
 interface ProductCardProps {
     product: BaksetProduct;
@@ -84,7 +85,7 @@ const BasketProductCard = (props: ProductCardProps) => {
                                 `/basket/${basketID}/product/${product.idx}`,
                             )
                         }
-                        src={product.thumbnailUrl}
+                        src={product?.thumbnailUrl || logo}
                         alt="제품 이미지"
                     />
                     <div className="heart" onClick={handleVote}>
