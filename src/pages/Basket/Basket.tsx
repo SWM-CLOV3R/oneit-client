@@ -373,10 +373,21 @@ const Basket = () => {
             </div>
 
             <>
+                <div className="fixed bottom-0 w-full p-2 right-1/2 translate-x-1/2">
+                    <Button
+                        className="w-full"
+                        onClick={() => toggleDrawer(true)}
+                    >
+                        <img src={giftBox2} alt="선물 바구니 아이콘" />
+                        선물 추가하기
+                    </Button>
+                </div>
                 <Global
                     styles={{
                         '.MuiPaper-root.MuiPaper-root': {
-                            height: `calc(50% - ${drawerBleeding}px - 100px)`,
+                            // height: `calc(50% - ${drawerBleeding}px - 100px)`,
+                            height: `160px`,
+
                             overflow: 'visible',
                         },
                     }}
@@ -387,12 +398,15 @@ const Basket = () => {
                     onClick={() => toggleDrawer(!open)}
                     onClose={() => toggleDrawer(false)}
                     onOpen={() => toggleDrawer(true)}
-                    swipeAreaWidth={drawerBleeding}
+                    // swipeAreaWidth={drawerBleeding}
                     ModalProps={{
                         keepMounted: true,
                     }}
+                    disableSwipeToOpen={false}
+                    disableDiscovery={true}
+                    // disableScrollLock={true}
                 >
-                    <Box
+                    {/* <Box
                         sx={{
                             position: 'absolute',
                             top: -drawerBleeding,
@@ -421,7 +435,7 @@ const Basket = () => {
                             </i>
                             선물 추가하기
                         </Typography>
-                    </Box>
+                    </Box> */}
 
                     <div className="bottom_sheet -z-10">
                         <button
