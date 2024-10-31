@@ -255,7 +255,7 @@ const Basket = () => {
                                     </Label>
                                     <Input
                                         id="name"
-                                        defaultValue="받는 사람 이름"
+                                        placeholder="받는 사람 이름"
                                         className="col-span-3"
                                         onChange={(e) =>
                                             setTarget(e.target.value)
@@ -338,7 +338,7 @@ const Basket = () => {
                             </div>
                         )
                     ) : (
-                        <div className="mt-3 gift_list ">
+                        <div className="mt-3 gift_list_in_basket ">
                             <ul>
                                 <li className="grid-cols-2 grid gap-2">
                                     {searchKeywordAPI.data?.map(
