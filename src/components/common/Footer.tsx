@@ -1,36 +1,29 @@
 import {useEffect, useState} from 'react';
+import {useLocationContext} from '@/hooks/LocationContext';
+import {useAtomValue} from 'jotai';
+import {locationAtom} from '@/atoms/etc';
 
 const Footer = () => {
     const [display, setDisplay] = useState(true);
-    //get path name
-    const path = window.location.pathname;
+    const path = useAtomValue(locationAtom);
+
     useEffect(() => {
-        // const path = window.location.pathname;
         if (
             path.includes('basket') ||
             path.includes('product') ||
             path.includes('collection')
         ) {
-            // console.log(path);
-
             setDisplay(false);
+        } else {
+            setDisplay(true);
         }
     }, [path]);
-
-    // if (display === false) return null;
 
     return (
         <>
             {display && (
                 <footer className="bg-gray-100 p-4">
                     <div className="text-sm text-gray-500">
-                        {/* <button
-                            onClick={() => {
-                                throw new Error('에러 발생');
-                            }}
-                        >
-                            에러
-                        </button> */}
                         <strong>워닛(ONEIT)</strong> |{' '}
                         <a href="/policy.pdf">개인정보처리방침</a>
                         <br />
