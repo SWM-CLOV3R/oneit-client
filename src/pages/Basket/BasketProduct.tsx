@@ -47,6 +47,7 @@ import {
 import {DropdownMenuTrigger} from '@radix-ui/react-dropdown-menu';
 import logo from '@/assets/images/oneit.png';
 import {Tabs, TabsContent, TabsList, TabsTrigger} from '@/components/ui/tabs';
+import {toast} from 'sonner';
 
 const BasketProduct = () => {
     const {basketID, productID} = useParams();
@@ -91,12 +92,14 @@ const BasketProduct = () => {
                             ...prev,
                             purchaseStatus:
                                 prev.purchaseStatus === 'PURCHASED'
-                                    ? null
+                                    ? 'NOT_PURCHASED'
                                     : 'PURCHASED',
                         };
                     }
                 },
             );
+            toast('해당 상품의 구매 여부를 표시했어요!');
+            // navigate(`/basket/${basketID}`, {replace: true});
         },
     });
 
