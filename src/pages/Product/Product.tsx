@@ -127,16 +127,16 @@ const Product = () => {
                                                     alt=""
                                                 />
                                                 {basket.dday > 0 ? (
-                                                    <div className="capsule">
+                                                    <div className="capsule_pink">
                                                         D-
                                                         {basket.dday}
                                                     </div>
                                                 ) : basket.dday === 0 ? (
-                                                    <div className="capsule">
+                                                    <div className="capsule_pink">
                                                         D-Day
                                                     </div>
                                                 ) : (
-                                                    <div className="capsule">
+                                                    <div className="capsule_pink">
                                                         마감
                                                     </div>
                                                 )}
