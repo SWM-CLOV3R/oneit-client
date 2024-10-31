@@ -113,6 +113,7 @@ const Mypage = () => {
                                             <img
                                                 src={basket.imageUrl || logo}
                                                 alt=""
+                                                className="h-20 w-20 rounded-xl"
                                             />
                                             <p className="text-overflow-one text-sm text-[#5d5d5d] text-center">
                                                 {basket.name}

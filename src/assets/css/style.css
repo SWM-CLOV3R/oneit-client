@@ -250,7 +250,7 @@ header {
             position: absolute;
             width: 100%;
             height: 100%;
-            object-fit: contain;
+            object-fit: fill;
           }
         }
         &:nth-child(2) {
@@ -347,8 +347,9 @@ header {
               overflow: hidden;
 
               img {
-                width: 100%;
-                object-fit: contain;
+                width: 3.5rem;
+                  height: 3.5rem;
+                object-fit: fill;
               }
             }
             > p {
@@ -1758,8 +1759,9 @@ header {
           position: relative;
 
           img {
-            width: 100%;
-            object-fit: contain;
+            width: 3.5rem;
+              height: 3.5rem;
+            object-fit: fill;
             position: absolute;
             top: 0;
             left: 0;
@@ -2056,7 +2058,8 @@ header {
 
           > img {
             height: 100%;
-            object-fit: contain;
+            width: 100%;
+            object-fit: fill;
           }
         }
         .info {

@@ -163,7 +163,7 @@ const BasketEdit = ({
             .regex(/^\d{4}-\d{2}-\d{2}$/, {
                 message: '날짜 형식은 YYYY-MM-DD이어야 합니다.',
             })
-            .refine((date) => new Date(date) >= new Date(), {
+            .refine((date) => new Date(date) > new Date(), {
                 message: '과거의 날짜는 선택할 수 없습니다.',
             }),
     });
