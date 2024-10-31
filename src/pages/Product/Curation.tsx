@@ -157,7 +157,7 @@ const Curation = () => {
                         </div>
                     )}
                     <div className="btn_func">
-                        <button className="filter"></button>
+                        {/* <button className="filter"></button> */}
                         <button
                             className={cn(
                                 'search',

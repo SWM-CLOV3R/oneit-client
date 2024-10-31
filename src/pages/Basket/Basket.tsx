@@ -315,9 +315,9 @@ const Basket = () => {
                         <div className="icons">
                             <button
                                 className="btn_zoomer"
-                                onClick={() => setSearchOpen(true)}
+                                onClick={() => setSearchOpen(!searchOpen)}
                             ></button>
-                            <button className="btn_filter"></button>
+                            {/* <button className="btn_filter"></button> */}
                         </div>
                     </div>
                     {searchOpen && (
