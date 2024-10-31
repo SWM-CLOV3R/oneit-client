@@ -420,13 +420,13 @@ const BasketInfo = () => {
                         </div>
                         <div>
                             {basketInfoAPI?.data?.dday > 0 ? (
-                                <div className="dDay">
+                                <div className="dDay px-1">
                                     D-{basketInfoAPI?.data?.dday}
                                 </div>
                             ) : basketInfoAPI?.data?.dday === 0 ? (
-                                <div className="dDay">D-Day</div>
+                                <div className="dDay px-1">D-Day</div>
                             ) : (
-                                <div className="dDay">
+                                <div className="dDay px-1">
                                     {-basketInfoAPI?.data?.dday}일 지남
                                 </div>
                             )}
