@@ -3,9 +3,17 @@ import {ref, get as read, child} from 'firebase/database';
 import axios from '@/lib/axios';
 import {Product} from '@/lib/types';
 
-export const fetchRecommendedProducts = async (chatID: string) => {
+export const fetchRecommendedProducts = async (
+    chatID: string,
+    userID: string,
+) => {
     const dbRef = ref(db);
-    return read(child(dbRef, `/recommendRecord/${chatID}`))
+    return read(
+        child(
+            dbRef,
+            `recommendRecord/${userID.length == 0 ? 'anonymous' : userID}/${chatID}`,
+        ),
+    )
         .then((snapshot) => {
             if (snapshot.exists() && snapshot.val().resultType) {
                 const data = snapshot.val();

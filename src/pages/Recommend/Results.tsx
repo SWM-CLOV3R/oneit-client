@@ -1,4 +1,4 @@
-import {useAtom} from 'jotai';
+import {useAtom, useAtomValue} from 'jotai';
 import {useNavigate, useParams} from 'react-router-dom';
 import {Spinner} from '@/components/ui/spinner';
 import {fetchRecommendedProducts} from '@/api/product';
@@ -26,6 +26,7 @@ import {
 import {rateResult} from '@/api/chat';
 import {Gift} from 'lucide-react';
 import logo from '@/assets/images/oneit.png';
+import {authAtom} from '@/api/auth';
 
 const {Kakao} = window;
 
@@ -70,13 +71,18 @@ const Results = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [api, setApi] = useState<any>();
     const [autoPlay, setAutoPlay] = useState(true);
+    const user = useAtomValue(authAtom);
 
     const handleInteractionStart = useCallback(() => setAutoPlay(false), []);
     const handleInteractionEnd = useCallback(() => setAutoPlay(true), []);
 
     const recommendedAPI = useQuery({
         queryKey: ['fetchRecommendedProducts', chatID],
-        queryFn: () => fetchRecommendedProducts(chatID || ''),
+        queryFn: () =>
+            fetchRecommendedProducts(
+                chatID || '',
+                user ? user.idx.toString() : '',
+            ),
         retry: 3,
     });
 
@@ -340,6 +346,7 @@ const Results = () => {
                                     mutateAsync({
                                         chatID: chatID || '',
                                         rating: rating || 0,
+                                        userID: user ? user.idx.toString() : '',
                                     });
                                     setIsOpen(false);
                                     // navigate('/recommend');
