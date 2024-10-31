@@ -5,6 +5,7 @@ import {useAtomValue} from 'jotai';
 import React, {useRef, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {toast} from 'sonner';
+import heic2any from 'heic2any';
 
 const EditInfo = () => {
     const user = useAtomValue(authAtom);
@@ -64,12 +65,60 @@ const EditInfo = () => {
                                 event.target.files![0],
                             );
 
-                            setImageURL(displayUrl);
-                            console.log(event);
+                            // setImageURL(displayUrl);
+                            // console.log(event);
                             const file = event.target.files![0];
                             console.log(file);
+                            if (file) {
+                                // if file is in heic format, convert it to jpeg
+                                if (file && file.type === 'image/heic') {
+                                    console.log('heic file detected');
 
-                            setImage(file);
+                                    heic2any({
+                                        blob: file,
+                                        toType: 'image/webp',
+                                    }).then((blob) => {
+                                        const newFile = new File(
+                                            [blob as Blob],
+                                            file?.name + '.webp',
+                                            {
+                                                type: 'image/webp',
+                                            },
+                                        );
+                                        console.log(newFile);
+                                        const displayUrl =
+                                            URL.createObjectURL(newFile);
+                                        console.log('Image URL:', displayUrl);
+                                        if (newFile.size > 1048489) {
+                                            toast.error(
+                                                '이미지 용량이 너무 커서 사용할 수 없습니다.',
+                                            );
+                                            setImage(null);
+
+                                            setImageURL('');
+                                            return;
+                                        }
+                                        setImageURL(displayUrl);
+                                        setImage(newFile);
+                                    });
+                                } else {
+                                    const displayUrl =
+                                        URL.createObjectURL(file);
+                                    console.log('Image URL:', displayUrl);
+                                    if (file.size > 1048489) {
+                                        toast.error(
+                                            '이미지 용량이 너무 커서 사용할 수 없습니다.',
+                                        );
+                                        setImage(null);
+
+                                        setImageURL('');
+                                        return;
+                                    }
+                                    setImageURL(displayUrl);
+                                    setImage(file);
+                                }
+                            }
+                            // setImage(file);
                         }}
                     />
                     <button
