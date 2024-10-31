@@ -185,8 +185,8 @@ const BasketProduct = () => {
         <>
             <Header variant="back" btn_back={false} />
 
-            <div className="cardDetail scrollbar-hide pt-24">
-                <div className="image_area">
+            <div className="cardDetail scrollbar-hide pt-24 pb-0">
+                <div className="image_area ">
                     <img
                         src={productAPI?.data?.thumbnailUrl || logo}
                         alt="상품 썸네일"
@@ -303,7 +303,7 @@ const BasketProduct = () => {
                         </TabsTrigger>
                     </TabsList>
                     <TabsContent value="chat" className="talk_area">
-                        <div className="chat_area min-h-32 shadow-sm shadow-[#ffcaf2]  rounded-md ">
+                        <div className="chat_area min-h-32 shadow-sm shadow-[#ffcaf2]  rounded-md  overflow-y-auto scrollbar-hide ">
                             {fetchCommentsAPI?.data?.length === 0 && (
                                 <div className="flex justify-center text-center">
                                     첫 번째 댓글을 남겨보세요!
@@ -366,7 +366,7 @@ const BasketProduct = () => {
                             )}
                         </div>
                         <form
-                            className="talk_input_fixed"
+                            className="talk_input_fixed px-1 "
                             onSubmit={handleText}
                         >
                             <input
@@ -379,7 +379,20 @@ const BasketProduct = () => {
                         </form>
                     </TabsContent>
                     {/* todo: product detail image */}
-                    <TabsContent value="detail">제품 상세 이미지</TabsContent>
+                    {productAPI?.data?.detailImages && (
+                        <TabsContent value="detail" className="detail_area">
+                            {productAPI?.data?.detailImages?.map(
+                                (img: string, idx: number) => (
+                                    <img
+                                        key={`image-${idx}`}
+                                        src={img}
+                                        alt="상품 상세 이미지"
+                                    />
+                                ),
+                            )}
+                        </TabsContent>
+                    )}
+                    {/* <TabsContent value="detail">제품 상세 이미지</TabsContent> */}
                 </Tabs>
             </div>
         </>

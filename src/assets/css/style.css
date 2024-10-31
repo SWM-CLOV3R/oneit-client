@@ -429,7 +429,7 @@ header {
 
 .cardDetail {
   margin-top: -3.5rem;
-  padding-bottom: 3.625rem;
+  /* padding-bottom: 3.625rem; */
 
   .image_area {
     position: relative;
@@ -600,12 +600,12 @@ header {
   }
 
   .talk_input_fixed {
-    position: absolute;
-    bottom: 0;
+    /* position: absolute; */
+    /* bottom: 0;
     left: 0;
-    right: 0;
+    right: 0; */
     height: 3.625rem;
-    padding: 0 1rem;
+    /* padding: 0 1rem; */
     display: flex;
     align-items: center;
     justify-content: center;
