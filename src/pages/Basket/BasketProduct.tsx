@@ -196,19 +196,25 @@ const BasketProduct = () => {
                         {vote == 'LIKE' ? (
                             <i
                                 className="w-7 h-7 mr-0.5 bg-center bg-contain bg-no-repeat block"
-                                style={{
-                                    backgroundImage: `url(${mageHeartFill})`,
-                                }}
                                 onClick={handleVote}
-                            ></i>
+                            >
+                                <img
+                                    src={mageHeartFill}
+                                    alt="Heart"
+                                    className="w-full h-full object-contain"
+                                />
+                            </i>
                         ) : (
                             <i
                                 className="w-7 h-7 mr-0.5 bg-center bg-contain bg-no-repeat block"
-                                style={{
-                                    backgroundImage: `url(${mageHeart})`,
-                                }}
                                 onClick={handleVote}
-                            ></i>
+                            >
+                                <img
+                                    src={mageHeart}
+                                    alt="Heart"
+                                    className="w-full h-full object-contain"
+                                />
+                            </i>
                         )}
                         <span
                             className={cn(vote == 'LIKE' && 'text-[#FF5757]')}
