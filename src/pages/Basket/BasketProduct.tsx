@@ -170,6 +170,7 @@ const BasketProduct = () => {
     const handleText = (e: {preventDefault: () => void}) => {
         e.preventDefault();
         console.log(text);
+        if (!text || text.replace(/\s/g, '').length < 1) return;
         addCommentAPI.mutateAsync();
     };
 
