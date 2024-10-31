@@ -1,13 +1,17 @@
 import {authAtom, editUserInfo} from '@/api/auth';
 import Header from '@/components/common/Header';
-import {useMutation} from '@tanstack/react-query';
+import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {useAtomValue} from 'jotai';
 import React, {useRef, useState} from 'react';
+import {useNavigate} from 'react-router-dom';
+import {toast} from 'sonner';
 
 const EditInfo = () => {
     const user = useAtomValue(authAtom);
+    const navigate = useNavigate();
+    const queryClient = useQueryClient();
     const [newNickname, setNewNickname] = useState(user?.nickname || '');
-    const [imageURL, setImageURL] = useState(user?.profileImgFromKakao || '');
+    const [imageURL, setImageURL] = useState(user?.profileImg || '');
     const [newBirthDate, setNewBirthDate] = useState(user?.birthDate || '');
     const [image, setImage] = useState<File | null>(null);
     const [birthDateError, setBirthDateError] = useState('');
@@ -21,6 +25,12 @@ const EditInfo = () => {
                 profileImage: image,
                 birthDate: newBirthDate.toString(),
             }),
+        onSuccess: () => {
+            // queryClient.invalidateQueries({queryKey:['user']});
+            toast('회원 정보가 수정되었습니다.');
+            navigate('/mypage', {replace: true});
+            window.location.reload();
+        },
     });
 
     const handleSubmit = () => {

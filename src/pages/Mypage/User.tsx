@@ -50,7 +50,7 @@ const User = () => {
                 <div className="rounding_grey">
                     <div className="nickname_area">
                         <div className="picture">
-                            <img src={user?.profileImgFromKakao} alt="" />
+                            <img src={user?.profileImg || logo} alt="" />
                         </div>
                         <div className="name">{user?.nickname}</div>
                         <button

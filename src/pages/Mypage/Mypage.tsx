@@ -66,7 +66,10 @@ const Mypage = () => {
                 <div className="rounding_grey">
                     <div className="nickname_area">
                         <div className="picture">
-                            <img src={user?.profileImgFromKakao} alt="" />
+                            <img
+                                src={user?.profileImg || logo}
+                                alt="사용자 대표 이미지"
+                            />
                         </div>
                         <div className="name">{user?.nickname}</div>
                         <button

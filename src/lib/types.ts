@@ -56,21 +56,14 @@ export type Question = {
 };
 
 export type User = {
-    createdAt: string;
-    updatedAt: string;
-    deletedAt: string;
-    status: string;
     idx: number;
     name: string;
     nickname: string;
     email: string;
     phoneNumber: string;
-    nicknameFromKakao: string;
-    profileImgFromKakao: string;
     gender: 'FEMALE' | 'MALE';
-    age: string;
     birthDate: Date;
-    refreshToken: string;
+    profileImg: string;
 };
 
 export type Basket = {
