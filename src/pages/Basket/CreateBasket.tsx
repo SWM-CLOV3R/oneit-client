@@ -315,12 +315,12 @@ const CreateBasket = () => {
                                     control={form.control}
                                     name="deadline"
                                     render={({field}) => (
-                                        <FormItem>
+                                        <FormItem className="">
                                             {/* <FormLabel className="text-sm text-[#5d5d5d] text-center mt-7 mb-1">
                                                 기념일 설정
                                             </FormLabel> */}
                                             <FormMessage />
-                                            <FormControl>
+                                            <FormControl className="flex justify-center w-full">
                                                 <Calendar
                                                     mode="single"
                                                     selected={field.value}
