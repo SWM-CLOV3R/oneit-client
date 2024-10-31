@@ -122,6 +122,7 @@ header {
         width: 7.5rem;
         height: 7.5rem;
         overflow: hidden;
+        object-fit: fill;
         border-radius: 0.75rem;
       }
     }
@@ -152,7 +153,9 @@ header {
       bottom: 0;
       display: block;
       z-index: 0;
-      box-shadow: 2px 2px 2px 2px rgba(255, 75, 93, 0.2);
+      /* border-color: #ff4bc1; */
+      border: 2px solid #ff4bc1;
+      /* box-shadow: 2px 2px 2px 2px rgba(255, 75, 93, 0.2); */
     }
 
     .capsule {

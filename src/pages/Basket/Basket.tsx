@@ -217,11 +217,10 @@ const Basket = () => {
             <div className="p-4 cardList scrollbar-hide">
                 <div className="Dday_wrap">
                     <div className="graph">
-                        {basketInfoAPI?.data?.dday >= 0 ? (
-                            <div className="count">
-                                D-
-                                {dDay}
-                            </div>
+                        {basketInfoAPI?.data?.dday > 0 ? (
+                            <div className="count">D-{dDay}</div>
+                        ) : basketInfoAPI?.data?.dday === 0 ? (
+                            <div className="count">D-Day</div>
                         ) : (
                             <div className="count">
                                 {-basketInfoAPI?.data?.dday}일 지남

@@ -45,7 +45,7 @@ const Quiz = () => {
             navigate(`/recommend/${chatID}/${currentDepth + 1}`);
         } else if (currentDepth === MAXDEPTH - 1) {
             await setAnswers(index, currentDepth);
-            mutateAsync({chatID, userID: user ? user.idx.toString() : ''});
+            mutateAsync({chatID});
             navigate(`/recommend/${chatID}/result`, {replace: true});
         } else {
             setError(true);

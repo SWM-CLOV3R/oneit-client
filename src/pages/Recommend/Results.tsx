@@ -78,11 +78,7 @@ const Results = () => {
 
     const recommendedAPI = useQuery({
         queryKey: ['fetchRecommendedProducts', chatID],
-        queryFn: () =>
-            fetchRecommendedProducts(
-                chatID || '',
-                user ? user.idx.toString() : '',
-            ),
+        queryFn: () => fetchRecommendedProducts(chatID || ''),
         retry: 3,
     });
 
@@ -346,7 +342,6 @@ const Results = () => {
                                     mutateAsync({
                                         chatID: chatID || '',
                                         rating: rating || 0,
-                                        userID: user ? user.idx.toString() : '',
                                     });
                                     setIsOpen(false);
                                     // navigate('/recommend');
