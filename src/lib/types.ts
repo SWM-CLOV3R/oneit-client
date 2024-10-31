@@ -116,6 +116,7 @@ export type SignUpUser = {
     nickname: string;
     gender: 'FEMALE' | 'MALE';
     birthDate: string;
+    isAgreeMarketing: boolean;
 };
 
 export type Notif = {
