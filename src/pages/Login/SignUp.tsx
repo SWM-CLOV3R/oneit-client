@@ -115,21 +115,29 @@ const SignUp = () => {
                     replace: true,
                 });
             } else {
-                firebaseMessagingConfig().then((token) => {
-                    console.log(`[AUTH] Firebase token: ${token}`);
-                    sendFCMToken(token)
-                        .then((res) => {
-                            const redirect = localStorage.getItem('redirect');
-                            console.log(`[AUTH] Redirect to ${redirect}`);
+                firebaseMessagingConfig()
+                    .then((token) => {
+                        console.log(`[AUTH] Firebase token: ${token}`);
+                        sendFCMToken(token)
+                            .then((res) => {
+                                const redirect =
+                                    localStorage.getItem('redirect');
+                                console.log(`[AUTH] Redirect to ${redirect}`);
 
-                            navigate(redirect || '/main', {
-                                replace: true,
+                                navigate(redirect || '/main', {
+                                    replace: true,
+                                });
+                            })
+                            .catch((err) => {
+                                console.log(
+                                    '[AUTH] Error sending FCM token',
+                                    err,
+                                );
                             });
-                        })
-                        .catch((err) => {
-                            console.log('[AUTH] Error sending FCM token');
-                        });
-                });
+                    })
+                    .catch((err) => {
+                        console.log('[AUTH] Error fetching FCM token', err);
+                    });
             }
             // const redirect = localStorage.getItem('redirect');
             // navigate(redirect || '/');
