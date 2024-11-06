@@ -358,7 +358,9 @@ const SignUp = () => {
                             />
                         )}
                     />
-                    <p className="text-xs">마케팅 정보 수신 동의 (선택)</p>
+                    <p className="text-xs">
+                        알림 및 마케팅 정보 수신 동의 (선택)
+                    </p>
                 </div>
 
                 {/* <p className="text-base mb-4 font-medium mt-6">전화번호</p>
