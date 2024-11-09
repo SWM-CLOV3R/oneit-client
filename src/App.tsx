@@ -65,6 +65,7 @@ const Login = React.lazy(() => import('./pages/Login/Login'));
 const Auth = React.lazy(() => import('./pages/Login/Auth'));
 const SignUp = React.lazy(() => import('./pages/Login/SignUp'));
 const Mypage = React.lazy(() => import('./pages/Mypage/Mypage'));
+const MyBasket = React.lazy(() => import('./pages/Mypage/MyBasket'));
 const EditInfo = React.lazy(() => import('./pages/Mypage/EditInfo'));
 const Friends = React.lazy(() => import('./pages/Mypage/Friends'));
 const User = React.lazy(() => import('./pages/Mypage/User'));
@@ -288,6 +289,17 @@ function App() {
                                                     redirectTo="/login?redirect=/mypage"
                                                 >
                                                     <Mypage />
+                                                </AuthRouter>
+                                            }
+                                        />
+                                        <Route
+                                            path="/mybasket"
+                                            element={
+                                                <AuthRouter
+                                                    option={true}
+                                                    redirectTo="/login?redirect=/mybasket"
+                                                >
+                                                    <MyBasket />
                                                 </AuthRouter>
                                             }
                                         />

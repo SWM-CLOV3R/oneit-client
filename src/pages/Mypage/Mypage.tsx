@@ -2,7 +2,7 @@ import {authAtom, logout, userWithdrawal} from '@/api/auth';
 
 import {Button} from '@/components/common/Button';
 import {useAtomValue} from 'jotai';
-import {User2Icon, UserIcon} from 'lucide-react';
+import {ChevronRight, User2Icon, UserIcon} from 'lucide-react';
 import {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import profileButtonSvg from '@/assets/images/profile_button.svg';
@@ -90,7 +90,14 @@ const Mypage = () => {
                         ></button>
                     </div>
                     <div className="wish_area">
-                        <div className="title">나의 위시리스트</div>
+                        <div
+                            className="title"
+                            onClick={() => navigate('/mybasket')}
+                        >
+                            나의 위시리스트{' '}
+                            <span>{likedProductAPI.data?.length}</span>
+                            <ChevronRight />
+                        </div>
                         <ul className="scrollbar-hide">
                             {likedProductAPI.data?.map((product) => (
                                 <a
