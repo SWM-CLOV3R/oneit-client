@@ -186,7 +186,7 @@ const Results = () => {
                             onTouchEnd={handleInteractionEnd}
                         >
                             <CarouselContent className="w-full m-0">
-                                {recommendedAPI.data?.result.map(
+                                {recommendedAPI.data?.result?.map(
                                     (item: Product, index: number) => (
                                         <CarouselItem
                                             key={index}
@@ -196,7 +196,7 @@ const Results = () => {
                                                 <p className="font-bold text-[#3d3d3d]">
                                                     {
                                                         recommendedAPI.data
-                                                            ?.resultType.title
+                                                            ?.resultType?.title
                                                     }
                                                 </p>
                                                 <div className="tag mt-1.5 flex justify-center">

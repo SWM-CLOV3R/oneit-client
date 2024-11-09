@@ -67,9 +67,20 @@ export const searchProduct = async (keyword: string): Promise<Product[]> => {
         });
 };
 
-export const productLike = async (productID: string) => {
+export const productLike = async (productID: string): Promise<Product> => {
     return axios
         .post(`/v2/products/${productID}/like`)
+        .then((res) => {
+            return Promise.resolve(res.data);
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
+};
+
+export const fetchLikedProducts = async (): Promise<Product[]> => {
+    return axios
+        .get(`/v2/products/like`)
         .then((res) => {
             return Promise.resolve(res.data);
         })

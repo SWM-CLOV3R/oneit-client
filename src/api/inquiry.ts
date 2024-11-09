@@ -1,4 +1,4 @@
-import {BaksetProduct, Product} from '@/lib/types';
+import {BaksetProduct, Inquiry, Product} from '@/lib/types';
 import {atomWithMutation} from 'jotai-tanstack-query';
 import axios from '@/lib/axios';
 import {choices} from '@/atoms/inquiry';
@@ -58,7 +58,7 @@ export const createInquiry = atomWithMutation<unknown, CreateInquiryVariables>(
     }),
 );
 
-export const getInquiry = async (inquiryIdx: string) => {
+export const getInquiry = async (inquiryIdx: string): Promise<Inquiry> => {
     return axios
         .get(`/v2/inquiry/${inquiryIdx}`)
         .then((res) => {

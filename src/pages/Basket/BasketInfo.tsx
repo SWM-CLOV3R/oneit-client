@@ -492,7 +492,7 @@ const BasketInfo = () => {
                             />
                         </div>
                         <div>
-                            {basketInfoAPI?.data?.dday > 0 ? (
+                            {(basketInfoAPI?.data?.dday ?? 0) > 0 ? (
                                 <div className="dDay px-1">
                                     D-{basketInfoAPI?.data?.dday}
                                 </div>
@@ -500,13 +500,13 @@ const BasketInfo = () => {
                                 <div className="dDay px-1">D-Day</div>
                             ) : (
                                 <div className="dDay px-1">
-                                    {-basketInfoAPI?.data?.dday}일 지남
+                                    {-(basketInfoAPI?.data?.dday ?? 0)}일 지남
                                 </div>
                             )}
                             <div
                                 className={cn(
                                     'title text-overflow-one',
-                                    basketInfoAPI.data?.participants.some(
+                                    basketInfoAPI.data?.participants?.some(
                                         (parti: Participant) =>
                                             parti.userRole == 'MANAGER' &&
                                             parti.userIdx == user?.idx,
@@ -518,7 +518,7 @@ const BasketInfo = () => {
                                 {basketInfoAPI?.data?.name}
                             </div>
                         </div>
-                        {basketInfoAPI.data?.participants.some(
+                        {basketInfoAPI.data?.participants?.some(
                             (parti: Participant) =>
                                 parti.userRole == 'MANAGER' &&
                                 parti.userIdx == user?.idx,
@@ -607,7 +607,7 @@ const BasketInfo = () => {
             {isOpen && (
                 <BasketEdit
                     closeModal={closeModal}
-                    basket={basketInfoAPI?.data}
+                    basket={basketInfoAPI?.data || ({} as Basket)}
                 />
             )}
             {isOpen2 && (
