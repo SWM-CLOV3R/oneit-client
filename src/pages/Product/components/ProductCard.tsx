@@ -20,7 +20,7 @@ const ProductCard = (props: ProductCardProps) => {
     );
     const [likeCount, setLikeCount] = useState(product.likeCount || 0);
     const navigate = useNavigate();
-    // const queryClikent = useQueryClient();
+    const queryClikent = useQueryClient();
 
     const productLikeAPI = useMutation({
         mutationKey: ['productLike', product.idx],
@@ -28,6 +28,7 @@ const ProductCard = (props: ProductCardProps) => {
         onSuccess: (data) => {
             setLike(data.likeStatus);
             setLikeCount(data.likeCount);
+            // queryClikent.refetchQueries({ queryKey: ['likedProduct'] });
         },
     });
 
