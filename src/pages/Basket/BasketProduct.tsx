@@ -37,8 +37,8 @@ import {
 import {BaksetProduct, Comment, Keyword} from '@/lib/types';
 import {set} from 'date-fns';
 import Header from '@/components/common/Header';
-import mageHeart from '@/assets/images/mage_heart.svg';
-import mageHeartFill from '@/assets/images/mage_heart_fill.svg';
+import mageHeart from '@/assets/images/mage_heart_pink.svg';
+import mageHeartFill from '@/assets/images/mage_heart_fill_pink.svg';
 import {
     DropdownMenu,
     DropdownMenuContent,
