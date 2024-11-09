@@ -1225,8 +1225,8 @@ header {
         background: url("/src/assets/images/icon_filter2.svg") no-repeat center/contain;
       }
       .search {
-        width: 1.5rem;
-        height: 1.5rem;
+        width: 2rem;
+        height: 2rem;
         display: block;
         background: url("/src/assets/images/icon_search2.svg") no-repeat center/contain;
       }
