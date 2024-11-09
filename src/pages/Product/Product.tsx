@@ -106,7 +106,7 @@ const Product = () => {
                                 className="w-full h-full object-contain"
                             />
                             <span className="text-[#FF4BC1]">
-                                {productAPI?.data?.likeCount}
+                                {productAPI?.data?.likeCount || 0}
                             </span>
                         </div>
                     </div>
