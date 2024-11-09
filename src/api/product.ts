@@ -66,3 +66,14 @@ export const searchProduct = async (keyword: string): Promise<Product[]> => {
             return Promise.reject(err);
         });
 };
+
+export const productLike = async (productID: string) => {
+    return axios
+        .post(`/v2/products/${productID}/like`)
+        .then((res) => {
+            return Promise.resolve(res.data);
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
+};

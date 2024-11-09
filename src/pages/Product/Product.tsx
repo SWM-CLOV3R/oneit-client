@@ -1,10 +1,10 @@
 import {useNavigate, useParams} from 'react-router-dom';
-import {useQuery} from '@tanstack/react-query';
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import {Spinner} from '@/components/ui/spinner';
 import NotFound from '../NotFound';
-import {fetchProduct} from '@/api/product';
+import {fetchProduct, productLike} from '@/api/product';
 import {addToBasket, fetchBasketList} from '@/api/basket';
-import {Basket} from '@/lib/types';
+import {Basket, Product as ProductType} from '@/lib/types';
 import {useAtom, useAtomValue} from 'jotai';
 import {cn} from '@/lib/utils';
 import {isLoginAtom} from '@/api/auth';
@@ -12,13 +12,36 @@ import Header from '@/components/common/Header';
 import logo from '@/assets/images/oneit.png';
 import {Button} from '@/components/common/Button';
 import {ArrowUp} from 'lucide-react';
+import mageHeart from '@/assets/images/mage_heart_pink.svg';
+import mageHeartFill from '@/assets/images/mage_heart_fill_pink.svg';
+import {useState} from 'react';
 
 const Product = () => {
     const {productID} = useParams();
+    const queryClikent = useQueryClient();
     const [{mutate}] = useAtom(addToBasket);
     const loggedIn = useAtomValue(isLoginAtom);
+    const navigate = useNavigate();
+    // const [like, setLike] = useState<'NONE' | 'LIKE' | 'DISLIKE'>('NONE');
 
     // console.log(productID);
+
+    const productLikeAPI = useMutation({
+        mutationKey: ['productLike', productID],
+        mutationFn: () => productLike(productID || ''),
+        onSuccess: (data) => {
+            queryClikent.setQueryData(
+                ['product', productID],
+                (oldData: ProductType) => {
+                    return {
+                        ...oldData,
+                        likeStatus: data.likeStatus,
+                        likeCount: data.likeCount,
+                    };
+                },
+            );
+        },
+    });
 
     const basketAPI = useQuery({
         queryKey: ['basket'],
@@ -26,11 +49,14 @@ const Product = () => {
         enabled: loggedIn,
     });
 
-    const navigate = useNavigate();
-
     const productAPI = useQuery({
         queryKey: ['product', productID],
-        queryFn: () => fetchProduct(productID || ''),
+        queryFn: () => {
+            return fetchProduct(productID || '').then((res) => {
+                // setLike(res.likeStatus || 'NONE');
+                return res;
+            });
+        },
     });
 
     const handleGoBack = () => {
@@ -44,6 +70,10 @@ const Product = () => {
         if (productAPI.data) {
             mutate({basketIdx: basketID || '', selected: [productAPI.data]});
         }
+    };
+
+    const handleLike = () => {
+        productLikeAPI.mutate();
     };
 
     if (productAPI.isLoading) return <Spinner />;
@@ -65,6 +95,20 @@ const Product = () => {
                             src={productAPI.data?.thumbnailUrl}
                             alt="제품 대표 이미지"
                         />
+                        <div className="heart" onClick={handleLike}>
+                            <img
+                                src={
+                                    productAPI?.data?.likeStatus === 'LIKE'
+                                        ? mageHeartFill
+                                        : mageHeart
+                                }
+                                alt="Heart"
+                                className="w-full h-full object-contain"
+                            />
+                            <span className="text-[#FF4BC1]">
+                                {productAPI?.data?.likeCount}
+                            </span>
+                        </div>
                     </div>
 
                     <div className="info">

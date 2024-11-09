@@ -25,7 +25,7 @@ export type Product = {
     detailImages?: string[];
     description: string;
     likeCount?: number;
-    voteStatus?: 'LIKE' | 'DISLIKE' | 'NONE';
+    likeStatus?: 'LIKE' | 'DISLIKE' | 'NONE';
 };
 
 export type BaksetProduct = {

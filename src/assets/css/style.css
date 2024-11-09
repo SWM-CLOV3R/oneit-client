@@ -1250,11 +1250,31 @@ header {
   .prd_area {
     .photo {
       width: 100%;
+      position: relative;
 
       img {
         width: 100%;
         object-fit: contain;
       }
+      
+      .heart {
+        font-size: 1rem;
+        color: #fff;
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        z-index: 8;
+        display: flex;
+        align-items: center;
+
+        img {
+          width: 1.75rem;
+          height: 1.75rem;
+          margin-right: 0.125rem;
+        }
+
+      }
+
       &.sold {
         &::after {
           content: "구매 불가능한 제품이에요:(";
