@@ -61,7 +61,7 @@ const FriendInviteCard = ({friend}: {friend: Friend}) => {
                     },
                 ],
             });
-            toast.success('친구에게 초대장을 보냈습니다.');
+            // toast.success('친구에게 초대장을 보냈습니다.');
         },
     });
 

@@ -46,14 +46,14 @@ export const createInquiry = atomWithMutation<unknown, CreateInquiryVariables>(
                     mobileWebUrl: url,
                     webUrl: url,
                 },
-            })
-                .then(() => {
-                    toast.success('물어보기 전송 완료');
-                })
-                .catch((err: any) => {
-                    console.log(err);
-                    toast.error('물어보기 전송 실패');
-                });
+            });
+            // .then(() => {
+            //     toast.success('물어보기 전송 완료');
+            // })
+            // .catch((err: any) => {
+            //     console.log(err);
+            //     toast.error('물어보기 전송 실패');
+            // });
         },
     }),
 );
