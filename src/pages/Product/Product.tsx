@@ -105,8 +105,9 @@ const Product = () => {
                                 alt="Heart"
                                 className="w-full h-full object-contain"
                             />
-                            <span className="text-[#FF4BC1]">
-                                {productAPI?.data?.likeCount || 0}
+                            <span className="text-white ">
+                                {productAPI?.data?.likeCount || 0} 명이 이
+                                상품을 좋아해요
                             </span>
                         </div>
                     </div>
@@ -208,20 +209,23 @@ const Product = () => {
                     )}
 
                     <div className="desc">
-                        <div className="title">제품 설명</div>
                         {/* todo: product detail images */}
                         {productAPI.data?.detailImages && (
-                            <div className="texts">
-                                {productAPI.data?.detailImages?.map(
-                                    (img, idx) => (
-                                        <img
-                                            key={idx}
-                                            src={img}
-                                            alt="상품 상세 이미지"
-                                        />
-                                    ),
-                                )}
-                            </div>
+                            <>
+                                <div className="title">제품 설명</div>
+
+                                <div className="texts">
+                                    {productAPI.data?.detailImages?.map(
+                                        (img, idx) => (
+                                            <img
+                                                key={idx}
+                                                src={img}
+                                                alt="상품 상세 이미지"
+                                            />
+                                        ),
+                                    )}
+                                </div>
+                            </>
                         )}
                     </div>
                 </div>
