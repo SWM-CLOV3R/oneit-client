@@ -208,3 +208,22 @@ export type Comment = {
     content: string;
     createdAt: Date;
 };
+
+export type RecommendRecord = {
+    chatID: string;
+    name: string;
+    gender: 'MALE' | 'FEMALE';
+    recipient: string;
+    occasion: string;
+    priceRange: number[];
+    createdAt: Date;
+    production: string;
+    userID: string;
+    answers: string[];
+    modifiedAt: Date;
+    result: Product[];
+    resultType: {
+        comment: string;
+        title: string;
+    };
+};

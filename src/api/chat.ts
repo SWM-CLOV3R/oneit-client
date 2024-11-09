@@ -4,6 +4,10 @@ import {
     set as write,
     serverTimestamp,
     push,
+    orderByChild,
+    query,
+    equalTo,
+    get as read,
 } from 'firebase/database';
 import {db} from '@/lib/firebase';
 import {atom} from 'jotai';
@@ -21,7 +25,7 @@ import {
     title,
     comment,
 } from '@/atoms/recommend';
-import {Product} from '@/lib/types';
+import {Product, RecommendRecord} from '@/lib/types';
 import axios from '@/lib/axios';
 import results from '@/data/result.json';
 import {atomWithMutation} from 'jotai-tanstack-query';
@@ -189,6 +193,22 @@ export const rateResult = atomWithMutation<unknown, rateResultVariables>(
         },
     }),
 );
+
+export const fetchRecommendRecord = async (
+    userID: string,
+): Promise<RecommendRecord[]> => {
+    //from firebase 'recommendRecord', filter by userID
+    const fromRef = ref(db, 'recommendRecord');
+    const recordQuery = query(fromRef, orderByChild('userID'), equalTo(userID));
+    return read(recordQuery).then((snapshot) => {
+        if (snapshot.exists()) {
+            const data = snapshot.val();
+            return Promise.resolve(data);
+        } else {
+            return [];
+        }
+    });
+};
 
 // export const finishChat = atom(
 //     null,

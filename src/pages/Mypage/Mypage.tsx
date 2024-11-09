@@ -166,7 +166,10 @@ const Mypage = () => {
                             </button>
                         </li> */}
                         <li>
-                            <button onClick={handleNotyet}>
+                            <button
+                                onClick={handleNotyet}
+                                // onClick={() => navigate('/recommendRecord')}
+                            >
                                 추천 받았던 상품
                             </button>
                         </li>
