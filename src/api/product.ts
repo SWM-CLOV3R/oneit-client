@@ -1,11 +1,13 @@
 import {db} from '@/lib/firebase';
 import {ref, get as read, child} from 'firebase/database';
 import axios from '@/lib/axios';
-import {Product} from '@/lib/types';
+import {Product, RecommendRecord} from '@/lib/types';
 
-export const fetchRecommendedProducts = async (chatID: string) => {
+export const fetchRecommendedProducts = async (
+    chatID: string,
+): Promise<RecommendRecord> => {
     const dbRef = ref(db);
-    return read(child(dbRef, `/recommendRecord/${chatID}`))
+    return read(child(dbRef, `/recommend/${chatID}`))
         .then((snapshot) => {
             if (snapshot.exists() && snapshot.val().resultType) {
                 const data = snapshot.val();

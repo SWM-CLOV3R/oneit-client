@@ -51,7 +51,7 @@ export const startRecommend = atomWithMutation<
 >((get) => ({
     mutationKey: ['saveRecommendInfo'],
     mutationFn: async ({chatID, userID}: {chatID: string; userID: string}) => {
-        await write(ref(db, `recommendRecord/${chatID}`), {
+        await write(ref(db, `recommend/${chatID}`), {
             chatID,
             name: get(name),
             gender: get(gender),
@@ -121,7 +121,7 @@ export const finishRecommend = atomWithMutation<
 >((get) => ({
     mutationKey: ['finishRecommend'],
     mutationFn: async ({chatID}: {chatID: string}) => {
-        await update(ref(db, `recommendRecord/${chatID}`), {
+        await update(ref(db, `recommend/${chatID}`), {
             answers: get(answers),
             modifiedAt: serverTimestamp(),
         });
@@ -154,7 +154,7 @@ export const finishRecommend = atomWithMutation<
         const result = resultList.find((result) =>
             result.tags.every((tag) => tags.includes(tag)),
         );
-        update(ref(db, `recommendRecord/${variables.chatID}`), {
+        update(ref(db, `recommend/${variables.chatID}`), {
             answers: get(answers),
             modifiedAt: serverTimestamp(),
             result: data,
@@ -186,7 +186,7 @@ export const rateResult = atomWithMutation<unknown, rateResultVariables>(
             chatID: string;
             rating: number;
         }) => {
-            await push(ref(db, `recommendRecord/${chatID}/ratings`), {
+            await push(ref(db, `recommend/${chatID}/ratings`), {
                 rating,
                 modifiedAt: serverTimestamp(),
             });
@@ -198,12 +198,14 @@ export const fetchRecommendRecord = async (
     userID: string,
 ): Promise<RecommendRecord[]> => {
     //from firebase 'recommendRecord', filter by userID
-    const fromRef = ref(db, 'recommendRecord');
+    const fromRef = ref(db, 'recommend');
     const recordQuery = query(fromRef, orderByChild('userID'), equalTo(userID));
     return read(recordQuery).then((snapshot) => {
         if (snapshot.exists()) {
             const data = snapshot.val();
-            return Promise.resolve(data);
+            // convert object to array
+            const records = Object.values(data) as RecommendRecord[];
+            return Promise.resolve(records);
         } else {
             return [];
         }

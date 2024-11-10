@@ -21,7 +21,7 @@ export type Product = {
     categoryName?: string;
     categoryDisplayName?: string;
     keywords?: Keyword[];
-    productStatus: string;
+    productStatus: 'PENDING' | 'ACTIVE' | 'INVALID' | 'UNSUPPORTED' | 'DELETED';
     detailImages?: string[];
     description: string;
     likeCount: number;
@@ -216,11 +216,11 @@ export type RecommendRecord = {
     recipient: string;
     occasion: string;
     priceRange: number[];
-    createdAt: Date;
+    createdAt: number;
     production: string;
     userID: string;
     answers: string[];
-    modifiedAt: Date;
+    modifiedAt: number;
     result: Product[];
     resultType: {
         comment: string;
