@@ -112,7 +112,7 @@ const Main = () => {
                                     받기
                                 </p>
                             ) : (
-                                <p className="text-lg font-bold text-black">
+                                <p className="text-lg font-bold text-white">
                                     회원가입하고 참여하기
                                 </p>
                             )}

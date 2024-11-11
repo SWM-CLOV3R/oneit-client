@@ -22,6 +22,10 @@ export default{
       },
     },
     extend: {
+      backgroundImage: {
+        'time-attack-main': "url('./assets/images/time_attack_bg_1.png')",
+        'time-attack-sub': "url('./assets/images/time_attack_bg_2.png')",
+      },
       colors: {
         'oneit-pink': '#ffa0a0',
         'oneit-navy': '#1B3F87',
