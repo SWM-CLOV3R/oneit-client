@@ -120,13 +120,7 @@ const SignUp = () => {
                         console.log(`[AUTH] Firebase token: ${token}`);
                         sendFCMToken(token)
                             .then((res) => {
-                                const redirect =
-                                    localStorage.getItem('redirect');
-                                console.log(`[AUTH] Redirect to ${redirect}`);
-
-                                navigate(redirect || '/main', {
-                                    replace: true,
-                                });
+                                console.log('[AUTH] FCM token sent');
                             })
                             .catch((err) => {
                                 console.log(
@@ -137,6 +131,14 @@ const SignUp = () => {
                     })
                     .catch((err) => {
                         console.log('[AUTH] Error fetching FCM token', err);
+                    })
+                    .finally(() => {
+                        const redirect = localStorage.getItem('redirect');
+                        console.log(`[AUTH] Redirect to ${redirect}`);
+
+                        navigate(redirect || '/main', {
+                            replace: true,
+                        });
                     });
             }
             // const redirect = localStorage.getItem('redirect');
@@ -225,7 +227,10 @@ const SignUp = () => {
                             checkNickname(control._getWatch('nickname'))
                         }
                     >
-                        {isNicknameChecked ? '검사완료' : '중복확인'}
+                        {isNicknameChecked ||
+                        user?.nickname === control._getWatch('nickname')
+                            ? '검사완료'
+                            : '중복확인'}
                     </Button>
                 </div>
 
