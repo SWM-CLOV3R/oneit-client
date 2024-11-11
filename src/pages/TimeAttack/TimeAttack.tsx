@@ -62,24 +62,24 @@ const TimeAttack = () => {
         seconds: number;
         completed: boolean;
     }) => {
-        if (completed) {
-            return (
-                <Button
-                    className="w-full"
-                    onClick={() =>
-                        navigate(`/timeattack/${timeAttackID}/reveal`)
-                    }
-                >
-                    확인하기
-                </Button>
-            );
-        } else {
-            return (
-                <p className="text-xl font-bold">
-                    {hours}:{minutes}:{seconds} 후에는 닫혀요!
-                </p>
-            );
-        }
+        return (
+            <p className="text-xl font-bold">
+                {hours}:{minutes}:{seconds} 후에는 닫혀요!
+            </p>
+        );
+        // if (completed) {
+        //     return (
+        //         <Button
+        //             className="w-full"
+        //             onClick={() =>
+        //                 navigate(`/timeattack/${timeAttackID}/reveal`)
+        //             }
+        //         >
+        //             확인하기
+        //         </Button>
+        //     );
+        // } else {
+        // }
     };
 
     const getNextBirthday = (birthDate: string) => {
@@ -179,12 +179,12 @@ const TimeAttack = () => {
                                 <span className="text-xl font-semibold text-[#FFCAF2]">
                                     {fetchFriendInfoAPI.data?.nickName}
                                 </span>{' '}
-                                님의 취향이 공개되었어요!
+                                님의 선물 취향 공개
                             </p>
 
                             <Countdown
-                                // date={Date.now() + 5000}
-                                date={nextBirthday}
+                                date={Date.now() + 5000}
+                                // date={nextBirthday}
                                 renderer={renderer}
                             />
                         </>
@@ -204,20 +204,32 @@ const TimeAttack = () => {
                     ❕타임어택은 알림 발송 후 24시간 동안만 공개됩니다❕ <br />
                     ❕타임어택은 생일 7일전, 3일전, 1일전 알림이 발송됩니다❕
                 </p>
-                <button
-                    onClick={() => navigate('/curation')}
-                    className="h-[7.125rem] rounded-3xl w-full mt-16 relative flex items-center  justify-center bg-[#FEF1FA]"
-                >
-                    <img src={SearchIcon} />
-                    <div className="flex flex-col text-[#FF4BC1]">
-                        <span className="pl-6 text-left text-sm ">
-                            공개전까지 취향 저격 선물 찾기!
-                        </span>
-                        <p className="pl-6 text-left text-lg font-bold">
-                            추천 선물 목록 살펴보기
-                        </p>
-                    </div>
-                </button>
+
+                {shouldShowCountdown() ? (
+                    <Button
+                        className="w-full mt-12"
+                        onClick={() =>
+                            navigate(`/timeattack/${timeAttackID}/reveal`)
+                        }
+                    >
+                        타임어택 확인하기
+                    </Button>
+                ) : (
+                    <button
+                        onClick={() => navigate('/curation')}
+                        className="h-[7.125rem] rounded-3xl w-full mt-16 relative flex items-center  justify-center bg-[#FEF1FA]"
+                    >
+                        <img src={SearchIcon} />
+                        <div className="flex flex-col text-[#FF4BC1]">
+                            <span className="pl-6 text-left text-sm ">
+                                공개전까지 취향 저격 선물 찾기!
+                            </span>
+                            <p className="pl-6 text-left text-lg font-bold">
+                                추천 선물 목록 살펴보기
+                            </p>
+                        </div>
+                    </button>
+                )}
             </div>
         </div>
     );
