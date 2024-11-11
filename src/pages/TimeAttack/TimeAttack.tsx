@@ -118,7 +118,7 @@ const TimeAttack = () => {
         const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
         // console.log(daysDiff);
 
-        return daysDiff === 7 || daysDiff === 3 || daysDiff === 365;
+        return daysDiff === 7 || daysDiff === 3 || daysDiff === 1;
     };
 
     useEffect(() => {
