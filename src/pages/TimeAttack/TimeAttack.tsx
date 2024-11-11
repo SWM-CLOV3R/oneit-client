@@ -24,9 +24,11 @@ import BombIcon from '@/assets/images/bomb.png';
 import {fetchUserInfo} from '@/api/friend';
 import Countdown from 'react-countdown';
 import {Button} from '@/components/common/Button';
+import {toast} from 'sonner';
 
 const TimeAttack = () => {
     const isLogin = useAtomValue(isLoginAtom);
+    const [open, setOpen] = useState(false);
     const {timeAttackID} = useParams();
 
     const navigate = useNavigate();
@@ -62,11 +64,19 @@ const TimeAttack = () => {
         seconds: number;
         completed: boolean;
     }) => {
-        return (
-            <p className="text-xl font-bold">
-                {hours}:{minutes}:{seconds} 후에는 닫혀요!
-            </p>
-        );
+        // console.log(completed);
+
+        if (completed) {
+            return (
+                <p className="text-xl font-bold">타임어택이 종료되었어요!</p>
+            );
+        } else {
+            return (
+                <p className="text-xl font-bold">
+                    {hours}:{minutes}:{seconds} 후에는 닫혀요!
+                </p>
+            );
+        }
         // if (completed) {
         //     return (
         //         <Button
@@ -106,10 +116,16 @@ const TimeAttack = () => {
         const today = new Date();
         const timeDiff = nextBirthday.getTime() - today.getTime();
         const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
-        console.log(daysDiff);
+        // console.log(daysDiff);
 
         return daysDiff === 7 || daysDiff === 3 || daysDiff === 365;
     };
+
+    useEffect(() => {
+        if (shouldShowCountdown()) {
+            setOpen(true);
+        }
+    }, [nextBirthday]);
 
     return (
         <div className="bg-time-attack-main w-full h-full bg-cover bg-center">
@@ -183,8 +199,9 @@ const TimeAttack = () => {
                             </p>
 
                             <Countdown
-                                date={Date.now() + 5000}
-                                // date={nextBirthday}
+                                onComplete={() => setOpen(false)}
+                                // date={Date.now() + 5000}
+                                date={nextBirthday}
                                 renderer={renderer}
                             />
                         </>
@@ -208,9 +225,13 @@ const TimeAttack = () => {
                 {shouldShowCountdown() ? (
                     <Button
                         className="w-full mt-12"
-                        onClick={() =>
-                            navigate(`/timeattack/${timeAttackID}/reveal`)
-                        }
+                        onClick={() => {
+                            if (open) {
+                                navigate(`/timeattack/${timeAttackID}/reveal`);
+                            } else {
+                                toast.error('타임어택이 종료되었어요 :(');
+                            }
+                        }}
                     >
                         타임어택 확인하기
                     </Button>
