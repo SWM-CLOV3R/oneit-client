@@ -1,5 +1,5 @@
 import axios from '@/lib/axios';
-import {Friend, FriendRequest} from '@/lib/types';
+import {Friend, FriendRequest, Product} from '@/lib/types';
 
 export const fetchFriendList = async (): Promise<Friend[]> => {
     return axios
@@ -117,6 +117,23 @@ export const fectchBirthdayList = async (): Promise<Friend[]> => {
 export const timeAttackToggle = async (friendIdx: string) => {
     return axios
         .post(`/v2/friends/${friendIdx}/time-attack/toggle`)
+        .then((res) => {
+            return Promise.resolve(res.data);
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
+};
+
+export const timeAttackWishRamdom = async (
+    friendIdx: string,
+    excludeIdx?: number,
+): Promise<Product> => {
+    return axios
+        .get(
+            `/v2/friends/${friendIdx}/wish-list/random` +
+                (excludeIdx ? `?excludeProductIdx=${excludeIdx}` : ''),
+        )
         .then((res) => {
             return Promise.resolve(res.data);
         })
