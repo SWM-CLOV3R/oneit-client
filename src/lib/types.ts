@@ -159,20 +159,12 @@ export type InquiryChoice = {
     emojiName: 'LOVE' | 'LIKE' | 'NEED' | 'SOSO' | 'BAD' | 'HAVE';
 };
 
-export type OtherUser = {
-    idx: number;
-    nickName: string;
-    profileImg: string;
-    birthDate: string;
-    isFriend: boolean;
-};
-
 export type Friend = {
     idx: number;
     name: string;
     nickName: string;
     profileImg: string;
-    birthDate: Date;
+    birthDate: string;
 };
 
 export type FriendRequest = {

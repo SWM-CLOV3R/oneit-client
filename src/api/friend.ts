@@ -1,5 +1,5 @@
 import axios from '@/lib/axios';
-import {Friend, FriendRequest, OtherUser} from '@/lib/types';
+import {Friend, FriendRequest} from '@/lib/types';
 
 export const fetchFriendList = async (): Promise<Friend[]> => {
     return axios
@@ -92,9 +92,20 @@ export const rejectFriend = async (friendIdx: string, requestIdx: string) => {
         });
 };
 
-export const fetchUserInfo = (userID: string): Promise<OtherUser> => {
+export const fetchUserInfo = (userID: string): Promise<Friend> => {
     return axios
         .get(`/v2/friends/${userID}`)
+        .then((res) => {
+            return Promise.resolve(res.data);
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
+};
+
+export const fectchBirthdayList = async (): Promise<Friend[]> => {
+    return axios
+        .get('/v2/friends/birthday')
         .then((res) => {
             return Promise.resolve(res.data);
         })
