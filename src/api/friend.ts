@@ -113,3 +113,14 @@ export const fectchBirthdayList = async (): Promise<Friend[]> => {
             return Promise.reject(err);
         });
 };
+
+export const timeAttackToggle = async (friendIdx: string) => {
+    return axios
+        .post(`/v2/friends/${friendIdx}/time-attack/toggle`)
+        .then((res) => {
+            return Promise.resolve(res.data);
+        })
+        .catch((err) => {
+            return Promise.reject(err);
+        });
+};
