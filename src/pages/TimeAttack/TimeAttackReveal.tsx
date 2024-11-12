@@ -26,7 +26,7 @@ import ReactCardFlip from 'react-card-flip';
 import giftIcon from '@/assets/images/tabler_gift.svg';
 import logo from '@/assets/images/oneit.png';
 
-const TiemAttackReveal = () => {
+const TimeAttackReveal = () => {
     const isLogin = useAtomValue(isLoginAtom);
     const [isBack, setIsBack] = useState(false);
     const [prevProduct, setPrevProduct] = useState<null | Product>(null);
@@ -240,4 +240,4 @@ const TiemAttackReveal = () => {
     );
 };
 
-export default TiemAttackReveal;
+export default TimeAttackReveal;

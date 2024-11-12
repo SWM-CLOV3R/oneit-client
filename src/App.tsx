@@ -21,7 +21,7 @@ import AfterBasketCreate from './pages/Basket/AfterBasketCreate';
 import ScrollToTop from './components/common/ScrollToTop';
 import Footer from './components/common/Footer';
 import GetLocation from './components/common/GetLocation';
-import TiemAttackReveal from './pages/TimeAttack/TiemAttackReveal';
+import TiemAttackReveal from './pages/TimeAttack/TimeAttackReveal';
 
 // Custom component to handle dynamic redirect
 const AuthRouterWithRedirect = ({
@@ -109,7 +109,7 @@ const TimeAttackList = React.lazy(
 );
 const TimeAttack = React.lazy(() => import('./pages/TimeAttack/TimeAttack'));
 const TimeAttackReveal = React.lazy(
-    () => import('./pages/TimeAttack/TiemAttackReveal'),
+    () => import('./pages/TimeAttack/TimeAttackReveal'),
 );
 
 function App() {
@@ -289,7 +289,7 @@ function App() {
                                                     option={true}
                                                     redirectTo="/login?redirect=/timeattack/:timeAttackID"
                                                 >
-                                                    <TiemAttackReveal />
+                                                    <TimeAttackReveal />
                                                 </AuthRouterWithRedirect>
                                             }
                                         />
