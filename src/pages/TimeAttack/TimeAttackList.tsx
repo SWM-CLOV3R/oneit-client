@@ -36,6 +36,9 @@ const FriendCard = (props: {friend: Friend}) => {
         const timeDiff =
             getNextBirthday(friend.birthDate ?? '').getTime() - today.getTime();
         const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+        if (daysDiff === 365) return 'Day';
+
         return daysDiff;
     }, [friend?.birthDate]);
 
