@@ -1,6 +1,6 @@
-import {fectchBirthdayList} from '@/api/friend';
+import {fectchBirthdayList, timeAttackToggle} from '@/api/friend';
 import Header from '@/components/common/Header';
-import {useQuery} from '@tanstack/react-query';
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import React, {useMemo} from 'react';
 import loading from '@/assets/images/loading.svg';
 import SearchIcon from '@/assets/images/search_biggest.png';
@@ -10,10 +10,17 @@ import {useNavigate} from 'react-router-dom';
 import logo from '@/assets/images/oneit.png';
 import {ArrowRightSquare} from 'lucide-react';
 import {cn} from '@/lib/utils';
+import {toast} from 'sonner';
 
 const FriendCard = (props: {friend: Friend}) => {
     const {friend} = props;
     const navigate = useNavigate();
+    const queryClient = useQueryClient();
+
+    const timeAttackToggleAPI = useMutation({
+        mutationKey: ['timeAttackToggle'],
+        mutationFn: () => timeAttackToggle(friend.idx.toString() || ''),
+    });
 
     const getNextBirthday = (birthDate: string) => {
         const today = new Date();
@@ -42,6 +49,34 @@ const FriendCard = (props: {friend: Friend}) => {
         return daysDiff;
     }, [friend?.birthDate]);
 
+    const handleTimeAttackToggle = () => {
+        timeAttackToggleAPI
+            .mutateAsync()
+            .then(() => {
+                if (friend.timeAttackAlarm === false) {
+                    toast.success('이제 생일 알림을 받아볼 수 있어요');
+                } else {
+                    toast.success('더 이상 생일 알림을 받지 않습니다');
+                }
+            })
+            .finally(() => {
+                queryClient.setQueryData(
+                    ['BrithDayFriendList'],
+                    (prev: Friend[]) => {
+                        return prev.map((item) => {
+                            if (item.idx === friend.idx) {
+                                return {
+                                    ...item,
+                                    timeAttackAlarm: !item.timeAttackAlarm,
+                                };
+                            }
+                            return item;
+                        });
+                    },
+                );
+            });
+    };
+
     return (
         <>
             <div className="picture ">
@@ -64,7 +99,13 @@ const FriendCard = (props: {friend: Friend}) => {
                 </div>
             </div>
             <div className="icons">
-                <button className="btn_timer active"></button>
+                <button
+                    className={cn(
+                        'btn_timer',
+                        friend.timeAttackAlarm && 'active',
+                    )}
+                    onClick={handleTimeAttackToggle}
+                ></button>
                 <button onClick={() => navigate(`/timeattack/${friend.idx}`)}>
                     <ArrowRightSquare className="text-[#ff4bc1]" />
                 </button>

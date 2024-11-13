@@ -165,6 +165,8 @@ export type Friend = {
     nickName: string;
     profileImg: string;
     birthDate: string;
+    isFriend?: boolean;
+    timeAttackAlarm: boolean;
 };
 
 export type FriendRequest = {
