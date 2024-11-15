@@ -75,7 +75,7 @@ const FriendBanner = ({friend}: {friend: Friend}) => {
                 <>
                     {' '}
                     <span className="bg-white/70 text-[#ff4bc1] px-1 rounded-md">
-                        {hours}:{minutes}:{seconds}
+                        {hours}시간 {minutes}분
                     </span>{' '}
                     남았어요!
                 </>

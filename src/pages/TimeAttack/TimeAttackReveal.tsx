@@ -28,8 +28,9 @@ import logo from '@/assets/images/oneit.png';
 
 const TimeAttackReveal = () => {
     const isLogin = useAtomValue(isLoginAtom);
-    const [isBack, setIsBack] = useState(false);
+    const [isBack, setIsBack] = useState(true);
     const [prevProduct, setPrevProduct] = useState<null | Product>(null);
+    const [isError, setIsError] = useState(false);
     const {timeAttackID} = useParams();
 
     const navigate = useNavigate();
@@ -68,11 +69,21 @@ const TimeAttackReveal = () => {
                     setPrevProduct(res);
                     setIsBack(!isBack);
                 })
-                .catch((err) => {});
+                .catch((err) => {
+                    console.log('[TIMEATTACK] Mo Data Available', err);
+                    toast.error('더이상 다른 선물이 없어요');
+                    setIsBack(true);
+                    setIsError(true);
+                });
         }
     }, []);
 
     const handleNewWish = () => {
+        if (isError && isBack) {
+            toast.error('더이상 다른 선물이 없어요');
+            return;
+        }
+
         if (!isBack) {
             setIsBack(!isBack);
             return;
@@ -85,7 +96,14 @@ const TimeAttackReveal = () => {
                 setIsBack(!isBack);
             })
             .catch((err) => {
-                toast.error('새로운 선물을 가져오는 중 오류가 발생했습니다.');
+                // toast.error('새로운 선물을 가져오는 중 오류가 발생했습니다.', {
+                //     action: {
+                //         label: '다시 시도',
+                //         onClick: () => {
+                //             handleNewWish();
+                //         },
+                //     },
+                // });
             });
     };
 
