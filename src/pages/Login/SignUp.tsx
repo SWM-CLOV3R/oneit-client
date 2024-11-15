@@ -181,7 +181,12 @@ const SignUp = () => {
             <h2 className="font-medium text-xl">간단한 정보를 알려주세요</h2>
             <form onSubmit={handleSubmit(onSubmit)} className="mt-7.5">
                 <p className="text-base mb-4 font-medium">이름</p>
-                <div className="relative flex w-full h-10 mb-4">
+                {errors.name && (
+                    <p className="text-red-500 text-sm mt-1">
+                        {errors.name.message}
+                    </p>
+                )}
+                <div className="relative flex w-full h-10 mb-4 ">
                     <Controller
                         name="name"
                         control={control}
@@ -194,11 +199,6 @@ const SignUp = () => {
                             />
                         )}
                     />
-                    {errors.name && (
-                        <p className="text-red-500 text-sm mt-1">
-                            {errors.name.message}
-                        </p>
-                    )}
                 </div>
 
                 <p className="text-base mb-4 font-medium mt-2">닉네임</p>
