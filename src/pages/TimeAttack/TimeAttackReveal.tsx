@@ -96,6 +96,7 @@ const TimeAttackReveal = () => {
                 setIsBack(!isBack);
             })
             .catch((err) => {
+                setIsBack(false);
                 // toast.error('새로운 선물을 가져오는 중 오류가 발생했습니다.', {
                 //     action: {
                 //         label: '다시 시도',
