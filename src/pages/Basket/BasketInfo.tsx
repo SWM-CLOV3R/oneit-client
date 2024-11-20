@@ -131,6 +131,7 @@ const BasketEdit = ({
     basket: Basket;
 }) => {
     const queryClient = useQueryClient();
+    const [isTransforming, setIsTransforming] = useState(false);
     const editBasketAPI = useMutation({
         mutationKey: ['editBasket'],
         mutationFn: async ({
@@ -151,6 +152,7 @@ const BasketEdit = ({
             });
             toast.success('바구니 정보가 수정되었습니다.');
             closeModal();
+            setIsTransforming(false);
         },
     });
 
@@ -207,10 +209,12 @@ const BasketEdit = ({
 
         let transformedFile = values.image;
         if (values.image) {
+            setIsTransforming(true);
             try {
                 transformedFile = await transformFileIfNeeded(values.image);
             } catch (error) {
                 toast.error('지원하지 않는 이미지 형식입니다.');
+                setIsTransforming(false);
                 return;
             }
         }
@@ -226,6 +230,7 @@ const BasketEdit = ({
             basket: payload,
             image: transformedFile || null,
         });
+        // setIsTransforming(false);
     };
 
     useEffect(() => {
@@ -419,8 +424,10 @@ const BasketEdit = ({
                         </label>
                     </div>
                 </div> */}
-                    <button className="btn_public">
-                        바구니 정보 수정 완료
+                    <button className="btn_public" disabled={isTransforming}>
+                        {isTransforming
+                            ? '이미지 변환 중'
+                            : '바구니 정보 수정 완료'}
                     </button>
                 </form>
             </Form>
